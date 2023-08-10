@@ -79,21 +79,21 @@ def mock_file_exec(fd, cancel=False, path='junk',
 
 def test_data_wizard_cancel():
     """Returns empty list if user cancel's dialog"""
-    with patch('glue.dialogs.data_wizard.qt.data_wizard_dialog.GlueDataDialog') as mock:
+    with patch('glue_qt.dialogs.data_wizard.qt.data_wizard_dialog.GlueDataDialog') as mock:
         mock().load_data.return_value = []
         assert data_wizard() == []
 
 
 def test_data_wizard_normal():
     """Returns data list if successful"""
-    with patch('glue.dialogs.data_wizard.qt.data_wizard_dialog.GlueDataDialog') as mock:
+    with patch('glue_qt.dialogs.data_wizard.qt.data_wizard_dialog.GlueDataDialog') as mock:
         mock().load_data.return_value = [1]
         assert data_wizard() == [1]
 
 
 def test_data_wizard_error_cancel():
     """Returns empty list of error generated and then canceled"""
-    with patch('glue.dialogs.data_wizard.qt.data_wizard_dialog.GlueDataDialog') as mock:
+    with patch('glue_qt.dialogs.data_wizard.qt.data_wizard_dialog.GlueDataDialog') as mock:
         mock().load_data.side_effect = Exception
         with patch('qtpy.QtWidgets.QMessageBox') as qmb:
             qmb().exec_.return_value = 0

@@ -41,7 +41,7 @@ that will show ``MyWidget`` is::
             self.setCentralWidget(self.my_widget)
 
     # Register the viewer with glue
-    from glue.config import qt_client
+    from glue_qt.config import qt_client
     qt_client.add(MyGlueWidget)
 
 If you put the contents above into a ``config.py`` file then launch glue in

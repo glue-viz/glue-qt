@@ -38,7 +38,7 @@ from glue_qt.app.qt.plugin_manager import QtPluginManager
 from glue_qt.app.qt.versions import QVersionsDialog
 from glue_qt.app.qt.terminal import glue_terminal, IPythonTerminalError
 
-from glue.config import qt_fixed_layout_tab, qt_client, startup_action, keyboard_shortcut
+from glue_qt.config import qt_fixed_layout_tab, qt_client, startup_action, keyboard_shortcut
 from glue_qt.app.qt.save_data import SaveDataDialog
 
 __all__ = ['GlueApplication']
@@ -937,7 +937,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
         self._actions['redo'] = a
 
         # Create actions for menubar plugins
-        from glue.config import menubar_plugin
+        from glue_qt.config import menubar_plugin
         acts = []
         for label, function in menubar_plugin:
             a = action(label, self, tip=label)

@@ -96,7 +96,7 @@
   <customwidget>
    <class>TableViewWithSelectionSignal</class>
    <extends>QTableView</extends>
-   <header>glue.viewers.table.qt.data_viewer</header>
+   <header>glue_qt.viewers.table.qt.data_viewer</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -138,7 +138,7 @@
   <customwidget>
    <class>QColorBox</class>
    <extends>QLabel</extends>
-   <header>glue.utils.qt.colors</header>
+   <header>glue_qt.utils.qt.colors</header>
   </customwidget>
  </customwidgets>
  <resources/>

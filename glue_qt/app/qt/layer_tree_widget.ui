@@ -39,7 +39,7 @@
   <customwidget>
    <class>DataCollectionView</class>
    <extends>QTreeView</extends>
-   <header>glue.core.qt.data_collection_model</header>
+   <header>glue_qt.core.qt.data_collection_model</header>
   </customwidget>
  </customwidgets>
  <resources/>

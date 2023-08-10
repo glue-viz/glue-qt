@@ -114,7 +114,7 @@ class BaseTestDataViewer(object):
         w = app.new_data_viewer(self.widget_cls, data=d)
 
         tool = w.toolbar.tools["window"].subtools[1]
-        with patch('glue.viewers.common.qt.tools.get_text') as gt:
+        with patch('glue_qt.viewers.common.qt.tools.get_text') as gt:
             gt.return_value = "My Viewer"
             tool.activate()
         assert w.state.title == "My Viewer"

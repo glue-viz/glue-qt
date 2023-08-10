@@ -314,7 +314,7 @@ def _generate_custom_viewer():
     def setup(axes):
         pass
 
-    from glue.config import qt_client
+    from glue_qt.config import qt_client
     for viewer in qt_client.members:
         if viewer.LABEL == 'Test Plot':
             return viewer

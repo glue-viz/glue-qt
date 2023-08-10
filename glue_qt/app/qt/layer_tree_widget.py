@@ -10,7 +10,7 @@ from qtpy import QtCore, QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
 from glue.core.edit_subset_mode import AndMode, OrMode, XorMode, AndNotMode
-from glue.config import layer_action
+from glue_qt.config import layer_action
 from glue import core
 from glue_qt.dialogs.link_editor.qt import LinkEditor
 from glue_qt.icons.qt import get_icon

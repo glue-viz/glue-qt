@@ -228,7 +228,7 @@ object, and the data collection object), and decorate it with the
 ``@menubar_plugin`` decorator, giving it the label that will appear in the
 **Tools** menubar::
 
-    from glue.config import menubar_plugin
+    from glue_qt.config import menubar_plugin
 
     @menubar_plugin("Do something")
     def my_plugin(session, data_collection):
@@ -282,7 +282,7 @@ groups or subsets in the data collection. To do this, you should define a
 function to be called when the menu item is selected, and use the
 ``@layer_action`` decorator::
 
-    from glue.config import layer_action
+    from glue_qt.config import layer_action
 
     @layer_action('Do something')
     def callback(selected_layers, data_collection):
@@ -617,7 +617,7 @@ component/functionality until it is actually needed. To do this:
 Imagine that you have created a data viewer ``MyQtViewer``. You could
 directly register it using::
 
-    from glue.config import qt_client
+    from glue_qt.config import qt_client
     qt_client.add(MyQtViewer)
 
 but if you want to defer the loading of the ``MyQtViewer`` class, you can
@@ -629,12 +629,12 @@ place the definition of ``MyQtViewer`` in a file called e.g.
         ...
 
     def setup():
-        from glue.config import qt_client
+        from glue_qt.config import qt_client
         qt_client.add(MyQtViewer)
 
 then in ``config.py``, you can do::
 
-    from glue.config import qt_client
+    from glue_qt.config import qt_client
     qt_client.lazy_add('my_qt_viewer')
 
 With this in place, the ``setup`` in your plugin will only get called if the

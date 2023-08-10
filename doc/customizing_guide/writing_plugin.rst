@@ -38,7 +38,7 @@ also do the registration - in the template, this looks like::
 
     def setup():
         from .data_viewer import MyViewer
-        from glue.config import qt_client
+        from glue_qt.config import qt_client
         qt_client.add(MyViewer)
 
 Finally, at the root of the package, you will need a ``setup.py`` file similar

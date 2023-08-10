@@ -76,7 +76,7 @@ from qtpy.QtWidgets import QWidget, QGridLayout, QLabel
 from echo.qt import autoconnect_callbacks_to_qt
 from echo import ignore_callback
 
-from glue.config import qt_client
+from glue_qt.config import qt_client
 
 from glue.core import BaseData
 from glue.core.subset import SubsetState
