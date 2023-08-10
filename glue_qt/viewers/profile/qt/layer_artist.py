@@ -1,7 +1,7 @@
 import time
 
 from glue.viewers.profile.layer_artist import ProfileLayerArtist
-from glue.viewers.matplotlib.qt.compute_worker import ComputeWorker
+from glue_qt.viewers.matplotlib.qt.compute_worker import ComputeWorker
 from glue.utils import defer_draw
 
 __all__ = ['QThreadedProfileLayerArtist']
@@ -21,7 +21,7 @@ class QThreadedProfileLayerArtist(ProfileLayerArtist):
         time.sleep(0.5)
         while self._worker.running:
             time.sleep(1 / 25)
-        from glue.utils.qt import process_events
+        from glue_qt.utils.qt import process_events
         process_events()
 
     def remove(self):

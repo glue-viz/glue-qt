@@ -2,7 +2,7 @@ import pytest
 
 from glue.core import Data, DataCollection
 from glue.core.link_helpers import identity
-from glue.dialogs.autolinker.qt.autolinker import AutoLinkPreview
+from glue_qt.dialogs.autolinker.qt.autolinker import AutoLinkPreview
 from glue.core.component_link import ComponentLink
 
 # NOTE: the autolinker re-uses the main widget from the link editor so we don't

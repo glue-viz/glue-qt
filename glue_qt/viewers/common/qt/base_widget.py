@@ -2,8 +2,8 @@ import os
 
 from qtpy.QtCore import Qt
 from qtpy import QtCore, QtWidgets
-from glue.utils.qt import get_qapp
-from glue.core.qt.mime import LAYERS_MIME_TYPE, LAYER_MIME_TYPE
+from glue_qt.utils.qt import get_qapp
+from glue_qt.core.qt.mime import LAYERS_MIME_TYPE, LAYER_MIME_TYPE
 
 __all__ = ['BaseQtViewerWidget']
 
@@ -102,7 +102,7 @@ class BaseQtViewerWidget(QtWidgets.QMainWindow):
         """
         Wrap this object in a GlueMdiSubWindow
         """
-        from glue.app.qt.mdi_area import GlueMdiSubWindow
+        from glue_qt.app.qt.mdi_area import GlueMdiSubWindow
         sub = GlueMdiSubWindow()
         sub.setWidget(self)
         self.destroyed.connect(sub.close)

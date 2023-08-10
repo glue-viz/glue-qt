@@ -3,7 +3,7 @@ import weakref
 from qtpy.QtCore import Qt
 from qtpy import QtCore, QtGui, QtWidgets
 from glue import core
-from glue.core.qt.mime import LAYER_MIME_TYPE, LAYERS_MIME_TYPE
+from glue_qt.core.qt.mime import LAYER_MIME_TYPE, LAYERS_MIME_TYPE
 
 
 class GlueMdiArea(QtWidgets.QMdiArea):

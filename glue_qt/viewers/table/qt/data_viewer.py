@@ -9,17 +9,17 @@ from qtpy import QtCore, QtGui, QtWidgets
 from matplotlib.colors import ColorConverter
 
 from echo.qt import autoconnect_callbacks_to_qt
-from glue.utils.qt import get_qapp
+from glue_qt.utils.qt import get_qapp
 from glue.config import viewer_tool
 from glue.core import BaseData, Data
-from glue.utils.qt import load_ui
-from glue.viewers.common.qt.data_viewer import DataViewer
-from glue.viewers.common.qt.toolbar import BasicToolbar
+from glue_qt.utils.qt import load_ui
+from glue_qt.viewers.common.qt.data_viewer import DataViewer
+from glue_qt.viewers.common.qt.toolbar import BasicToolbar
 from glue.viewers.common.tool import CheckableTool
 from glue.viewers.common.layer_artist import LayerArtist
 from glue.core.subset import ElementSubsetState
 from glue.utils.colors import alpha_blend_colors
-from glue.utils.qt import mpl_to_qt_color, messagebox_on_error
+from glue_qt.utils.qt import mpl_to_qt_color, messagebox_on_error
 from glue.core.exceptions import IncompatibleAttribute
 from glue.viewers.table.compat import update_table_viewer_state
 from glue.viewers.table.state import TableViewerState

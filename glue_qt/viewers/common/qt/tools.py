@@ -1,5 +1,5 @@
 from glue.config import viewer_tool
-from glue.utils.qt import get_text, pick_item
+from glue_qt.utils.qt import get_text, pick_item
 from glue.viewers.common.tool import Tool, SimpleToolMenu
 
 __all__ = ['MoveTabTool', 'WindowTool']

@@ -5,10 +5,10 @@ from unittest.mock import MagicMock, patch
 from qtpy import QtCore, QtGui
 from qtpy.QtCore import Qt
 
-from glue.utils.qt import get_qapp, process_events
+from glue_qt.utils.qt import get_qapp, process_events
 from glue.core import Data, DataCollection, BaseData
-from glue.utils.qt import qt_to_mpl_color
-from glue.app.qt import GlueApplication
+from glue_qt.utils.qt import qt_to_mpl_color
+from glue_qt.app.qt import GlueApplication
 
 from ..data_viewer import DataTableModel, TableViewer
 

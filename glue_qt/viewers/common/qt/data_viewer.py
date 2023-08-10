@@ -1,14 +1,14 @@
 from qtpy.QtCore import Qt
 from qtpy import QtWidgets
 from echo import add_callback
-from glue.core.qt.layer_artist_model import QtLayerArtistContainer, LayerArtistWidget
-from glue.utils.qt import set_cursor, messagebox_on_error
-from glue.core.qt.dialogs import warn
+from glue_qt.core.qt.layer_artist_model import QtLayerArtistContainer, LayerArtistWidget
+from glue_qt.utils.qt import set_cursor, messagebox_on_error
+from glue_qt.core.qt.dialogs import warn
 from glue.utils.noconflict import classmaker
 from glue.config import viewer_tool
-from glue.viewers.common.qt.base_widget import BaseQtViewerWidget
+from glue_qt.viewers.common.qt.base_widget import BaseQtViewerWidget
 from glue.viewers.common.tool import SimpleToolMenu
-from glue.viewers.common.qt.toolbar import BasicToolbar
+from glue_qt.viewers.common.qt.toolbar import BasicToolbar
 from glue.viewers.common.viewer import Viewer
 from glue.viewers.common.utils import get_viewer_tools
 

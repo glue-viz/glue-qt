@@ -11,8 +11,8 @@ from glue.core.subset import SubsetState
 from glue.core import Data
 from glue import custom_viewer
 
-from glue.app.qt import GlueApplication
-from glue.app.qt.tests.test_application import check_clone_app
+from glue_qt.app.qt import GlueApplication
+from glue_qt.app.qt.tests.test_application import check_clone_app
 from ..custom_viewer import CustomViewer, CustomSubsetState, AttributeWithInfo
 
 

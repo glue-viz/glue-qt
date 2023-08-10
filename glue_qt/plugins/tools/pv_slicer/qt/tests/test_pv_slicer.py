@@ -4,10 +4,10 @@ from numpy.testing import assert_allclose
 
 from glue.core import Data
 from glue.core.coordinates import IdentityCoordinates
-from glue.viewers.image.qt import StandaloneImageViewer, ImageViewer
+from glue_qt.viewers.image.qt import StandaloneImageViewer, ImageViewer
 from glue.tests.helpers import requires_astropy, requires_scipy
-from glue.app.qt import GlueApplication
-from glue.utils.qt import process_events
+from glue_qt.app.qt import GlueApplication
+from glue_qt.utils.qt import process_events
 
 from ..pv_slicer import _slice_from_path, _slice_label, _slice_index, PVSliceWidget
 

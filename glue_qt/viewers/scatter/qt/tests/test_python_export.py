@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from astropy.utils import NumpyRNGContext
 
 from glue.core import Data, DataCollection
-from glue.app.qt.application import GlueApplication
-from glue.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython, random_with_nan
-from glue.viewers.scatter.qt import ScatterViewer
+from glue_qt.app.qt.application import GlueApplication
+from glue_qt.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython, random_with_nan
+from glue_qt.viewers.scatter.qt import ScatterViewer
 
 
 class TestExportPython(BaseTestExportPython):

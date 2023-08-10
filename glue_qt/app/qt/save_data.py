@@ -8,11 +8,11 @@ from glue import config
 from echo import SelectionCallbackProperty
 from echo.qt import autoconnect_callbacks_to_qt
 
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 from glue.core.state_objects import State
 from echo import ChoiceSeparator
 from glue.core.data_combo_helper import ComponentIDComboHelper, DataCollectionComboHelper
-from glue.core.data_exporters.qt.dialog import export_data
+from glue_qt.core.data_exporters.qt.dialog import export_data
 
 __all__ = ['SaveDataDialog']
 
@@ -148,7 +148,7 @@ class SaveDataDialog(QDialog):
 if __name__ == "__main__":
 
     from glue.core import DataCollection, Data
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
 
     data1 = Data(x=[1, 2, 3], y=[2, 3, 4], label='data1')
     data2 = Data(a=[1, 2, 3], b=[2, 3, 4], label='data2')

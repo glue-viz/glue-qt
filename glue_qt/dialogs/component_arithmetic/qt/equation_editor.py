@@ -7,7 +7,7 @@ from qtpy.QtCore import Qt
 from echo import SelectionCallbackProperty
 from echo.qt import connect_combo_selection
 from glue.core.parse import InvalidTagError, ParsedCommand, TAG_RE
-from glue.utils.qt import load_ui, CompletionTextEdit
+from glue_qt.utils.qt import load_ui, CompletionTextEdit
 
 __all__ = ['EquationEditorDialog']
 
@@ -218,7 +218,7 @@ class EquationEditorDialog(QtWidgets.QDialog):
 
 if __name__ == "__main__":  # pragma: nocover
 
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
 
     app = get_qapp()
 

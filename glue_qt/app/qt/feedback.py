@@ -6,7 +6,7 @@ import os
 from qtpy import QtGui, QtWidgets
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 from glue._deps import get_status_as_odict
 
 
@@ -171,7 +171,7 @@ def submit_feedback():
 
 if __name__ == "__main__":
 
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
     app = get_qapp()
     submit_bug_report(report="Crash log here")
     submit_feedback()

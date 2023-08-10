@@ -3,7 +3,7 @@ import os
 from qtpy.QtCore import Qt
 from qtpy import QtWidgets
 from glue._plugin_helpers import PluginConfig
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 
 
 __all__ = ["QtPluginManager"]

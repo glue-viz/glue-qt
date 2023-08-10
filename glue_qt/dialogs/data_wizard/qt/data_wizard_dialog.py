@@ -1,6 +1,6 @@
 from qtpy.QtCore import Qt
 from qtpy import QtWidgets
-from glue.utils.qt import set_cursor_cm
+from glue_qt.utils.qt import set_cursor_cm
 
 __all__ = ['data_wizard', 'GlueDataDialog']
 

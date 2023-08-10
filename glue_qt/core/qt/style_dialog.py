@@ -1,7 +1,7 @@
 from qtpy.QtCore import Qt
 from qtpy import QtCore, QtWidgets
-from glue.icons.qt import POINT_ICONS, symbol_icon
-from glue.utils.qt import mpl_to_qt_color, qt_to_mpl_color
+from glue_qt.icons.qt import POINT_ICONS, symbol_icon
+from glue_qt.utils.qt import mpl_to_qt_color, qt_to_mpl_color
 
 
 class ColorWidget(QtWidgets.QLabel):
@@ -123,7 +123,7 @@ class StyleDialog(QtWidgets.QDialog):
 
 if __name__ == "__main__":
 
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
     from glue.core import Data
 
     app = get_qapp()

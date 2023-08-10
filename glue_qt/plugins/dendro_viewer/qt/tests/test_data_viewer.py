@@ -10,8 +10,8 @@ from numpy.testing import assert_equal
 
 from glue.core import Data
 from glue.core.roi import PointROI
-from glue.viewers.matplotlib.qt.tests.test_data_viewer import BaseTestMatplotlibDataViewer
-from glue.app.qt import GlueApplication
+from glue_qt.viewers.matplotlib.qt.tests.test_data_viewer import BaseTestMatplotlibDataViewer
+from glue_qt.app.qt import GlueApplication
 from glue.core.state import GlueUnSerializer
 
 from ..data_viewer import DendrogramViewer

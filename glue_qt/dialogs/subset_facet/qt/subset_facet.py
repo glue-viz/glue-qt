@@ -6,7 +6,7 @@ from qtpy import QtWidgets
 from glue.core.util import facet_subsets
 from glue.core.state_objects import State
 from echo import CallbackProperty, SelectionCallbackProperty
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 from glue.core.data_combo_helper import DataCollectionComboHelper, ComponentIDComboHelper
 from echo.qt import autoconnect_callbacks_to_qt
 from glue.core.state_objects import StateAttributeLimitsHelper

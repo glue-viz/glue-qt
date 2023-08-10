@@ -6,7 +6,7 @@ from qtpy.QtCore import Qt
 
 from glue.core.callback_property import add_callback
 from glue.viewers.common.tool import CheckableTool, DropdownTool
-from glue.icons.qt import get_icon
+from glue_qt.icons.qt import get_icon
 
 __all__ = ['BasicToolbar']
 

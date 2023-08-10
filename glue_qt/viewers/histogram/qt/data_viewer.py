@@ -1,8 +1,8 @@
 from glue.utils import defer_draw, decorate_all_methods
-from glue.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
-from glue.viewers.histogram.qt.layer_style_editor import HistogramLayerStyleEditor
-from glue.viewers.histogram.qt.options_widget import HistogramOptionsWidget
-from glue.viewers.histogram.qt.layer_artist import QThreadedHistogramLayerArtist
+from glue_qt.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.histogram.qt.layer_style_editor import HistogramLayerStyleEditor
+from glue_qt.viewers.histogram.qt.options_widget import HistogramOptionsWidget
+from glue_qt.viewers.histogram.qt.layer_artist import QThreadedHistogramLayerArtist
 from glue.viewers.histogram.state import HistogramViewerState
 
 from glue.viewers.histogram.viewer import MatplotlibHistogramMixin

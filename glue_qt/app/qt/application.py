@@ -15,31 +15,31 @@ from glue.core import command, BaseData
 from glue.core.coordinates import WCSCoordinates
 from glue import env
 from glue.main import load_plugins
-from glue.icons.qt import get_icon
-from glue.utils.qt import get_qapp, update_global_font_size
-from glue.app.qt.actions import action
-from glue.dialogs.data_wizard.qt import data_wizard
-from glue.dialogs.link_editor.qt import LinkEditor
-from glue.dialogs.autolinker.qt import run_autolinker
-from glue.dialogs.component_arithmetic.qt import ArithmeticEditorWidget
-from glue.app.qt.edit_subset_mode_toolbar import EditSubsetModeToolBar
-from glue.app.qt.mdi_area import GlueMdiArea
-from glue.app.qt.layer_tree_widget import PlotAction, LayerTreeWidget
-from glue.app.qt.preferences import PreferencesDialog
-from glue.viewers.common.qt.data_viewer import DataViewer
-from glue.viewers.scatter.qt import ScatterViewer
-from glue.viewers.image.qt import ImageViewer
+from glue_qt.icons.qt import get_icon
+from glue_qt.utils.qt import get_qapp, update_global_font_size
+from glue_qt.app.qt.actions import action
+from glue_qt.dialogs.data_wizard.qt import data_wizard
+from glue_qt.dialogs.link_editor.qt import LinkEditor
+from glue_qt.dialogs.autolinker.qt import run_autolinker
+from glue_qt.dialogs.component_arithmetic.qt import ArithmeticEditorWidget
+from glue_qt.app.qt.edit_subset_mode_toolbar import EditSubsetModeToolBar
+from glue_qt.app.qt.mdi_area import GlueMdiArea
+from glue_qt.app.qt.layer_tree_widget import PlotAction, LayerTreeWidget
+from glue_qt.app.qt.preferences import PreferencesDialog
+from glue_qt.viewers.common.qt.data_viewer import DataViewer
+from glue_qt.viewers.scatter.qt import ScatterViewer
+from glue_qt.viewers.image.qt import ImageViewer
 from glue.utils import nonpartial, defer_draw
-from glue.utils.qt import (pick_class, GlueTabBar, qurl_to_path,
+from glue_qt.utils.qt import (pick_class, GlueTabBar, qurl_to_path,
                            set_cursor_cm, messagebox_on_error, load_ui)
 
-from glue.app.qt.feedback import submit_bug_report, submit_feedback
-from glue.app.qt.plugin_manager import QtPluginManager
-from glue.app.qt.versions import QVersionsDialog
-from glue.app.qt.terminal import glue_terminal, IPythonTerminalError
+from glue_qt.app.qt.feedback import submit_bug_report, submit_feedback
+from glue_qt.app.qt.plugin_manager import QtPluginManager
+from glue_qt.app.qt.versions import QVersionsDialog
+from glue_qt.app.qt.terminal import glue_terminal, IPythonTerminalError
 
 from glue.config import qt_fixed_layout_tab, qt_client, startup_action, keyboard_shortcut
-from glue.app.qt.save_data import SaveDataDialog
+from glue_qt.app.qt.save_data import SaveDataDialog
 
 __all__ = ['GlueApplication']
 DOCS_URL = 'http://www.glueviz.org'

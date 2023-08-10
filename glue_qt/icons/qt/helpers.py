@@ -2,7 +2,7 @@ from qtpy import QtGui
 
 from matplotlib.colors import Colormap
 
-from glue.utils.qt import mpl_to_qt_color, tint_pixmap, cmap2pixmap
+from glue_qt.utils.qt import mpl_to_qt_color, tint_pixmap, cmap2pixmap
 from glue.icons import icon_path
 
 __all__ = ['symbol_icon', 'layer_icon', 'layer_artist_icon', 'get_icon', 'POINT_ICONS']

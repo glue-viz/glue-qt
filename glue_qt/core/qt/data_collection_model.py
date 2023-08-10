@@ -6,11 +6,11 @@ from glue.core.hub import HubListener
 from glue.core import message as m
 from glue.core.decorators import memoize
 from glue import core
-from glue.core.qt.mime import LAYERS_MIME_TYPE
-from glue.icons.qt import layer_icon
+from glue_qt.core.qt.mime import LAYERS_MIME_TYPE
+from glue_qt.icons.qt import layer_icon
 
-from glue.core.qt.style_dialog import StyleDialog
-from glue.utils.qt import PyMimeData
+from glue_qt.core.qt.style_dialog import StyleDialog
+from glue_qt.utils.qt import PyMimeData
 from glue.core.message import Message
 
 DATA_IDX = 0
@@ -535,7 +535,7 @@ class LabeledDelegate(QtWidgets.QStyledItemDelegate):
 
 if __name__ == "__main__":
 
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
     from qtpy import QtWidgets
     from glue.core import Data, DataCollection
 

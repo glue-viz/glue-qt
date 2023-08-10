@@ -16,7 +16,7 @@ def set_cursor(shape):
     def wrapper(func):
         @wraps(func)
         def result(*args, **kwargs):
-            from glue.utils.qt import get_qapp  # Here to avoid circ import
+            from glue_qt.utils.qt import get_qapp  # Here to avoid circ import
             app = get_qapp()
             app.setOverrideCursor(shape)
             try:
@@ -32,7 +32,7 @@ def set_cursor(shape):
 @contextmanager
 def set_cursor_cm(shape):
     """Context manager equivalent for :func:`set_cursor`."""
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
     app = get_qapp()
     app.setOverrideCursor(shape)
     try:
@@ -70,7 +70,7 @@ class messagebox_on_error(object):
             return
 
         # Make sure application has been started
-        from glue.utils.qt import get_qapp  # Here to avoid circular import
+        from glue_qt.utils.qt import get_qapp  # Here to avoid circular import
         get_qapp()
 
         m = "%s\n%s" % (self.msg, exc_val)

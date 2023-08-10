@@ -1,15 +1,15 @@
 from qtpy.QtCore import QTimer
 
 from glue.core.message import ComputationStartedMessage
-from glue.viewers.common.qt.data_viewer import DataViewer
-from glue.viewers.matplotlib.qt.widget import MplWidget
+from glue_qt.viewers.common.qt.data_viewer import DataViewer
+from glue_qt.viewers.matplotlib.qt.widget import MplWidget
 from glue.viewers.matplotlib.mpl_axes import init_mpl
 from glue.utils import defer_draw, decorate_all_methods
 from glue.viewers.matplotlib.state import MatplotlibDataViewerState
 from glue.viewers.matplotlib.viewer import MatplotlibViewerMixin
 
 # The following import is required to register the viewer tools
-from glue.viewers.matplotlib.qt import toolbar  # noqa
+from glue_qt.viewers.matplotlib.qt import toolbar  # noqa
 
 __all__ = ['MatplotlibDataViewer']
 

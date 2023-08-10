@@ -3,9 +3,9 @@ import os
 from qtpy import QtWidgets
 
 from glue.config import settings
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 from glue.core.autolinking import find_possible_links
-from glue.dialogs.link_editor.qt.link_editor import LinkEditorWidget
+from glue_qt.dialogs.link_editor.qt.link_editor import LinkEditorWidget
 
 __all__ = ['run_autolinker']
 

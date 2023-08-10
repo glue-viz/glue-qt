@@ -13,10 +13,10 @@ from glue.core.component_link import ComponentLink
 from glue.core.data_collection import DataCollection
 from glue.core.tests.test_state import Cloner, doubler, clone
 from glue.tests.helpers import requires_ipython  # noqa
-from glue.viewers.image.qt import ImageViewer
-from glue.viewers.scatter.qt import ScatterViewer
-from glue.viewers.histogram.qt import HistogramViewer
-from glue.utils.qt import process_events
+from glue_qt.viewers.image.qt import ImageViewer
+from glue_qt.viewers.scatter.qt import ScatterViewer
+from glue_qt.viewers.histogram.qt import HistogramViewer
+from glue_qt.utils.qt import process_events
 
 
 from ..application import GlueApplication, GlueLogger
@@ -81,7 +81,7 @@ class TestGlueApplication(object):
             assert False
 
     def is_terminal_importable(self):
-        import glue.qt.widgets.glue_terminal  # noqa
+        import glue_qt.qt.widgets.glue_terminal  # noqa
 
     @requires_ipython
     def test_toggle_terminal(self):

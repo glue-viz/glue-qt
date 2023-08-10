@@ -2,7 +2,7 @@ from qtpy.QtCore import Qt
 from glue.core import DataCollection, Data
 
 from ..data_collection_model import DataCollectionModel
-from glue.core.qt.mime import LAYERS_MIME_TYPE
+from glue_qt.core.qt.mime import LAYERS_MIME_TYPE
 
 
 class TestDataCollectionModel(object):

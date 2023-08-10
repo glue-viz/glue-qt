@@ -1,4 +1,4 @@
-from glue.utils.qt.mime import PyMimeData
+from glue_qt.utils.qt.mime import PyMimeData
 
 __all__ = ['GlueItemWidget']
 

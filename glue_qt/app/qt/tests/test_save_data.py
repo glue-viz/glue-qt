@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch
 from qtpy.QtCore import Qt
 
 from glue.core import DataCollection, Data
-from glue.utils.qt import get_qapp
-from glue.app.qt.save_data import SaveDataDialog
+from glue_qt.utils.qt import get_qapp
+from glue_qt.app.qt.save_data import SaveDataDialog
 
 
 def components(list_widget):

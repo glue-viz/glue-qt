@@ -15,11 +15,11 @@ from weakref import WeakKeyDictionary
 from qtpy.QtCore import Qt
 from qtpy import QtCore, QtWidgets, QtGui
 from glue.core.layer_artist import LayerArtistBase, LayerArtistContainer
-from glue.core.qt.style_dialog import StyleDialog
-from glue.icons.qt import layer_artist_icon
-from glue.core.qt.mime import LAYERS_MIME_TYPE
+from glue_qt.core.qt.style_dialog import StyleDialog
+from glue_qt.icons.qt import layer_artist_icon
+from glue_qt.core.qt.mime import LAYERS_MIME_TYPE
 from glue.utils import nonpartial
-from glue.utils.qt import PythonListModel, PyMimeData
+from glue_qt.utils.qt import PythonListModel, PyMimeData
 from glue.core.hub import HubListener
 from glue.core.message import (LayerArtistEnabledMessage,
                                LayerArtistUpdatedMessage,

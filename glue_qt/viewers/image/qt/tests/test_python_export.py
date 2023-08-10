@@ -6,9 +6,9 @@ from astropy.wcs import WCS
 
 from glue.core import Data, DataCollection
 from glue.core.coordinates import AffineCoordinates
-from glue.app.qt.application import GlueApplication
-from glue.viewers.image.qt import ImageViewer
-from glue.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython
+from glue_qt.app.qt.application import GlueApplication
+from glue_qt.viewers.image.qt import ImageViewer
+from glue_qt.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython
 
 
 class TestExportPython(BaseTestExportPython):

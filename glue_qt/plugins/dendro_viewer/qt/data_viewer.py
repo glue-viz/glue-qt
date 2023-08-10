@@ -4,14 +4,14 @@ from glue.core.roi import PointROI
 from glue.core.subset import CategorySubsetState
 from glue.core.exceptions import IncompatibleDataException
 from glue.utils import defer_draw
-from glue.utils.qt import messagebox_on_error
+from glue_qt.utils.qt import messagebox_on_error
 
 from glue.plugins.dendro_viewer.dendro_helpers import _substructures
-from glue.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
 from glue.plugins.dendro_viewer.layer_artist import DendrogramLayerArtist
-from glue.plugins.dendro_viewer.qt.options_widget import DendrogramOptionsWidget
+from glue_qt.plugins.dendro_viewer.qt.options_widget import DendrogramOptionsWidget
 from glue.plugins.dendro_viewer.state import DendrogramViewerState
-from glue.plugins.dendro_viewer.qt.layer_style_editor import DendrogramLayerStyleEditor
+from glue_qt.plugins.dendro_viewer.qt.layer_style_editor import DendrogramLayerStyleEditor
 from glue.plugins.dendro_viewer.compat import update_dendrogram_viewer_state
 
 __all__ = ['DendrogramViewer']

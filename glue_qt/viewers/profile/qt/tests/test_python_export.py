@@ -1,9 +1,9 @@
 from astropy.utils import NumpyRNGContext
 
 from glue.core import Data, DataCollection
-from glue.app.qt.application import GlueApplication
-from glue.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython, random_with_nan
-from glue.viewers.profile.qt import ProfileViewer
+from glue_qt.app.qt.application import GlueApplication
+from glue_qt.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython, random_with_nan
+from glue_qt.viewers.profile.qt import ProfileViewer
 from glue.viewers.profile.tests.test_state import SimpleCoordinates
 
 

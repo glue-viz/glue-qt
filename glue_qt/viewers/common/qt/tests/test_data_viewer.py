@@ -4,13 +4,13 @@ import numpy as np
 from unittest.mock import MagicMock, patch
 
 from glue.core import Data, DataCollection
-from glue.app.qt import GlueApplication
+from glue_qt.app.qt import GlueApplication
 
 from glue.core.tests.util import simple_session
-from glue.viewers.histogram.qt import HistogramViewer
-from glue.viewers.image.qt import ImageViewer
-from glue.viewers.scatter.qt import ScatterViewer
-from glue.utils.qt import process_events
+from glue_qt.viewers.histogram.qt import HistogramViewer
+from glue_qt.viewers.image.qt import ImageViewer
+from glue_qt.viewers.scatter.qt import ScatterViewer
+from glue_qt.utils.qt import process_events
 
 
 # TODO: We should maybe consider running these tests for all
@@ -37,7 +37,7 @@ class BaseTestDataViewer(object):
         app = GlueApplication(dc)
 
         try:
-            from glue.viewers.matplotlib.qt.widget import MplCanvas
+            from glue_qt.viewers.matplotlib.qt.widget import MplCanvas
             draw = MplCanvas.draw
             MplCanvas.draw = MagicMock()
 

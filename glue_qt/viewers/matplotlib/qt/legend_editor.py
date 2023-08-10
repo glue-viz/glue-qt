@@ -2,7 +2,7 @@ import os
 
 from qtpy import QtWidgets
 
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 
 __all__ = ['LegendEditorWidget']
 

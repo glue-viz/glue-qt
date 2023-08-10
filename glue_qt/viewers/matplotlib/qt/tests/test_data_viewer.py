@@ -14,9 +14,9 @@ else:
 
 from glue.core import Data
 from glue.core.exceptions import IncompatibleDataException
-from glue.app.qt.application import GlueApplication
+from glue_qt.app.qt.application import GlueApplication
 from glue.core.roi import XRangeROI
-from glue.utils.qt import process_events
+from glue_qt.utils.qt import process_events
 from glue.tests.helpers import requires_matplotlib_ge_22
 
 

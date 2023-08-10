@@ -8,10 +8,10 @@ values will be populated using a GUI.
 from qtpy import QtCore
 from glue.config import keyboard_shortcut
 from glue.config import viewer_tool
-from glue.viewers.scatter.qt.data_viewer import ScatterViewer
-from glue.viewers.histogram.qt.data_viewer import HistogramViewer
-from glue.viewers.image.qt.data_viewer import ImageViewer
-from glue.viewers.table.qt.data_viewer import DataTableModel
+from glue_qt.viewers.scatter.qt.data_viewer import ScatterViewer
+from glue_qt.viewers.histogram.qt.data_viewer import HistogramViewer
+from glue_qt.viewers.image.qt.data_viewer import ImageViewer
+from glue_qt.viewers.table.qt.data_viewer import DataTableModel
 
 
 def check_duplicate_shortcut(key_shortcut):

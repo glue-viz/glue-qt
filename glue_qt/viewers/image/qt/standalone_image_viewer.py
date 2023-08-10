@@ -3,8 +3,8 @@ import numpy as np
 from qtpy import QtCore, QtWidgets
 
 from glue.config import colormaps
-from glue.viewers.common.qt.toolbar import BasicToolbar
-from glue.viewers.matplotlib.qt.widget import MplWidget
+from glue_qt.viewers.common.qt.toolbar import BasicToolbar
+from glue_qt.viewers.matplotlib.qt.widget import MplWidget
 from glue.viewers.image.composite_array import CompositeArray
 from glue.external.modest_image import imshow
 from glue.utils import defer_draw
@@ -12,7 +12,7 @@ from glue.utils import defer_draw
 from glue.viewers.matplotlib.mpl_axes import init_mpl
 
 # Import the mouse mode to make sure it gets registered
-from glue.viewers.image.qt.contrast_mouse_mode import ContrastBiasMode  # noqa
+from glue_qt.viewers.image.qt.contrast_mouse_mode import ContrastBiasMode  # noqa
 
 __all__ = ['StandaloneImageViewer']
 
@@ -110,7 +110,7 @@ class StandaloneImageViewer(QtWidgets.QMainWindow):
         """
         Embed this widget in a GlueMdiSubWindow
         """
-        from glue.app.qt.mdi_area import GlueMdiSubWindow
+        from glue_qt.app.qt.mdi_area import GlueMdiSubWindow
         sub = GlueMdiSubWindow()
         sub.setWidget(self)
         self.destroyed.connect(sub.close)

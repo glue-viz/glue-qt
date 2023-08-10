@@ -47,6 +47,6 @@ def dialog(title, text, icon, setting=None, default=None):
 
 
 if __name__ == "__main__":
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
     app = get_qapp()
     info('What happens next?', 'These are instructions on what happens next', setting='show_info_profile_open')

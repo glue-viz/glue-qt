@@ -5,7 +5,7 @@ from glue.core.component_link import ComponentLink
 from glue.core.parse import ParsedCommand, ParsedComponentLink
 
 from ..component_manager import ComponentManagerWidget
-from glue.dialogs.component_arithmetic.qt.tests.test_component_arithmetic import ChangeListener
+from glue_qt.dialogs.component_arithmetic.qt.tests.test_component_arithmetic import ChangeListener
 
 
 class TestComponentManagerWidget:

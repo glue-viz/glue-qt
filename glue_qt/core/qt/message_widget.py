@@ -3,7 +3,7 @@ from time import ctime
 
 from qtpy import QtWidgets
 from glue import core
-from glue.utils.qt import load_ui
+from glue_qt.utils.qt import load_ui
 
 
 class MessageWidget(QtWidgets.QWidget, core.hub.HubListener):
