@@ -1129,7 +1129,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
 
         Returns
         -------
-        app : :class:`glue.app.application.GlueApplication`
+        app : :class:`glue_qt.app.application.GlueApplication`
             The loaded application
         """
         ga = Application.restore_session(path)

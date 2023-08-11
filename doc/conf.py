@@ -42,6 +42,7 @@ intersphinx_mapping = {
     'echo': ('https://echo.readthedocs.io/en/latest/', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
     'PyQt5': ('https://www.riverbankcomputing.com/static/Docs/PyQt5/', None),
+    'glue': ('http://docs.glueviz.org/en/latest/', None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
@@ -155,7 +156,7 @@ nitpick_ignore_regex = [('py:class', r'PyQt5\.QtCore\.Q[A-Z][a-zA-Z]+'),
 
 # coax Sphinx into treating descriptors as attributes
 # see https://bitbucket.org/birkenfeld/sphinx/issue/1254/#comment-7587063
-from glue.utils.widget_properties import WidgetProperty
+from glue_qt.utils.widget_properties import WidgetProperty
 WidgetProperty.__get__ = lambda self, *args, **kwargs: self
 
 viewcode_follow_imported_members = False

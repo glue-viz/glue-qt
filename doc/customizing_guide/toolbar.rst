@@ -183,7 +183,7 @@ tools that should be present in the toolbar:
 
 In the example above, the viewer will include an toolbar with one tool (the one
 we defined above). Currently the only toolbar class that is defined
-is :class:`~glue.viewers.common.qt.toolbar.BasicToolbar`.
+is :class:`~glue.viewers.common.toolbar.BasicToolbar`.
 
 Note that the toolbar is set up after ``__init__`` has run. Therefore, if you
 want to do any custom set-up to the toolbar after it has been set up, you

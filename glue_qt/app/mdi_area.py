@@ -18,7 +18,7 @@ class GlueMdiArea(QtWidgets.QMdiArea):
     def __init__(self, application, parent=None):
         """
         :param application: The Glue application to which this is attached
-        :type application: :class:`~glue.app.application.GlueApplication`
+        :type application: :class:`~glue_qt.app.application.GlueApplication`
         """
         super(GlueMdiArea, self).__init__(parent)
         self._application = weakref.ref(application)
