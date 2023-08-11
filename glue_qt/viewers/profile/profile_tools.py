@@ -21,7 +21,7 @@ from glue.core import BaseData, Subset
 from glue_qt.viewers.image import ImageViewer
 from glue.core.link_manager import is_convertible_to_single_pixel_cid
 from echo import SelectionCallbackProperty
-from echo import connect_combo_selection
+from echo.qt import connect_combo_selection
 
 __all__ = ['ProfileTools']
 

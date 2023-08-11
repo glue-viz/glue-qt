@@ -198,7 +198,7 @@
   <customwidget>
    <class>ColorizedCompletionTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>glue_qt.dialogs.component_arithmetic.qt.equation_editor</header>
+   <header>glue_qt.dialogs.component_arithmetic.equation_editor</header>
   </customwidget>
  </customwidgets>
  <resources/>

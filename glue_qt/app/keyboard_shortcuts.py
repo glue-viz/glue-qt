@@ -29,7 +29,7 @@ def check_duplicate_shortcut(key_shortcut):
     return False
 
 
-@keyboard_shortcut(QtCore.Key_Tab, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
+@keyboard_shortcut(QtCore.Qt.Key_Tab, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
 def cycle_through_windows(session):
     """
     Cycle through all active windows within the current tab
@@ -40,7 +40,7 @@ def cycle_through_windows(session):
     return session.application.current_tab.activateNextSubWindow()
 
 
-@keyboard_shortcut(QtCore.Key_Backspace, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
+@keyboard_shortcut(QtCore.Qt.Key_Backspace, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
 def delete_current_window(session):
     """
     Deletes the currently active window

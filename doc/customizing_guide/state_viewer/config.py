@@ -10,7 +10,7 @@ from glue_qt.config import qt_client
 from glue.core.data_combo_helper import ComponentIDComboHelper
 
 from echo import CallbackProperty, SelectionCallbackProperty
-from echo import connect_checkable_button, autoconnect_callbacks_to_qt
+from echo.qt import connect_checkable_button, autoconnect_callbacks_to_qt
 
 from glue.viewers.common.layer_artist import LayerArtist
 from glue.viewers.common.state import ViewerState, LayerState

@@ -321,7 +321,7 @@
   <customwidget>
    <class>DataGraphWidget</class>
    <extends>QGraphicsView</extends>
-   <header>glue_qt.dialogs.link_editor.qt.data_graph</header>
+   <header>glue_qt.dialogs.link_editor.data_graph</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

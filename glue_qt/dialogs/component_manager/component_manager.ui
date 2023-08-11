@@ -197,7 +197,7 @@
   <customwidget>
    <class>ComponentTreeWidget</class>
    <extends>QTreeWidget</extends>
-   <header>glue_qt.dialogs.common.qt.component_tree_widget</header>
+   <header>glue_qt.dialogs.common.component_tree_widget</header>
   </customwidget>
  </customwidgets>
  <resources/>

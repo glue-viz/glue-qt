@@ -5,7 +5,7 @@ from qtpy import QtWidgets, QtCore
 from qtpy.QtCore import Qt
 
 from echo import SelectionCallbackProperty
-from echo import connect_combo_selection
+from echo.qt import connect_combo_selection
 from glue.core.parse import InvalidTagError, ParsedCommand, TAG_RE
 from glue_qt.utils import load_ui, CompletionTextEdit
 

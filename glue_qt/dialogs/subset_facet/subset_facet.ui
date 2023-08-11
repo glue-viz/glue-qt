@@ -176,7 +176,7 @@
   <customwidget>
    <class>QColormapCombo</class>
    <extends>QComboBox</extends>
-   <header>glue_qt.utils.qt.colors</header>
+   <header>glue_qt.utils.colors</header>
   </customwidget>
  </customwidgets>
  <resources/>
