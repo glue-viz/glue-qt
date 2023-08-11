@@ -205,7 +205,7 @@ class TestPreferences():
 
         preference_panes = [('Custom', CustomPreferences)]
 
-        with patch('glue.config.preference_panes', preference_panes):
+        with patch('glue_qt.config.preference_panes', preference_panes):
 
             dialog = PreferencesDialog(self.app)
             dialog.show()

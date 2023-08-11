@@ -142,9 +142,9 @@ def start_glue(gluefile=None, config=None, datafiles=None, maximized=True,
     except ImportError:  # Not all PyQt installations have this module
         pass
 
-    from glue.utils.qt.decorators import die_on_error
+    from glue_qt.utils.qt.decorators import die_on_error
 
-    from glue.utils.qt import get_qapp
+    from glue_qt.utils.qt import get_qapp
     app = get_qapp()
 
     splash = get_splash()
@@ -155,7 +155,7 @@ def start_glue(gluefile=None, config=None, datafiles=None, maximized=True,
     # plugins.
     load_plugins(splash=splash, require_qt_plugins=True)
 
-    from glue.app.qt import GlueApplication
+    from glue_qt.app.qt import GlueApplication
 
     datafiles = datafiles or []
 
@@ -206,7 +206,7 @@ def execute_script(script):
 
 def get_splash():
     """Instantiate a splash screen"""
-    from glue.app.qt.splash_screen import QtSplashScreen
+    from glue_qt.app.qt.splash_screen import QtSplashScreen
     splash = QtSplashScreen()
     return splash
 
@@ -261,12 +261,12 @@ REQUIRED_PLUGINS = ['glue.plugins.coordinate_helpers',
                     'glue.io.formats.fits']
 
 
-REQUIRED_PLUGINS_QT = ['glue.plugins.tools.pv_slicer.qt',
-                       'glue.viewers.image.qt',
-                       'glue.viewers.scatter.qt',
-                       'glue.viewers.histogram.qt',
-                       'glue.viewers.profile.qt',
-                       'glue.viewers.table.qt']
+REQUIRED_PLUGINS_QT = ['glue_qt.plugins.tools.pv_slicer.qt',
+                       'glue_qt.viewers.image.qt',
+                       'glue_qt.viewers.scatter.qt',
+                       'glue_qt.viewers.histogram.qt',
+                       'glue_qt.viewers.profile.qt',
+                       'glue_qt.viewers.table.qt']
 
 
 def load_plugins(splash=None, require_qt_plugins=False):

@@ -2,12 +2,12 @@
 Widgets for sending feedback reports
 """
 import os
+import pkg_resources
 
 from qtpy import QtGui, QtWidgets
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from glue_qt.utils.qt import load_ui
-from glue._deps import get_status_as_odict
 
 
 __all__ = ['submit_bug_report', 'submit_feedback']
@@ -18,8 +18,8 @@ def diagnostics():
     Return a some system informaton useful for debugging
     """
     versions = ""
-    for package, version in get_status_as_odict().items():
-        versions += "* {0}: {1}\n".format(package, version)
+    for pkg in pkg_resources.working_set:
+        versions += "* {0}: {1}\n".format(pkg.key, pkg.version)
     return versions.strip()
 
 

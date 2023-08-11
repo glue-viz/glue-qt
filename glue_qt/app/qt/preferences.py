@@ -108,7 +108,7 @@ class PreferencesDialog(QtWidgets.QDialog):
 
         self.panes = []
 
-        from glue.config import preference_panes
+        from glue_qt.config import preference_panes
         for label, widget_cls in sorted(preference_panes):
             pane = widget_cls()
             self.ui.tab_widget.addTab(pane, label)

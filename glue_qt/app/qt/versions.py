@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 
 from glue import __version__
 
@@ -7,7 +8,6 @@ from qtpy.QtCore import Qt
 
 from glue.utils import nonpartial
 from glue_qt.utils.qt import load_ui, CenteredDialog
-from glue._deps import get_status_as_odict
 
 __all__ = ['QVersionsDialog']
 
@@ -31,7 +31,7 @@ class QVersionsDialog(CenteredDialog):
         self.ui.button_copy.clicked.connect(nonpartial(self._copy))
 
     def _update_deps(self):
-        status = get_status_as_odict()
+        status = {pkg.key: pkg.version for pkg in pkg_resources.working_set}
         self._text = ""
         for name, version in [('Glue', __version__)] + list(status.items()):
             QtWidgets.QTreeWidgetItem(self.ui.version_tree.invisibleRootItem(),

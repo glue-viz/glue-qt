@@ -321,7 +321,7 @@ that will get called when the preferences dialog is closed. This method should
 then set any settings appropriately in the application state. The following is
 an example of a custom preference pane::
 
-    from glue.config import settings, preference_panes
+    from glue_qt.config import settings, preference_panes
     from qtpy import QtWidgets
 
 

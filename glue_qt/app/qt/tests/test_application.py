@@ -232,7 +232,7 @@ class TestGlueApplication(object):
 
         act = self.app._layer_widget._actions['facet']
         self.app.data_collection.append(Data(x=[1, 2, 3]))
-        with patch('glue.dialogs.subset_facet.qt.SubsetFacetDialog.exec_'):
+        with patch('glue_qt.dialogs.subset_facet.qt.SubsetFacetDialog.exec_'):
             act._do_action()
 
     def test_move_viewer_to_tab(self):
