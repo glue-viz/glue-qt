@@ -1,6 +1,6 @@
 from qtpy import QtWidgets, QtGui
 
-from glue_qt.core.qt.simpleforms import build_form_item
+from glue_qt.core.simpleforms import build_form_item
 
 __all__ = ['ConstraintsWidget', 'FitSettingsWidget']
 

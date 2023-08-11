@@ -2,12 +2,12 @@ from qtpy import QtCore, QtWidgets
 from glue.core.edit_subset_mode import (NewMode, OrMode,
                                         AndNotMode, AndMode, XorMode,
                                         ReplaceMode)
-from glue_qt.app.qt.actions import action
+from glue_qt.app.actions import action
 from glue.utils import nonpartial, avoid_circular
-from glue_qt.utils.qt import update_combobox
+from glue_qt.utils import update_combobox
 from glue.core.message import EditSubsetMessage, SubsetMessage
 from glue.core.hub import HubListener
-from glue_qt.icons.qt import layer_icon
+from glue_qt.icons import layer_icon
 
 
 class EditSubsetModeToolBar(QtWidgets.QToolBar, HubListener):

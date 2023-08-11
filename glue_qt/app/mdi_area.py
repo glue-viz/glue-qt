@@ -3,7 +3,7 @@ import weakref
 from qtpy.QtCore import Qt
 from qtpy import QtCore, QtGui, QtWidgets
 from glue import core
-from glue_qt.core.qt.mime import LAYER_MIME_TYPE, LAYERS_MIME_TYPE
+from glue_qt.core.mime import LAYER_MIME_TYPE, LAYERS_MIME_TYPE
 
 
 class GlueMdiArea(QtWidgets.QMdiArea):
@@ -11,14 +11,14 @@ class GlueMdiArea(QtWidgets.QMdiArea):
     """Glue's MdiArea implementation.
 
     Drop events with :class:`~glue.core.data.Data` objects in
-    :class:`~glue.utils.qt.PyMimeData` load these objects into new
+    :class:`~glue.utils.PyMimeData` load these objects into new
     data viewers
     """
 
     def __init__(self, application, parent=None):
         """
         :param application: The Glue application to which this is attached
-        :type application: :class:`~glue.app.qt.application.GlueApplication`
+        :type application: :class:`~glue.app.application.GlueApplication`
         """
         super(GlueMdiArea, self).__init__(parent)
         self._application = weakref.ref(application)

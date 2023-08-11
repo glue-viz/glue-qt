@@ -54,7 +54,7 @@ def get_backend(backend='qt'):
     if backend != 'qt':
         raise ValueError("Only QT Backend supported")
 
-    from glue.qt import qt_backend
+    from glue import qt_backend
 
     _backend = qt_backend
     return _backend

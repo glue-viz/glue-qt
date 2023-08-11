@@ -1,7 +1,7 @@
 import time
 from glue.utils import defer_draw
 from glue.viewers.histogram.layer_artist import HistogramLayerArtist
-from glue_qt.viewers.matplotlib.qt.compute_worker import ComputeWorker
+from glue_qt.viewers.matplotlib.compute_worker import ComputeWorker
 
 __all__ = ['QThreadedHistogramLayerArtist']
 
@@ -20,7 +20,7 @@ class QThreadedHistogramLayerArtist(HistogramLayerArtist):
         time.sleep(0.5)
         while self._worker.running:
             time.sleep(1 / 25)
-        from glue_qt.utils.qt import process_events
+        from glue_qt.utils import process_events
         process_events()
 
     def remove(self):

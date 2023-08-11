@@ -89,7 +89,7 @@ class TestLayerTree(object):
         self.widget._actions['delete']._do_action()
         assert self.layer_present(layer)
 
-    @patch('glue_qt.app.qt.layer_tree_widget.LinkEditor')
+    @patch('glue_qt.app.layer_tree_widget.LinkEditor')
     def test_link_data(self, le):
         layer = self.add_layer()
         self.select_layers(layer)
@@ -176,7 +176,7 @@ class TestLayerTree(object):
         assert not self.widget.is_checkable()
 
     def test_load_data(self):
-        with patch('glue_qt.app.qt.layer_tree_widget.data_wizard') as wizard:
+        with patch('glue_qt.app.layer_tree_widget.data_wizard') as wizard:
             d = core.Data(x=[1])
             assert not self.layer_present(d)
             wizard.return_value = [d]

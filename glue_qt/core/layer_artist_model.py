@@ -15,11 +15,11 @@ from weakref import WeakKeyDictionary
 from qtpy.QtCore import Qt
 from qtpy import QtCore, QtWidgets, QtGui
 from glue.core.layer_artist import LayerArtistBase, LayerArtistContainer
-from glue_qt.core.qt.style_dialog import StyleDialog
-from glue_qt.icons.qt import layer_artist_icon
-from glue_qt.core.qt.mime import LAYERS_MIME_TYPE
+from glue_qt.core.style_dialog import StyleDialog
+from glue_qt.icons import layer_artist_icon
+from glue_qt.core.mime import LAYERS_MIME_TYPE
 from glue.utils import nonpartial
-from glue_qt.utils.qt import PythonListModel, PyMimeData
+from glue_qt.utils import PythonListModel, PyMimeData
 from glue.core.hub import HubListener
 from glue.core.message import (LayerArtistEnabledMessage,
                                LayerArtistUpdatedMessage,
@@ -84,7 +84,7 @@ class LayerArtistModel(PythonListModel):
         if role == Qt.CheckStateRole:
             if isinstance(value, int):
                 try:  # Qt6
-                    vis = value == Qt.Checked.value  # https://bugreports.qt.io/browse/QTBUG-104688
+                    vis = value == Qt.Checked.value  # https://bugreports.io/browse/QTBUG-104688
                 except AttributeError:  # Qt5
                     vis = value == Qt.Checked
             else:

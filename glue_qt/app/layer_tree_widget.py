@@ -12,18 +12,18 @@ from qtpy.QtCore import Qt
 from glue.core.edit_subset_mode import AndMode, OrMode, XorMode, AndNotMode
 from glue_qt.config import layer_action
 from glue import core
-from glue_qt.dialogs.link_editor.qt import LinkEditor
-from glue_qt.icons.qt import get_icon
-from glue_qt.dialogs.component_arithmetic.qt import ArithmeticEditorWidget
-from glue_qt.dialogs.component_manager.qt import ComponentManagerWidget
-from glue_qt.dialogs.subset_facet.qt import SubsetFacetDialog
-from glue_qt.dialogs.data_wizard.qt import data_wizard
+from glue_qt.dialogs.link_editor import LinkEditor
+from glue_qt.icons import get_icon
+from glue_qt.dialogs.component_arithmetic import ArithmeticEditorWidget
+from glue_qt.dialogs.component_manager import ComponentManagerWidget
+from glue_qt.dialogs.subset_facet import SubsetFacetDialog
+from glue_qt.dialogs.data_wizard import data_wizard
 from glue.utils import nonpartial
 from glue.utils.decorators import avoid_circular
-from glue_qt.utils.qt import load_ui
+from glue_qt.utils import load_ui
 from glue.core.message import EditSubsetMessage
 from glue.core.hub import HubListener
-from glue_qt.app.qt.metadata import MetadataDialog
+from glue_qt.app.metadata import MetadataDialog
 
 
 @core.decorators.singleton
@@ -251,7 +251,7 @@ class ExportDataAction(LayerAction):
     def _do_action(self):
         assert self._can_trigger()
         data = self.selected_layers()[0]
-        from glue_qt.core.data_exporters.qt.dialog import export_data
+        from glue_qt.core.data_exporters.dialog import export_data
         export_data(data)
 
 
@@ -307,7 +307,7 @@ class ImportSubsetMaskAction(LayerAction):
     def _do_action(self):
         assert self._can_trigger()
         data = self.selected_layers()[0]
-        from glue_qt.io.qt.subset_mask import QtSubsetMaskImporter
+        from glue_qt.io.subset_mask import QtSubsetMaskImporter
         QtSubsetMaskImporter().run(data, self._layer_tree._data_collection)
 
 
@@ -323,7 +323,7 @@ class ExportSubsetMaskAction(LayerAction):
     def _do_action(self):
         assert self._can_trigger()
         data = self.selected_layers()[0]
-        from glue_qt.io.qt.subset_mask import QtSubsetMaskExporter
+        from glue_qt.io.subset_mask import QtSubsetMaskExporter
         QtSubsetMaskExporter().run(data)
 
 
@@ -651,7 +651,7 @@ class LayerTreeWidget(QtWidgets.QMainWindow, HubListener):
 if __name__ == "__main__":
     from glue.core.data_collection import DataCollection
     collection = DataCollection()
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     app = get_qapp()
     widget = LayerTreeWidget()
     widget.setup(collection)

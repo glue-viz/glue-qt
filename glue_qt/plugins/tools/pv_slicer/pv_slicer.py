@@ -1,7 +1,7 @@
 import numpy as np
 
 from glue.viewers.matplotlib.toolbar_mode import PathMode
-from glue_qt.viewers.image.qt import StandaloneImageViewer
+from glue_qt.viewers.image import StandaloneImageViewer
 from glue.config import viewer_tool
 from glue.utils import defer_draw
 from glue.core.coordinate_helpers import axis_label

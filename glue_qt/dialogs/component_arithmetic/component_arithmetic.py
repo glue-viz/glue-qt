@@ -5,13 +5,13 @@ from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
 from echo import SelectionCallbackProperty
-from echo.qt import connect_combo_selection
+from echo import connect_combo_selection
 from glue.core import ComponentID
 from glue.core.parse import ParsedComponentLink, ParsedCommand
-from glue_qt.utils.qt import load_ui
+from glue_qt.utils import load_ui
 from glue.core.message import NumericalDataChangedMessage
 
-from glue_qt.dialogs.component_arithmetic.qt.equation_editor import EquationEditorDialog
+from glue_qt.dialogs.component_arithmetic.equation_editor import EquationEditorDialog
 
 __all__ = ['ArithmeticEditorWidget']
 
@@ -290,7 +290,7 @@ class ArithmeticEditorWidget(QtWidgets.QDialog):
 
 if __name__ == "__main__":  # pragma: nocover
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     app = get_qapp()
 
     import numpy as np

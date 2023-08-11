@@ -10,12 +10,12 @@ from glue.tests.helpers import PYSIDE2_INSTALLED  # noqa
 from glue.core import HubListener, Application, Data, DataCollection
 from glue.core.message import SettingsChangeMessage
 from qtpy import QtWidgets
-from glue_qt.app.qt.preferences import PreferencesDialog
-from glue_qt.app.qt import GlueApplication
-from glue_qt.viewers.scatter.qt import ScatterViewer
-from glue_qt.viewers.image.qt import ImageViewer
-from glue_qt.viewers.histogram.qt import HistogramViewer
-from glue_qt.plugins.dendro_viewer.qt import DendrogramViewer
+from glue_qt.app.preferences import PreferencesDialog
+from glue_qt.app import GlueApplication
+from glue_qt.viewers.scatter import ScatterViewer
+from glue_qt.viewers.image import ImageViewer
+from glue_qt.viewers.histogram import HistogramViewer
+from glue_qt.plugins.dendro_viewer import DendrogramViewer
 
 rgb = ColorConverter().to_rgb
 

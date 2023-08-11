@@ -27,9 +27,9 @@ from qtconsole.inprocess import QtInProcessKernelManager
 from qtconsole.rich_jupyter_widget import RichJupyterWidget
 from qtconsole.client import QtKernelClient
 
-from glue_qt.app.qt.mdi_area import GlueMdiSubWindow
+from glue_qt.app.mdi_area import GlueMdiSubWindow
 from glue.utils import as_variable_name
-from glue_qt.utils.qt import get_qapp
+from glue_qt.utils import get_qapp
 
 # We need to do the following to make sure that the outputs in the IPython
 # terminal don't get cached. This is because if a user does e.g.

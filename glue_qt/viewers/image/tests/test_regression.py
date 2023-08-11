@@ -4,7 +4,7 @@ import pytest
 import numpy as np
 
 from glue.core import Data
-from glue_qt.viewers.image.qt import ImageViewer
+from glue_qt.viewers.image import ImageViewer
 from glue.core.tests.util import simple_session
 from glue.tests.helpers import PYSIDE2_INSTALLED  # noqa
 

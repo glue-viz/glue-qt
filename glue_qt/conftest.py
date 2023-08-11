@@ -63,7 +63,7 @@ def pytest_configure(config):
 
     # Start up QApplication, if the Qt code is present
     try:
-        from glue.utils.qt import get_qapp
+        from glue.utils import get_qapp
     except Exception:
         # Note that we catch any exception, not just ImportError, because
         # QtPy can raise a PythonQtError.
@@ -86,7 +86,7 @@ def pytest_unconfigure(config):
 
     # Remove reference to QApplication to prevent segmentation fault on PySide
     try:
-        from glue.utils.qt import app
+        from glue.utils import app
         app.qapp = None
     except Exception:  # for when we run the tests without the qt directories
         # Note that we catch any exception, not just ImportError, because

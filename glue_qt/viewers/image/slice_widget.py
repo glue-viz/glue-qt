@@ -2,7 +2,7 @@ import numpy as np
 
 from glue.core.coordinates import LegacyCoordinates
 from glue.core.coordinate_helpers import dependent_axes, world_axis
-from glue_qt.viewers.common.qt.data_slice_widget import SliceWidget
+from glue_qt.viewers.common.data_slice_widget import SliceWidget
 from glue.viewers.image.state import AggregateSlice
 from glue.utils.decorators import avoid_circular
 
@@ -122,7 +122,7 @@ class MultiSliceWidgetHelper(object):
 if __name__ == "__main__":
 
     from glue.core import Data
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     from echo import CallbackProperty
     from glue.core.state_objects import State
 

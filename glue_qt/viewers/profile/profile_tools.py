@@ -10,18 +10,18 @@ from qtpy import QtWidgets, QtGui
 
 from glue.utils import color2hex
 from glue.config import fit_plugin, viewer_tool
-from glue_qt.utils.qt import load_ui, fix_tab_widget_fontsize
-from glue_qt.viewers.profile.qt.mouse_mode import NavigateMouseMode, RangeMouseMode
-from glue_qt.core.qt.fitters import FitSettingsWidget
-from glue_qt.utils.qt import Worker
+from glue_qt.utils import load_ui, fix_tab_widget_fontsize
+from glue_qt.viewers.profile.mouse_mode import NavigateMouseMode, RangeMouseMode
+from glue_qt.core.fitters import FitSettingsWidget
+from glue_qt.utils import Worker
 from glue.viewers.common.tool import Tool
 from glue.viewers.image.state import AggregateSlice
 from glue.core.aggregate import mom1, mom2
 from glue.core import BaseData, Subset
-from glue_qt.viewers.image.qt import ImageViewer
+from glue_qt.viewers.image import ImageViewer
 from glue.core.link_manager import is_convertible_to_single_pixel_cid
 from echo import SelectionCallbackProperty
-from echo.qt import connect_combo_selection
+from echo import connect_combo_selection
 
 __all__ = ['ProfileTools']
 

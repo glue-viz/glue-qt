@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
 from qtpy import QtWidgets
-from glue_qt.utils.qt import process_events
+from glue_qt.utils import process_events
 from glue.core import Data, DataCollection
-from glue_qt.dialogs.link_editor.qt import LinkEditor
+from glue_qt.dialogs.link_editor import LinkEditor
 from glue.core.component_link import ComponentLink
 from glue.plugins.coordinate_helpers.link_helpers import Galactic_to_FK5, ICRS_to_Galactic
 from glue.core.link_helpers import identity, functional_link_collection, LinkSame

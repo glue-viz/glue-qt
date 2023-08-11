@@ -7,7 +7,7 @@ from qtpy.QtWidgets import (QGraphicsView, QGraphicsScene, QApplication,
                             QGraphicsTextItem, QGraphicsEllipseItem,
                             QGraphicsLineItem)
 
-from glue_qt.utils.qt import mpl_to_qt_color, qt_to_mpl_color
+from glue_qt.utils import mpl_to_qt_color, qt_to_mpl_color
 
 COLOR_SELECTED = (0.2, 0.9, 0.2)
 COLOR_CONNECTED = (0.6, 0.9, 0.9)

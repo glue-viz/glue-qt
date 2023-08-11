@@ -5,7 +5,7 @@ from numpy.testing import assert_equal
 from astropy.io import fits
 
 from glue.core import DataCollection, Data
-from glue_qt.io.qt.subset_mask import QtSubsetMaskImporter, QtSubsetMaskExporter
+from glue_qt.io.subset_mask import QtSubsetMaskImporter, QtSubsetMaskExporter
 
 
 def test_importer(tmpdir):

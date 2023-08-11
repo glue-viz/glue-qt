@@ -142,9 +142,9 @@ def start_glue(gluefile=None, config=None, datafiles=None, maximized=True,
     except ImportError:  # Not all PyQt installations have this module
         pass
 
-    from glue_qt.utils.qt.decorators import die_on_error
+    from glue_qt.utils.decorators import die_on_error
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     app = get_qapp()
 
     splash = get_splash()
@@ -155,7 +155,7 @@ def start_glue(gluefile=None, config=None, datafiles=None, maximized=True,
     # plugins.
     load_plugins(splash=splash, require_qt_plugins=True)
 
-    from glue_qt.app.qt import GlueApplication
+    from glue_qt.app import GlueApplication
 
     datafiles = datafiles or []
 
@@ -197,7 +197,7 @@ def execute_script(script):
     Provides a way for people with pre-installed binaries to use
     the glue library
     """
-    from glue.utils.qt.decorators import die_on_error
+    from glue.utils.decorators import die_on_error
     with die_on_error("Error running script"):
         with open(script) as fin:
             exec(fin.read())
@@ -206,7 +206,7 @@ def execute_script(script):
 
 def get_splash():
     """Instantiate a splash screen"""
-    from glue_qt.app.qt.splash_screen import QtSplashScreen
+    from glue_qt.app.splash_screen import QtSplashScreen
     splash = QtSplashScreen()
     return splash
 

@@ -5,11 +5,11 @@ from numpy.testing import assert_allclose
 
 from glue.core import Data
 from glue.tests.helpers import PYSIDE2_INSTALLED  # noqa
-from glue_qt.app.qt import GlueApplication
-from glue_qt.utils.qt import process_events
+from glue_qt.app import GlueApplication
+from glue_qt.utils import process_events
 from glue.viewers.image.state import AggregateSlice
 
-from glue_qt.viewers.image.qt import ImageViewer
+from glue_qt.viewers.image import ImageViewer
 from glue.viewers.profile.tests.test_state import SimpleCoordinates
 from ..data_viewer import ProfileViewer
 

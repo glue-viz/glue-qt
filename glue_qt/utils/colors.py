@@ -5,7 +5,7 @@ from glue import config
 from qtpy import QtCore, QtWidgets, QtGui
 from echo import add_callback
 from glue.utils import nonpartial
-from glue_qt.utils.qt.widget_properties import WidgetProperty
+from glue_qt.utils.widget_properties import WidgetProperty
 
 from matplotlib import cm
 
@@ -209,7 +209,7 @@ class QColormapCombo(QtWidgets.QComboBox):
 
 if __name__ == "__main__":
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
 
     app = get_qapp()
 

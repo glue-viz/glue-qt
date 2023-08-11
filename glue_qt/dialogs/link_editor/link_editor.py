@@ -4,7 +4,7 @@ from qtpy import QtWidgets
 
 from glue.config import link_function, link_helper
 from glue.utils.decorators import avoid_circular
-from glue_qt.utils.qt import load_ui
+from glue_qt.utils import load_ui
 from echo.qt import autoconnect_callbacks_to_qt
 from echo.qt.connect import UserDataWrapper, connect_combo_selection
 from glue.dialogs.link_editor.state import LinkEditorState
@@ -244,7 +244,7 @@ class LinkEditor(QtWidgets.QDialog):
 def main():  # pragma: no cover
     import numpy as np
     from glue.main import load_plugins
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     from glue.core import Data, DataCollection
 
     load_plugins()

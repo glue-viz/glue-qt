@@ -16,11 +16,11 @@ from glue.core.roi_pretransforms import FullSphereLongitudeTransform, Projection
 from glue.core.subset import RoiSubsetState, AndState
 from glue import core
 from glue.core.component_id import ComponentID
-from glue_qt.utils.qt import combo_as_string, process_events
-from glue_qt.viewers.matplotlib.qt.tests.test_data_viewer import BaseTestMatplotlibDataViewer
+from glue_qt.utils import combo_as_string, process_events
+from glue_qt.viewers.matplotlib.tests.test_data_viewer import BaseTestMatplotlibDataViewer
 from glue.core.state import GlueUnSerializer
-from glue_qt.app.qt.layer_tree_widget import LayerTreeWidget
-from glue_qt.app.qt import GlueApplication
+from glue_qt.app.layer_tree_widget import LayerTreeWidget
+from glue_qt.app import GlueApplication
 
 from ..data_viewer import ScatterViewer
 

@@ -1,5 +1,5 @@
 from qtpy import QtWidgets
-from glue_qt.utils.qt import PyMimeData, GlueItemWidget
+from glue_qt.utils import PyMimeData, GlueItemWidget
 
 # some standard glue mime types
 LAYER_MIME_TYPE = 'glue/layer'

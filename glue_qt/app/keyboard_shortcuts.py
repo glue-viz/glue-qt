@@ -8,10 +8,10 @@ values will be populated using a GUI.
 from qtpy import QtCore
 from glue_qt.config import keyboard_shortcut
 from glue.config import viewer_tool
-from glue_qt.viewers.scatter.qt.data_viewer import ScatterViewer
-from glue_qt.viewers.histogram.qt.data_viewer import HistogramViewer
-from glue_qt.viewers.image.qt.data_viewer import ImageViewer
-from glue_qt.viewers.table.qt.data_viewer import DataTableModel
+from glue_qt.viewers.scatter.data_viewer import ScatterViewer
+from glue_qt.viewers.histogram.data_viewer import HistogramViewer
+from glue_qt.viewers.image.data_viewer import ImageViewer
+from glue_qt.viewers.table.data_viewer import DataTableModel
 
 
 def check_duplicate_shortcut(key_shortcut):
@@ -29,7 +29,7 @@ def check_duplicate_shortcut(key_shortcut):
     return False
 
 
-@keyboard_shortcut(QtCore.Qt.Key_Tab, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
+@keyboard_shortcut(QtCore.Key_Tab, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
 def cycle_through_windows(session):
     """
     Cycle through all active windows within the current tab
@@ -40,7 +40,7 @@ def cycle_through_windows(session):
     return session.application.current_tab.activateNextSubWindow()
 
 
-@keyboard_shortcut(QtCore.Qt.Key_Backspace, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
+@keyboard_shortcut(QtCore.Key_Backspace, [ImageViewer, HistogramViewer, ScatterViewer, DataTableModel])
 def delete_current_window(session):
     """
     Deletes the currently active window

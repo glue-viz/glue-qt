@@ -7,7 +7,7 @@ from qtpy import QtWidgets
 from qtpy.QtCore import Qt
 
 from glue.utils import nonpartial
-from glue_qt.utils.qt import load_ui, CenteredDialog
+from glue_qt.utils import load_ui, CenteredDialog
 
 __all__ = ['QVersionsDialog']
 
@@ -44,7 +44,7 @@ class QVersionsDialog(CenteredDialog):
 
 if __name__ == "__main__":
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     app = get_qapp()
     window = QVersionsDialog()
     window.show()

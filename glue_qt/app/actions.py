@@ -1,5 +1,5 @@
 from qtpy import QtWidgets
-from glue_qt.icons.qt import get_icon
+from glue_qt.icons import get_icon
 
 
 class GlueActionButton(QtWidgets.QPushButton):

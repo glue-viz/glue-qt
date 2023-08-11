@@ -205,7 +205,7 @@ def test_check_syncs_to_visible():
 
 def test_artist_check_uncheck_works():
     """
-    Because of https://bugreports.qt.io/browse/QTBUG-104688, under Qt6
+    Because of https://bugreports.io/browse/QTBUG-104688, under Qt6
     the checkbox in the UI actually sends a bare integer (0 for unchecked,
     2 for checked) so we have to check this against Qt.CheckState.Checked.value
     in setData. This is a regression test for this behavior.

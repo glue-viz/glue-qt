@@ -2,7 +2,7 @@ import os
 
 from qtpy import QtGui, QtWidgets
 from glue.utils import nonpartial
-from glue_qt.utils.qt import load_ui, cmap2pixmap
+from glue_qt.utils import load_ui, cmap2pixmap
 from glue.viewers.common.tool import Tool
 from glue.config import viewer_tool
 from glue.viewers.matplotlib.toolbar_mode import ToolbarModeBase

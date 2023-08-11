@@ -67,7 +67,7 @@ def get_qapp(icon_path=None):
 
     # Make sure we use high resolution icons for HDPI displays.
     try:
-        qapp.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
+        qapp.setAttribute(QtCore.AA_UseHighDpiPixmaps)
     except AttributeError:  # PyQt6/PySide6 don't have this setting as it is default
         pass
 

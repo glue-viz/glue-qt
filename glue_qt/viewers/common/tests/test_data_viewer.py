@@ -4,13 +4,13 @@ import numpy as np
 from unittest.mock import MagicMock, patch
 
 from glue.core import Data, DataCollection
-from glue_qt.app.qt import GlueApplication
+from glue_qt.app import GlueApplication
 
 from glue.core.tests.util import simple_session
-from glue_qt.viewers.histogram.qt import HistogramViewer
-from glue_qt.viewers.image.qt import ImageViewer
-from glue_qt.viewers.scatter.qt import ScatterViewer
-from glue_qt.utils.qt import process_events
+from glue_qt.viewers.histogram import HistogramViewer
+from glue_qt.viewers.image import ImageViewer
+from glue_qt.viewers.scatter import ScatterViewer
+from glue_qt.utils import process_events
 
 
 # TODO: We should maybe consider running these tests for all
@@ -37,7 +37,7 @@ class BaseTestDataViewer(object):
         app = GlueApplication(dc)
 
         try:
-            from glue_qt.viewers.matplotlib.qt.widget import MplCanvas
+            from glue_qt.viewers.matplotlib.widget import MplCanvas
             draw = MplCanvas.draw
             MplCanvas.draw = MagicMock()
 
@@ -114,7 +114,7 @@ class BaseTestDataViewer(object):
         w = app.new_data_viewer(self.widget_cls, data=d)
 
         tool = w.toolbar.tools["window"].subtools[1]
-        with patch('glue_qt.viewers.common.qt.tools.get_text') as gt:
+        with patch('glue_qt.viewers.common.tools.get_text') as gt:
             gt.return_value = "My Viewer"
             tool.activate()
         assert w.state.title == "My Viewer"

@@ -68,7 +68,7 @@ class RandomData(BaseCartesianData):
 # and launch a a glue session
 
 from glue.core import DataCollection
-from glue.app.qt.application import GlueApplication
+from glue.app.application import GlueApplication
 
 d = RandomData()
 dc = DataCollection([d])

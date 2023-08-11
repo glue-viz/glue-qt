@@ -2,9 +2,9 @@
 
 import pytest
 from glue.config import viewer_tool
-from glue_qt.viewers.common.qt.data_viewer import DataViewer
+from glue_qt.viewers.common.data_viewer import DataViewer
 from glue.viewers.common.tool import Tool
-from glue_qt.viewers.common.qt.toolbar import BasicToolbar
+from glue_qt.viewers.common.toolbar import BasicToolbar
 from glue.core.tests.util import simple_session
 
 

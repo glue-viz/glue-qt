@@ -4,7 +4,7 @@ from collections import OrderedDict
 from qtpy import QtWidgets
 from qtpy.QtCore import Qt
 
-from glue_qt.utils.qt import load_ui, CenteredDialog
+from glue_qt.utils import load_ui, CenteredDialog
 
 __all__ = ['MetadataDialog']
 

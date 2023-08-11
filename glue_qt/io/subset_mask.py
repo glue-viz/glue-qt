@@ -1,6 +1,6 @@
 from qtpy import compat
 from glue import config
-from glue_qt.utils.qt import messagebox_on_error
+from glue_qt.utils import messagebox_on_error
 from glue.io.subset_mask import SubsetMaskImporter, SubsetMaskExporter
 
 __all__ = ['QtSubsetMaskImporter', 'QtSubsetMaskExporter']

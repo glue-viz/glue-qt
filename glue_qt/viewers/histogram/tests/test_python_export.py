@@ -1,9 +1,9 @@
 from astropy.utils import NumpyRNGContext
 
 from glue.core import Data, DataCollection
-from glue_qt.app.qt.application import GlueApplication
-from glue_qt.viewers.histogram.qt import HistogramViewer
-from glue_qt.viewers.matplotlib.qt.tests.test_python_export import BaseTestExportPython, random_with_nan
+from glue_qt.app.application import GlueApplication
+from glue_qt.viewers.histogram import HistogramViewer
+from glue_qt.viewers.matplotlib.tests.test_python_export import BaseTestExportPython, random_with_nan
 
 
 class TestExportPython(BaseTestExportPython):

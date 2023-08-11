@@ -24,7 +24,7 @@ The end user typically interacts with this code via :func:`glue.custom_viewer`
 #
 # or
 #
-# from glue_qt.viewers.custom.qt import CustomViewer
+# from glue_qt.viewers.custom import CustomViewer
 # class MyViewer(CustomViewer):
 #
 #     checked = True
@@ -85,11 +85,11 @@ from glue.core.component_id import ComponentID
 
 from glue.utils import as_list, all_artists, new_artists, categorical_ndarray, defer_draw
 
-from glue_qt.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
 from glue.viewers.matplotlib.state import MatplotlibDataViewerState, MatplotlibLayerState
 from glue.viewers.matplotlib.layer_artist import MatplotlibLayerArtist
 
-from glue_qt.viewers.custom.qt.elements import (FormElement,
+from glue_qt.viewers.custom.elements import (FormElement,
                                                 DynamicComponentIDProperty,
                                                 FixedComponentIDProperty)
 

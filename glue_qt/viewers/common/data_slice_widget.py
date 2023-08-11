@@ -3,9 +3,9 @@ import os
 import numpy as np
 
 from qtpy import QtCore, QtWidgets
-from glue_qt.utils.qt import load_ui
+from glue_qt.utils import load_ui
 from glue.utils import nonpartial, format_minimal
-from glue_qt.icons.qt import get_icon
+from glue_qt.icons import get_icon
 from glue.core.state_objects import State, CallbackProperty
 from echo.qt import autoconnect_callbacks_to_qt
 
@@ -199,7 +199,7 @@ class SliceWidget(QtWidgets.QWidget):
 
 if __name__ == "__main__":
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
 
     app = get_qapp()
 

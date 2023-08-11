@@ -7,7 +7,7 @@ import pkg_resources
 from qtpy import QtGui, QtWidgets
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-from glue_qt.utils.qt import load_ui
+from glue_qt.utils import load_ui
 
 
 __all__ = ['submit_bug_report', 'submit_feedback']
@@ -171,7 +171,7 @@ def submit_feedback():
 
 if __name__ == "__main__":
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     app = get_qapp()
     submit_bug_report(report="Crash log here")
     submit_feedback()

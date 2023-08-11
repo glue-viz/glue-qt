@@ -1,12 +1,12 @@
 from glue.utils import defer_draw, decorate_all_methods
 
-from glue_qt.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
-from glue_qt.viewers.profile.qt.layer_style_editor import ProfileLayerStyleEditor
-from glue_qt.viewers.profile.qt.layer_artist import QThreadedProfileLayerArtist
-from glue_qt.viewers.profile.qt.options_widget import ProfileOptionsWidget
+from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.profile.layer_style_editor import ProfileLayerStyleEditor
+from glue_qt.viewers.profile.layer_artist import QThreadedProfileLayerArtist
+from glue_qt.viewers.profile.options_widget import ProfileOptionsWidget
 from glue.viewers.profile.state import ProfileViewerState
 
-from glue_qt.viewers.profile.qt.profile_tools import ProfileAnalysisTool  # noqa
+from glue_qt.viewers.profile.profile_tools import ProfileAnalysisTool  # noqa
 from glue.viewers.profile.viewer import MatplotlibProfileMixin
 
 __all__ = ['ProfileViewer']

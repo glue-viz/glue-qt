@@ -18,14 +18,14 @@ from glue.core.message import SubsetUpdateMessage
 from glue.core import HubListener, Data
 from glue.core.roi import XRangeROI, RectangularROI
 from glue.core.subset import RoiSubsetState
-from glue_qt.utils.qt import combo_as_string, process_events
-from glue_qt.viewers.matplotlib.qt.tests.test_data_viewer import BaseTestMatplotlibDataViewer
+from glue_qt.utils import combo_as_string, process_events
+from glue_qt.viewers.matplotlib.tests.test_data_viewer import BaseTestMatplotlibDataViewer
 from glue.core.state import GlueUnSerializer
-from glue_qt.app.qt.layer_tree_widget import LayerTreeWidget
+from glue_qt.app.layer_tree_widget import LayerTreeWidget
 from glue.viewers.scatter.state import ScatterLayerState
 from glue.viewers.image.state import ImageLayerState, ImageSubsetLayerState, AggregateSlice
 from glue.core.link_helpers import LinkSame
-from glue_qt.app.qt import GlueApplication
+from glue_qt.app import GlueApplication
 from glue.core.fixed_resolution_buffer import ARRAY_CACHE, PIXEL_CACHE
 from glue.core.data_derived import IndexedData
 

@@ -1,8 +1,8 @@
 from glue.utils import defer_draw, decorate_all_methods
-from glue_qt.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
-from glue_qt.viewers.scatter.qt.layer_style_editor import ScatterLayerStyleEditor
+from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.scatter.layer_style_editor import ScatterLayerStyleEditor
 from glue.viewers.scatter.layer_artist import ScatterLayerArtist
-from glue_qt.viewers.scatter.qt.options_widget import ScatterOptionsWidget
+from glue_qt.viewers.scatter.options_widget import ScatterOptionsWidget
 from glue.viewers.scatter.state import ScatterViewerState
 
 from glue.viewers.scatter.viewer import MatplotlibScatterMixin

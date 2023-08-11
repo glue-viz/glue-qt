@@ -5,8 +5,8 @@ from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
 
 from echo import SelectionCallbackProperty
-from echo.qt import connect_combo_selection
-from glue_qt.utils.qt import load_ui
+from echo import connect_combo_selection
+from glue_qt.utils import load_ui
 
 __all__ = ['ComponentManagerWidget']
 
@@ -182,7 +182,7 @@ class ComponentManagerWidget(QtWidgets.QDialog):
 
 if __name__ == "__main__":  # pragma: nocover
 
-    from glue_qt.utils.qt import get_qapp
+    from glue_qt.utils import get_qapp
     app = get_qapp()
 
     import numpy as np

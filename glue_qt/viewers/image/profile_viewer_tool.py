@@ -1,6 +1,6 @@
 from glue.config import viewer_tool
 from glue.viewers.common.tool import Tool
-from glue_qt.core.qt.dialogs import info, warn
+from glue_qt.core.dialogs import info, warn
 from glue.core.component_id import PixelComponentID
 
 
@@ -12,7 +12,7 @@ class ProfileViewerTool(Tool):
 
     @property
     def profile_viewers_exist(self):
-        from glue_qt.viewers.profile.qt import ProfileViewer
+        from glue_qt.viewers.profile import ProfileViewer
         for tab in self.viewer.session.application.viewers:
             for viewer in tab:
                 if isinstance(viewer, ProfileViewer):
@@ -42,7 +42,7 @@ class ProfileViewerTool(Tool):
             if not proceed:
                 return
 
-        from glue_qt.viewers.profile.qt import ProfileViewer
+        from glue_qt.viewers.profile import ProfileViewer
         profile_viewer = self.viewer.session.application.new_data_viewer(ProfileViewer)
         any_added = False
         for data in self.viewer.session.data_collection:

@@ -10,13 +10,13 @@ from glue_qt.config import qt_client
 from glue.core.data_combo_helper import ComponentIDComboHelper
 
 from echo import CallbackProperty, SelectionCallbackProperty
-from echo.qt import connect_checkable_button, autoconnect_callbacks_to_qt
+from echo import connect_checkable_button, autoconnect_callbacks_to_qt
 
 from glue.viewers.common.layer_artist import LayerArtist
 from glue.viewers.common.state import ViewerState, LayerState
-from glue.viewers.common.qt.data_viewer import DataViewer
+from glue.viewers.common.data_viewer import DataViewer
 
-from glue.utils.qt import load_ui
+from glue.utils import load_ui
 
 
 class TutorialViewerState(ViewerState):

@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from qtpy import QtCore, QtWidgets
 from qtpy.QtCore import Qt
 from qtpy.uic import loadUi
-from glue_qt.utils.qt import get_text
+from glue_qt.utils import get_text
 
 __all__ = ['update_combobox', 'GlueTabBar', 'load_ui', 'process_dialog',
            'combo_as_string', 'qurl_to_path']
@@ -187,7 +187,7 @@ def process_dialog(delay=0, accept=False, reject=False, function=None):
         function = _reject
 
     def wrapper():
-        from glue_qt.utils.qt import get_qapp
+        from glue_qt.utils import get_qapp
         app = get_qapp()
         # Make sure that any window/dialog that needs to be shown is shown
         app.processEvents()
@@ -221,7 +221,7 @@ def qurl_to_path(url):
     path = url.path()
 
     # Workaround for a Qt bug that causes paths to start with a /
-    # on Windows: https://bugreports.qt.io/browse/QTBUG-46417
+    # on Windows: https://bugreports.io/browse/QTBUG-46417
     if sys.platform.startswith('win'):
         if path.startswith('/') and path[2] == ':':
             path = path[1:]

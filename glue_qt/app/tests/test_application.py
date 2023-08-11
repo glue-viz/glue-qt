@@ -13,10 +13,10 @@ from glue.core.component_link import ComponentLink
 from glue.core.data_collection import DataCollection
 from glue.core.tests.test_state import Cloner, doubler, clone
 from glue.tests.helpers import requires_ipython  # noqa
-from glue_qt.viewers.image.qt import ImageViewer
-from glue_qt.viewers.scatter.qt import ScatterViewer
-from glue_qt.viewers.histogram.qt import HistogramViewer
-from glue_qt.utils.qt import process_events
+from glue_qt.viewers.image import ImageViewer
+from glue_qt.viewers.scatter import ScatterViewer
+from glue_qt.viewers.histogram import HistogramViewer
+from glue_qt.utils import process_events
 
 
 from ..application import GlueApplication, GlueLogger
@@ -53,7 +53,7 @@ class TestGlueApplication(object):
     def test_save_session_cancel(self):
         """shouldnt try to save file if no file name provided"""
         with patch.object(self.app, 'save_session') as save:
-            with patch('glue_qt.app.qt.application.compat.getsavefilename') as fd:
+            with patch('glue_qt.app.application.compat.getsavefilename') as fd:
                 fd.return_value = '', 'jnk'
                 self.app._choose_save_session()
                 assert save.call_count == 0
@@ -81,7 +81,7 @@ class TestGlueApplication(object):
             assert False
 
     def is_terminal_importable(self):
-        import glue_qt.qt.widgets.glue_terminal  # noqa
+        import glue_qt.widgets.glue_terminal  # noqa
 
     @requires_ipython
     def test_toggle_terminal(self):
@@ -125,7 +125,7 @@ class TestGlueApplication(object):
         assert self.app.tab_bar.tabText(1) == 'Tab 3'
 
     def test_new_data_viewer_cancel(self):
-        with patch('glue_qt.app.qt.application.pick_class') as pc:
+        with patch('glue_qt.app.application.pick_class') as pc:
             pc.return_value = None
 
             ct = len(self.app.current_tab.subWindowList())
@@ -137,7 +137,7 @@ class TestGlueApplication(object):
 
     def test_new_data_viewer_ok(self):
 
-        with patch('glue_qt.app.qt.application.pick_class') as pc:
+        with patch('glue_qt.app.application.pick_class') as pc:
 
             pc.return_value = ScatterViewer
 
@@ -165,7 +165,7 @@ class TestGlueApplication(object):
 
     def test_new_data_defaults(self):
 
-        with patch('glue_qt.app.qt.application.pick_class') as pc:
+        with patch('glue_qt.app.application.pick_class') as pc:
             pc.return_value = None
 
             d2 = Data(x=np.array([[1, 2, 3], [4, 5, 6]]))
@@ -232,7 +232,7 @@ class TestGlueApplication(object):
 
         act = self.app._layer_widget._actions['facet']
         self.app.data_collection.append(Data(x=[1, 2, 3]))
-        with patch('glue_qt.dialogs.subset_facet.qt.SubsetFacetDialog.exec_'):
+        with patch('glue_qt.dialogs.subset_facet.SubsetFacetDialog.exec_'):
             act._do_action()
 
     def test_move_viewer_to_tab(self):
