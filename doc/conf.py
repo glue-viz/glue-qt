@@ -132,15 +132,10 @@ texinfo_documents = [
 todo_include_todos = True
 autoclass_content = 'both'
 
-nitpick_ignore = [('py:obj', 'glue.viewers.common.toolbar.BasicToolbar.insertAction'),
-                  ('py:obj', 'glue.viewers.common.toolbar.BasicToolbar.setTabOrder'),
-                  ('py:class', 'glue.viewers.histogram.layer_artist.HistogramLayerBase'),
-                  ('py:class', 'glue.viewers.scatter.layer_artist.ScatterLayerBase'),
-                  ('py:class', 'glue.viewers.image.layer_artist.ImageLayerBase'),
-                  ('py:class', 'glue.viewers.image.layer_artist.RGBImageLayerBase'),
-                  ('py:class', 'glue.viewers.image.state.BaseImageLayerState'),
-                  ('py:class', 'glue.viewers.common.toolbar.BasicToolbar'),
-                  ('py:class', 'glue.viewers.common.base_widget.BaseQtViewerWidget'),
+nitpick_ignore = [('py:obj', 'glue_qt.viewers.common.toolbar.BasicToolbar.insertAction'),
+                  ('py:obj', 'glue_qt.viewers.common.toolbar.BasicToolbar.setTabOrder'),
+                  ('py:class', 'glue_qt.viewers.common.toolbar.BasicToolbar'),
+                  ('py:class', 'glue_qt.viewers.common.base_widget.BaseQtViewerWidget'),
                   ('py:class', 'sip.voidptr'),
                   ('py:class', 'PyQt5.sip.voidptr'),
                   ('py:class', 'PYQT_SLOT')]
