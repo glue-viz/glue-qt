@@ -90,8 +90,8 @@ from glue.viewers.matplotlib.state import MatplotlibDataViewerState, MatplotlibL
 from glue.viewers.matplotlib.layer_artist import MatplotlibLayerArtist
 
 from glue_qt.viewers.custom.qt.elements import (FormElement,
-                                             DynamicComponentIDProperty,
-                                             FixedComponentIDProperty)
+                                                DynamicComponentIDProperty,
+                                                FixedComponentIDProperty)
 
 __all__ = ["AttributeWithInfo", "ViewerUserState", "UserDefinedFunction",
            "CustomViewer", "CustomViewerMeta", "CustomSubsetState",

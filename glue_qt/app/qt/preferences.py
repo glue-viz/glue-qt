@@ -10,7 +10,7 @@ from qtpy import QtWidgets
 from glue.core.message import SettingsChangeMessage
 from glue_qt.utils.qt import load_ui, ColorProperty, get_qapp
 from glue_qt.utils.qt.widget_properties import (CurrentComboTextProperty,
-                                             ValueProperty, ButtonProperty)
+                                                ValueProperty, ButtonProperty)
 from glue._settings_helpers import save_settings
 
 __all__ = ["PreferencesDialog"]

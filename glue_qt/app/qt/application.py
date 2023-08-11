@@ -31,7 +31,7 @@ from glue_qt.viewers.scatter.qt import ScatterViewer
 from glue_qt.viewers.image.qt import ImageViewer
 from glue.utils import nonpartial, defer_draw
 from glue_qt.utils.qt import (pick_class, GlueTabBar, qurl_to_path,
-                           set_cursor_cm, messagebox_on_error, load_ui)
+                              set_cursor_cm, messagebox_on_error, load_ui)
 
 from glue_qt.app.qt.feedback import submit_bug_report, submit_feedback
 from glue_qt.app.qt.plugin_manager import QtPluginManager

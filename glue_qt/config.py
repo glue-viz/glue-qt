@@ -5,7 +5,6 @@ from glue.config import Registry, DictRegistry
 
 __all__ = ['QtClientRegistry',
            'LayerActionRegistry', 'qt_client',
-           'auto_refresh',
            'preference_panes', 'PreferencePanesRegistry',
            'layer_action',
            'StartupActionRegistry', 'startup_action', 'QtFixedLayoutTabRegistry',
