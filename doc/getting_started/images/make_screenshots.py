@@ -2,10 +2,10 @@
 # Getting Started guide. The idea is that as we update glue, we can easily
 # regenerate screenshots to make sure we include the latest ui.
 
-from glue.app import GlueApplication
-from glue.viewers.image import ImageViewer
-from glue.viewers.histogram import HistogramViewer
-from glue.viewers.scatter import ScatterViewer
+from glue_qt.app import GlueApplication
+from glue_qt.viewers.image import ImageViewer
+from glue_qt.viewers.histogram import HistogramViewer
+from glue_qt.viewers.scatter import ScatterViewer
 from glue.core.edit_subset_mode import AndNotMode, ReplaceMode
 from glue.core.link_helpers import LinkSame
 

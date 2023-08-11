@@ -13,9 +13,9 @@ from echo.qt import (connect_checkable_button,
 
 from glue.viewers.matplotlib.layer_artist import MatplotlibLayerArtist
 from glue.viewers.matplotlib.state import MatplotlibDataViewerState, MatplotlibLayerState
-from glue.viewers.matplotlib.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
 
-from glue.utils import load_ui
+from glue_qt.utils import load_ui
 
 
 class TutorialViewerState(MatplotlibDataViewerState):
