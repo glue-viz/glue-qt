@@ -1,6 +1,5 @@
 import os
 
-import pytest
 import numpy as np
 from unittest.mock import patch, MagicMock
 from matplotlib.colors import ColorConverter
