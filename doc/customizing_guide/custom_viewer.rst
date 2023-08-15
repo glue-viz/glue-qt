@@ -154,7 +154,7 @@ setting of each widget is available to the plotting functions:
  * ``bins`` is set to an integer
  * ``hitrate`` is set to a boolean
  * ``color`` is set to ``'Reds'`` or ``'Purples'``
- * ``x``, ``y``, and ``hit`` are passed as :class:`~glue.viewers.custom.qt.custom_viewer.AttributeWithInfo` objects (which are just numpy arrays with a special ``id`` attribute, useful when performing selection below).
+ * ``x``, ``y``, and ``hit`` are passed as :class:`~glue_qt.viewers.custom.custom_viewer.AttributeWithInfo` objects (which are just numpy arrays with a special ``id`` attribute, useful when performing selection below).
 
 The plotting functions can use these variables to draw the appropriate
 plots -- in particular, the ``show_hexbin`` function chooses
@@ -180,7 +180,7 @@ Viewer Subclasses
 -----------------
 The shot chart example used decorators to define custom plot functions.
 However, if your used to writing classes you can also subclass
-:class:`~glue.viewers.custom.qt.custom_viewer.CustomViewer` directly. The code is largely the
+:class:`~glue_qt.viewers.custom.custom_viewer.CustomViewer` directly. The code is largely the
 same:
 
 .. literalinclude:: scripts/bball_viewer_class.py
@@ -211,7 +211,7 @@ UI Elements
 
 Simple user interfaces are created by specifying keywords to
 :func:`~glue.custom_viewer` or class-level variables to
-:class:`~glue.viewers.custom.qt.custom_viewer.CustomViewer` subclasses. The type of
+:class:`~glue_qt.viewers.custom.custom_viewer.CustomViewer` subclasses. The type of
 widget, and the value passed to plot functions, depends on the value
 assigned to each variable. See :func:`~glue.custom_viewer` for
 information.

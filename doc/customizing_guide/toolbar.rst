@@ -166,15 +166,15 @@ Including toolbars in custom viewers
 When defining a data viewer (as described in :ref:`state-qt-viewer`), it
 is straightforward to add a toolbar that can then be used to add tools. To do
 this, when defining your
-:class:`~glue.viewers.common.qt.data_viewer.DataViewer` subclass,
+:class:`~glue_qt.viewers.common.data_viewer.DataViewer` subclass,
 you should also specify the ``_toolbar_cls`` and ``tools`` class-level
 attributes, which should give the class to use for the toolbar, and the default
 tools that should be present in the toolbar:
 
 .. code:: python
 
-    from glue.viewers.common.qt.data_viewer import DataViewer
-    from glue.viewers.common.qt.toolbar import BasicToolbar
+    from glue_qt.viewers.common.data_viewer import DataViewer
+    from glue_qt.viewers.common.toolbar import BasicToolbar
 
     class MyViewer(DataViewer):
 
@@ -230,6 +230,6 @@ Tool ID                 Class
 ``'select:rectangle'``  :class:`~glue.viewers.matplotlib.toolbar_mode.RectangleMode`
 ``'select:xrange'``     :class:`~glue.viewers.matplotlib.toolbar_mode.HRangeMode`
 ``'select:yange'``      :class:`~glue.viewers.matplotlib.toolbar_mode.VRangeMode`
-``'image:colormap'``    :class:`~glue.viewers.matplotlib.qt.toolbar_mode.ColormapMode`
-``'image:contrast'``    :class:`~glue.viewers.matplotlib.qt.toolbar_mode.ContrastMode`
+``'image:colormap'``    :class:`~glue_qt.viewers.matplotlib.toolbar_mode.ColormapMode`
+``'image:contrast'``    :class:`~glue_qt.viewers.matplotlib.toolbar_mode.ContrastMode`
 ======================  ========================================================

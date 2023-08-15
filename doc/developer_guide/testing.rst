@@ -8,7 +8,7 @@ In order to make sure that everything works as expected, and that we don't
 introduce any regressions when making changes, Glue includes a number of tests.
 All tests are contained inside the ``tests/`` directories in each sub-package
 of Glue. For example, the tests for the ``glue.core`` functionality are in
-``glue/core/tests``. The tests for the ``glue.utils.qt`` functionality are in
+``glue/core/tests``. The tests for the ``glue_qt.utils`` functionality are in
 ``glue/utils/qt/tests``. Tests should always live close to the code they are
 testing.
 

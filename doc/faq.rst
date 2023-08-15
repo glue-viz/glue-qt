@@ -43,7 +43,7 @@ requires running the following magic function::
     %gui qt
 
 And then starting glue (probably by calling :ref:`qglue <qglue>` or creating an
-instance of :class:`~glue.app.qt.application.GlueApplication`) from the
+instance of :class:`~glue_qt.app.application.GlueApplication`) from the
 notebook.
 
 If you encounter an error like this::

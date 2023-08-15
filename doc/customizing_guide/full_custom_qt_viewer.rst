@@ -26,7 +26,7 @@ Now let's say we want to use this widget in glue, without having to change
 anything in ``MyWidget``. The best way to do this is to create a new class,
 ``MyGlueWidget``, that will wrap around ``MyWidget`` and make it
 glue-compatible. The glue widget should inherit from
-:class:`~glue.viewers.common.qt.data_viewer.DataViewer` (this class does a few
+:class:`~glue_qt.viewers.common.data_viewer.DataViewer` (this class does a few
 boilerplate things such as, for example, adding the ability to drag and drop
 data onto your data viewer). The simplest glue widget wrapper that you can write
 that will show ``MyWidget`` is::
@@ -167,7 +167,7 @@ client that can listen to specific messages from the hub::
 Using layers
 ------------
 
-By default, any sub-class of `~glue.viewers.common.qt.data_viewer` will
+By default, any sub-class of `~glue_qt.viewers.common.data_viewer` will
 also include a list of layers in the central panel in the dashboard. Layers can
 be thought of as specific components of visualizations - for example, in a
 scatter plot, the main dataset will be a layer, while each individual subset

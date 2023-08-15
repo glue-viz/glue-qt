@@ -68,7 +68,7 @@ this to create a widget to control the viewer state::
 
     from echo.qt import autoconnect_callbacks_to_qt
     from qtpy.QtWidgets import QWidget
-    from glue.utils.qt import load_ui
+    from glue_qt.utils import load_ui
 
     class TutorialViewerStateWidget(QWidget):
 
@@ -93,11 +93,11 @@ Data viewer
 
 In the case of Qt, defining a data viewer is similar to the general case
 described in :ref:`state-viewer` but this time we need to use the
-``DataViewer`` class from ``glue.viewers.common.qt.data_viewer`` and define
+``DataViewer`` class from ``glue_qt.viewers.common.data_viewer`` and define
 two additional attributes to point to the widgets that control the viewer
 and layer state::
 
-    from glue.viewers.common.qt.data_viewer import DataViewer
+    from glue_qt.viewers.common.data_viewer import DataViewer
 
     class TutorialDataViewer(DataViewer):
 

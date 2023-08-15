@@ -572,8 +572,6 @@ provides more information about what the registry is and how it can be used.
 =========================== =========================================================
 Registry name                  Registry class
 =========================== =========================================================
-``qt_client``                :class:`glue.config.QtClientRegistry`
-``qt_fixed_layout_tab``      :class:`glue.config.QtFixedLayoutTabRegistry`
 ``viewer_tool``              :class:`glue.config.ViewerToolRegistry`
 ``data_factory``             :class:`glue.config.DataFactoryRegistry`
 ``data_exporter``            :class:`glue.config.DataExporterRegistry`
@@ -584,14 +582,16 @@ Registry name                  Registry class
 ``colormaps``                :class:`glue.config.ColormapRegistry`
 ``exporters``                :class:`glue.config.ExporterRegistry`
 ``settings``                 :class:`glue.config.SettingRegistry`
-``preference_panes``         :class:`glue.config.PreferencePanesRegistry`
 ``fit_plugin``               :class:`glue.config.ProfileFitterRegistry`
-``layer_action``             :class:`glue.config.LayerActionRegistry`
-``startup_action``           :class:`glue.config.StartupActionRegistry`
 ``autolinker``               :class:`glue.config.AutoLinkerRegistry`
 ``data_translator``          :class:`glue.config.DataTranslatorRegistry`
 ``subset_state_translator``  :class:`glue.config.SubsetDefinitionTranslatorRegistry`
 ``session_patch``            :class:`glue.config.SessionPatchRegistry`
+``qt_client``                :class:`glue_qt.config.QtClientRegistry`
+``qt_fixed_layout_tab``      :class:`glue_qt.config.QtFixedLayoutTabRegistry`
+``preference_panes``         :class:`glue_qt.config.PreferencePanesRegistry`
+``layer_action``             :class:`glue_qt.config.LayerActionRegistry`
+``startup_action``           :class:`glue_qt.config.StartupActionRegistry`
 =========================== =========================================================
 
 .. _lazy_load_plugin:

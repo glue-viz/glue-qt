@@ -63,3 +63,9 @@ Utilities
 
 .. automodapi:: glue_qt.utils.widget_properties
    :no-inheritance-diagram:
+
+Configuration
+=============
+
+.. automodapi:: glue_qt.config
+   :no-inheritance-diagram:
