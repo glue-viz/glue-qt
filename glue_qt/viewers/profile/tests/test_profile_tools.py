@@ -4,7 +4,7 @@ import numpy as np
 from numpy.testing import assert_allclose
 
 from glue.core import Data
-from glue.tests.helpers import PYSIDE2_INSTALLED  # noqa
+from glue_qt.tests.helpers import requires_pyqt
 from glue_qt.app import GlueApplication
 from glue_qt.utils import process_events
 from glue.viewers.image.state import AggregateSlice
@@ -68,7 +68,7 @@ class TestProfileTools(object):
         self.viewer.axes.figure.canvas.button_release_event(x, y, 1)
         assert image_viewer.state.slices == (5, 0, 0)
 
-    @pytest.mark.skipif('PYSIDE2_INSTALLED')
+    @requires_pyqt
     def test_fit_polynomial(self):
 
         # TODO: need to deterministically set to polynomial fitter

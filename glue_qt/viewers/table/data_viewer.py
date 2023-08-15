@@ -284,10 +284,10 @@ class TableViewer(DataViewer):
 
         hdr = self.ui.table.horizontalHeader()
         hdr.setStretchLastSection(True)
-        hdr.setSectionResizeMode(hdr.Interactive)
+        hdr.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
 
         hdr = self.ui.table.verticalHeader()
-        hdr.setSectionResizeMode(hdr.Interactive)
+        hdr.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
 
         self.data = None
         self.model = None

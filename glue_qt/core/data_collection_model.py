@@ -469,7 +469,7 @@ class DataCollectionView(QtWidgets.QTreeView, HubListener):
         sm = self.selectionModel()
         sm.clearSelection()
         for idx in indices:
-            sm.select(idx, sm.Select)
+            sm.select(idx, QtCore.QItemSelectionModel.Select)
 
     def set_data_collection(self, data_collection):
         self._model = DataCollectionModel(data_collection)

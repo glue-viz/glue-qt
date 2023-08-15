@@ -99,7 +99,7 @@ class StyleDialog(QtWidgets.QDialog):
         self = cls(layer)
         result = self.exec_()
 
-        if result == self.Accepted:
+        if result == QtWidgets.QDialog.Accepted:
             self.update_style()
 
     @classmethod
@@ -117,7 +117,7 @@ class StyleDialog(QtWidgets.QDialog):
 
         pos = self.mapFromGlobal(pos)
         self.move(pos)
-        if self.exec_() == self.Accepted:
+        if self.exec_() == QtWidgets.QDialog.Accepted:
             self.update_style()
 
 

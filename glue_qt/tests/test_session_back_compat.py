@@ -4,7 +4,8 @@ import os
 import pytest
 import numpy as np
 
-from glue.tests.helpers import requires_astropy, requires_h5py, requires_qt, PYSIDE2_INSTALLED  # noqa
+from glue.tests.helpers import requires_astropy, requires_h5py, requires_qt
+from glue_qt.tests.helpers import requires_pyqt
 from glue.core.component import CoordinateComponent, Component
 from glue.core.state import GlueUnSerializer
 from glue.core.component_id import PixelComponentID
@@ -103,9 +104,8 @@ def test_load_link_helpers_04():
     ga.close()
 
 
-@requires_qt
+@requires_pyqt
 @requires_astropy
-@pytest.mark.skipif('PYSIDE2_INSTALLED')
 def test_load_viewers_04():
 
     # FIXME - for some reason this test with PySide2 causes a leftover reference
