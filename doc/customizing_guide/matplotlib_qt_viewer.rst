@@ -54,9 +54,9 @@ property for this to work.
 Data viewer
 -----------
 
-The :class:`~glue.viewers.matplotlib.qt.data_viewer.MatplotlibDataViewer` class
+The :class:`~glue_qt.viewers.matplotlib.data_viewer.MatplotlibDataViewer` class
 adds functionality on top of the base
-:class:`~glue.viewers.common.qt.data_viewer.DataViewer`
+:class:`~glue_qt.viewers.common.data_viewer.DataViewer`
 class:
 
 * It automatically sets up the Matplotlib axes

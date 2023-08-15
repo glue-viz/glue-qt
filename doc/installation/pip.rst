@@ -3,8 +3,8 @@ Installing with pip
 
 **Platforms:** MacOS X, Linux, and Windows
 
-You can install glue along with **all** :ref:`required and optional dependencies
-<glue-deps>` with `pip <https://pip.pypa.io/en/stable/>`__ using::
+You can install glue along with **all** required and optional dependencies
+with `pip <https://pip.pypa.io/en/stable/>`__ using::
 
     pip install glueviz[all,qt]
 

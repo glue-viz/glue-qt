@@ -16,7 +16,7 @@ available by default (these are also listed when you open the terminal):
   * ``hub`` is the main communication hub.
 
   * ``application`` is the top level
-    :class:`~glue.app.qt.application.GlueApplication`, which has access to plot
+    :class:`~glue_qt.app.application.GlueApplication`, which has access to plot
     windows (among other things)
 
 Additionally, you can drag datasets and subsets into the terminal window, to

@@ -30,7 +30,7 @@ utilities that do not depend on any other parts of Glue. These utilities don't
 know about Glue data objects, subsets, or specific data viewers. Instead, this
 sub-package includes utilities such as :func:`~glue.utils.geometry.points_inside_poly`,
 a function to find whether points are inside a polygon, or
-:func:`~glue.utils.qt.cmap2pixmap`, a function to convert a Matplotlib colormap
+:func:`~glue_qt.utils.cmap2pixmap`, a function to convert a Matplotlib colormap
 into a Qt ``QPixmap`` instance. This is one of the easiest sub-packages to
 approach -- it is just a collection of small helper functions and classes and
 doesn't require understanding any other parts of Glue.
@@ -55,7 +55,7 @@ as the scatter plot and image viewers. Each viewer is contained in a
 sub-package of :mod:`!glue.viewers`, such as :mod:`!glue.viewers.scatter`. A
 :mod:`!glue.viewers.common` sub-package is also provided, with utilities and
 base classes that might be useful for various viewers. For instance, the
-:mod:`!glue.viewers.common.qt.toolbar_mode` sub-module contains code related to
+:mod:`!glue_qt.viewers.common.toolbar_mode` sub-module contains code related to
 defining toolbar mouse 'modes' for selection.
 
 :mod:`!glue.dialogs`
