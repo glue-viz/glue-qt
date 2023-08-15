@@ -46,16 +46,16 @@ License
 Glue is licensed under the `BSD
 License <https://github.com/glue-viz/glue/blob/master/LICENSE>`__.
 
-.. |Actions Status| image:: https://github.com/glue-viz/glue/actions/workflows/ci_workflows.yml/badge.svg
-    :target: https://github.com/glue-viz/glue/actions
+.. |Actions Status| image:: https://github.com/glue-viz/glue-qt/actions/workflows/ci_workflows.yml/badge.svg
+    :target: https://github.com/glue-viz/glue-qt/actions/workflows/ci_workflows.yml
     :alt: Glue's GitHub Actions CI Status
-.. |Coverage Status| image:: https://codecov.io/gh/glue-viz/glue/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/glue-viz/glue
+.. |Coverage Status| image:: https://codecov.io/gh/glue-viz/glue-qt/branch/main/graph/badge.svg
+   :target: https://codecov.io/gh/glue-viz/glue-qt
 .. |DOI| image:: https://zenodo.org/badge/doi/10.5281/zenodo.13866.svg
    :target: http://dx.doi.org/10.5281/zenodo.13866
 .. |User mailing list| image:: http://img.shields.io/badge/mailing%20list-users-green.svg?style=flat
    :target: https://groups.google.com/forum/#!forum/glue-viz
 .. |Developer mailing list| image:: http://img.shields.io/badge/mailing%20list-development-green.svg?style=flat
    :target: https://groups.google.com/forum/#!forum/glue-viz-dev
-.. |Glue demo| image:: https://raw.githubusercontent.com/glue-viz/glue/master/doc/readme.gif
+.. |Glue demo| image:: https://raw.githubusercontent.com/glue-viz/glue-qt/main/doc/readme.gif
    :target: http://vimeo.com/53378575
