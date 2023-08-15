@@ -452,7 +452,7 @@ class DataCollectionView(QtWidgets.QTreeView, HubListener):
 
         # only edit label on model.new_item
         self.setItemDelegate(LabeledDelegate())
-        self.setEditTriggers(self.NoEditTriggers)
+        self.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         self.setIconSize(QtCore.QSize(16, 16))
 

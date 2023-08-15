@@ -75,7 +75,7 @@ class GlueMdiArea(QtWidgets.QMdiArea):
         painter.setPen(QtGui.QColor(210, 210, 210))
         font = painter.font()
         font.setPointSize(font.pointSize() * 4)
-        font.setWeight(font.Black)
+        font.setWeight(QtGui.QFont.Black)
         painter.setFont(font)
         rect = self.contentsRect()
         painter.drawText(rect, Qt.AlignHCenter | Qt.AlignVCenter,

@@ -204,7 +204,7 @@ class LayerArtistView(QtWidgets.QListView, HubListener):
         self.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.setContextMenuPolicy(Qt.ActionsContextMenu)
-        self.setEditTriggers(self.NoEditTriggers)
+        self.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         self.setMinimumSize(200, 100)
         self._actions = {}
