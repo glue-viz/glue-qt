@@ -81,8 +81,8 @@ def qglue(**kwargs):
     :returns: A :class:`~glue_qt.app.application.GlueApplication` object
     """
     from glue.core import DataCollection
-    from glue.app import GlueApplication
-    from glue.dialogs.autolinker import run_autolinker
+    from glue_qt.app import GlueApplication
+    from glue_qt.dialogs.autolinker import run_autolinker
 
     links = kwargs.pop('links', None)
 
