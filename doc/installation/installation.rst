@@ -15,8 +15,6 @@ If your problem is not described there, `open a new issue
    standalone
    conda
    pip
-   qt
-   dependencies
    developer
 
 .. note:: If you are using Apple M1 hardware, be sure to read :ref:`apple-m1`

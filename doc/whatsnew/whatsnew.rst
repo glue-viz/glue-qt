@@ -1129,7 +1129,7 @@ the component cannot be created until the expression validates:
 Adding data to glue from Python
 -------------------------------
 
-If you make use of the :func:`~glue.qglue` function to launch glue from IPython
+If you make use of the :func:`~glue_qt.qglue` function to launch glue from IPython
 or the Jupyter notebook, you can now easily continue to add data to glue from
 that Python session, by doing e.g.::
 

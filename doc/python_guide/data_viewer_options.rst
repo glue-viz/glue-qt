@@ -11,8 +11,8 @@ attribute of data viewer objects. For example::
     import numpy as np
 
     from glue.core import Data, DataCollection
-    from glue.app.qt.application import GlueApplication
-    from glue.viewers.scatter.qt import ScatterViewer
+    from glue_qt.app.application import GlueApplication
+    from glue_qt.viewers.scatter import ScatterViewer
 
     # create some data
     d = Data(x=np.random.random(100), y=np.random.random(100))
@@ -100,7 +100,7 @@ From a script
 Save the current glue session via ``File->Save Session``. You can
 reload this session programmatically as follows::
 
-    from glue.app.qt.application import GlueApplication
+    from glue_qt.app.application import GlueApplication
     app = GlueApplication.restore('output.glu', show=False)
     viewer = app.viewers[0][0]
     ax = viewer.axes

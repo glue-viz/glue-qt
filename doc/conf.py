@@ -42,6 +42,7 @@ intersphinx_mapping = {
     'echo': ('https://echo.readthedocs.io/en/latest/', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
     'PyQt5': ('https://www.riverbankcomputing.com/static/Docs/PyQt5/', None),
+    'glue': ('http://docs.glueviz.org/en/latest/', None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
@@ -131,15 +132,10 @@ texinfo_documents = [
 todo_include_todos = True
 autoclass_content = 'both'
 
-nitpick_ignore = [('py:obj', 'glue.viewers.common.qt.toolbar.BasicToolbar.insertAction'),
-                  ('py:obj', 'glue.viewers.common.qt.toolbar.BasicToolbar.setTabOrder'),
-                  ('py:class', 'glue.viewers.histogram.layer_artist.HistogramLayerBase'),
-                  ('py:class', 'glue.viewers.scatter.layer_artist.ScatterLayerBase'),
-                  ('py:class', 'glue.viewers.image.layer_artist.ImageLayerBase'),
-                  ('py:class', 'glue.viewers.image.layer_artist.RGBImageLayerBase'),
-                  ('py:class', 'glue.viewers.image.state.BaseImageLayerState'),
-                  ('py:class', 'glue.viewers.common.qt.toolbar.BasicToolbar'),
-                  ('py:class', 'glue.viewers.common.qt.base_widget.BaseQtViewerWidget'),
+nitpick_ignore = [('py:obj', 'glue_qt.viewers.common.toolbar.BasicToolbar.insertAction'),
+                  ('py:obj', 'glue_qt.viewers.common.toolbar.BasicToolbar.setTabOrder'),
+                  ('py:class', 'glue_qt.viewers.common.toolbar.BasicToolbar'),
+                  ('py:class', 'glue_qt.viewers.common.base_widget.BaseQtViewerWidget'),
                   ('py:class', 'sip.voidptr'),
                   ('py:class', 'PyQt5.sip.voidptr'),
                   ('py:class', 'PYQT_SLOT')]
@@ -155,7 +151,7 @@ nitpick_ignore_regex = [('py:class', r'PyQt5\.QtCore\.Q[A-Z][a-zA-Z]+'),
 
 # coax Sphinx into treating descriptors as attributes
 # see https://bitbucket.org/birkenfeld/sphinx/issue/1254/#comment-7587063
-from glue.utils.qt.widget_properties import WidgetProperty
+from glue_qt.utils.widget_properties import WidgetProperty
 WidgetProperty.__get__ = lambda self, *args, **kwargs: self
 
 viewcode_follow_imported_members = False

@@ -1,7 +1,7 @@
 Glue Documentation
 ==================
 
-.. figure:: ../glue/logo.png
+.. figure:: ../glue_qt/logo.png
    :align: center
 
 Glue is a Python library to explore relationships within and among related datasets. Its main features include:

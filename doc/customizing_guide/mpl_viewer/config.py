@@ -4,7 +4,7 @@ import numpy as np
 
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QCheckBox
 
-from glue.config import qt_client
+from glue_qt.config import qt_client
 from glue.core.data_combo_helper import ComponentIDComboHelper
 
 from echo import CallbackProperty, SelectionCallbackProperty
@@ -13,9 +13,9 @@ from echo.qt import (connect_checkable_button,
 
 from glue.viewers.matplotlib.layer_artist import MatplotlibLayerArtist
 from glue.viewers.matplotlib.state import MatplotlibDataViewerState, MatplotlibLayerState
-from glue.viewers.matplotlib.qt.data_viewer import MatplotlibDataViewer
+from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
 
-from glue.utils.qt import load_ui
+from glue_qt.utils import load_ui
 
 
 class TutorialViewerState(MatplotlibDataViewerState):

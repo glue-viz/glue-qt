@@ -26,7 +26,7 @@ Regions of interest
 
 The easiest way to think of regions of interest is as geometrical regions.
 Basic classes for common types of ROIs are included in the :mod:`glue.core.roi`
-sub-module. For example, the :mod:`~glue.core.roi.RectangularROI` class
+sub-module. For example, the :class:`~glue.core.roi.RectangularROI` class
 describes a rectangular region using the lower and upper values in two
 dimensions::
 
