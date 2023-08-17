@@ -9,13 +9,8 @@ Utility function to load a variety of python objects into glue
 import sys
 from contextlib import contextmanager
 
-try:
-    from glue.core import BaseData, Data
-    from glue.core.cli_parsers import parse_data, parse_links
-except ImportError:
-    # let qglue import, even though this won't work
-    # qglue will throw an ImportError
-    BaseData = Data = None
+from glue.core import BaseData, Data
+from glue.core.parsers import parse_data, parse_links
 
 
 __all__ = ['qglue']
