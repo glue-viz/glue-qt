@@ -9,7 +9,6 @@ Utility function to load a variety of python objects into glue
 import sys
 from contextlib import contextmanager
 
-from glue.core import BaseData, Data
 from glue.core.parsers import parse_data, parse_links
 
 
