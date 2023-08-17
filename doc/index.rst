@@ -20,8 +20,6 @@ For more demos, check out the :ref:`videos <demo_videos>` page. You can also
 `follow us on Twitter <https://twitter.com/glueviz>`_ for previews of upcoming
 functionality!
 
-**The latest release of glue is v1.0.x** - find out :ref:`what's new in glue! <whatsnew>`
-
 Getting started
 ---------------
 
