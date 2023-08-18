@@ -1405,7 +1405,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
         """
         image = QtGui.QImage(self.size(), QtGui.QImage.Format_RGB32)
         painter = QtGui.QPainter(image)
-        flags = self.IgnoreMask | self.DrawWindowBackground | self.DrawChildren
+        flags = QtWidgets.QWidget.IgnoreMask | QtWidgets.QWidget.DrawWindowBackground | QtWidgets.QWidget.DrawChildren
         self.render(painter, QtCore.QPoint(), QtGui.QRegion(), flags)
         image.save(filename)
         painter.end()

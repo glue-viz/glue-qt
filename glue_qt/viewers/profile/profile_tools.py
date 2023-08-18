@@ -110,9 +110,9 @@ class ProfileTools(QtWidgets.QWidget):
         self.ui.button_collapse.clicked.connect(self._on_collapse)
 
         font = QtGui.QFont("Courier")
-        font.setStyleHint(font.Monospace)
+        font.setStyleHint(QtGui.QFont.Monospace)
         self.ui.text_log.document().setDefaultFont(font)
-        self.ui.text_log.setLineWrapMode(self.ui.text_log.NoWrap)
+        self.ui.text_log.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
 
         self.axes = self.viewer.axes
         self.canvas = self.axes.figure.canvas

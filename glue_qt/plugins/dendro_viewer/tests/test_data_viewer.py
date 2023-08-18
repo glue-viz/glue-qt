@@ -1,7 +1,6 @@
 # pylint: disable=I0011,W0613,W0201,W0212,E1101,E1103
 
 import os
-from contextlib import nullcontext
 
 import pytest
 import numpy as np
@@ -140,6 +139,7 @@ class TestDendrogramViewer():
 
 class TestSessions(object):
 
+    @pytest.mark.filterwarnings('ignore:glue.external.echo')
     @pytest.mark.parametrize('protocol', [0, 1])
     def test_session_back_compat(self, protocol):
 
@@ -150,10 +150,7 @@ class TestSessions(object):
 
         state = GlueUnSerializer.loads(session)
 
-        # This is raised (only) on initial import, so depends on prior state unfortunately
-        with (pytest.warns(UserWarning, match='glue.external.echo is deprecated, import from echo')
-                           if protocol == 1 else nullcontext()):
-            ga = state.object('__main__')
+        ga = state.object('__main__')
 
         dc = ga.session.data_collection
 

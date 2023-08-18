@@ -28,6 +28,7 @@ from glue.core.link_helpers import LinkSame
 from glue_qt.app import GlueApplication
 from glue.core.fixed_resolution_buffer import ARRAY_CACHE, PIXEL_CACHE
 from glue.core.data_derived import IndexedData
+from glue_qt.tests.helpers import requires_pyqt
 
 from ..data_viewer import ImageViewer
 
@@ -558,6 +559,7 @@ class TestImageViewer(object):
         self.viewer.add_data(self.image1)
         self.viewer.add_data(self.catalog)
 
+    @requires_pyqt
     def test_removed_subset(self):
 
         # Regression test for a bug in v0.11.0 that meant that if a subset

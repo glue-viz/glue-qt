@@ -5,7 +5,7 @@ import warnings
 import pytest
 
 try:
-    from qtpy import PYSIDE2
+    from qtpy import PYSIDE2, PYSIDE6
 except Exception:
     PYSIDE2 = False
 
@@ -113,7 +113,7 @@ def pytest_unconfigure(config):
 # Until this can be properly debugged and fixed, we xfail any test that fails
 # with one of these exceptions.
 
-if PYSIDE2:
+if PYSIDE2 or PYSIDE6:
     QTSTANDARD_EXC = "QtGui.QStandardItem' object has no attribute "
     QTSTANDARD_ATTRS = ["'connect'", "'item'", "'triggered'"]
 

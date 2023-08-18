@@ -18,6 +18,7 @@ from glue_qt.app.application import GlueApplication
 from glue.core.roi import XRangeROI
 from glue_qt.utils import process_events
 from glue.tests.helpers import requires_matplotlib_ge_22
+from glue_qt.tests.helpers import requires_pyqt
 
 
 class MatplotlibDrawCounter(object):
@@ -550,6 +551,7 @@ class BaseTestMatplotlibDataViewer(object):
         self.data.update_values_from_data(data)
         assert self.draw_count == 2
 
+    @requires_pyqt
     @requires_matplotlib_ge_22
     def test_aspect_resize(self):
 

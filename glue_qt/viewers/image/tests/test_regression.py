@@ -6,10 +6,10 @@ import numpy as np
 from glue.core import Data
 from glue_qt.viewers.image import ImageViewer
 from glue.core.tests.util import simple_session
-from glue.tests.helpers import PYSIDE2_INSTALLED  # noqa
+from glue_qt.tests.helpers import requires_pyqt
 
 
-@pytest.mark.skipif('PYSIDE2_INSTALLED')
+@requires_pyqt
 @pytest.mark.mpl_image_compare(tolerance=1, savefig_kwargs={'dpi': 50})
 def test_resample_on_zoom():
 

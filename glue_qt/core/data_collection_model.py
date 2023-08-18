@@ -452,7 +452,7 @@ class DataCollectionView(QtWidgets.QTreeView, HubListener):
 
         # only edit label on model.new_item
         self.setItemDelegate(LabeledDelegate())
-        self.setEditTriggers(self.NoEditTriggers)
+        self.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         self.setIconSize(QtCore.QSize(16, 16))
 
@@ -469,7 +469,7 @@ class DataCollectionView(QtWidgets.QTreeView, HubListener):
         sm = self.selectionModel()
         sm.clearSelection()
         for idx in indices:
-            sm.select(idx, sm.Select)
+            sm.select(idx, QtCore.QItemSelectionModel.Select)
 
     def set_data_collection(self, data_collection):
         self._model = DataCollectionModel(data_collection)

@@ -123,7 +123,7 @@ class BasicToolbar(QtWidgets.QToolBar):
                 button.setText(tool.action_text)
             if icon:
                 button.setIcon(icon)
-            button.setPopupMode(button.InstantPopup)
+            button.setPopupMode(QtWidgets.QToolButton.InstantPopup)
             button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
             action = self.addWidget(button)
             if menu:
