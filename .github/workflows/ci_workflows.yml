@@ -98,7 +98,7 @@ jobs:
         - linux: py311-test-pyside64-skipexitcode
         - macos: py310-test-pyside63-skipexitcode
         - macos: py311-test-pyside64-skipexitcode
-        - windows: py310-test-pyside64-skipexitcode
+        - windows: py310-test-pyside64
         - windows: py311-test-pyqt515
 
         # Windows docs build
