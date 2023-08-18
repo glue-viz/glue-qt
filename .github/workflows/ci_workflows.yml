@@ -86,19 +86,19 @@ jobs:
       envs: |
 
         # Non-deterministic QThread exceptions
-        - linux: py38-test-pyside514
-        - linux: py39-test-pyside515
-        - linux: py310-test-pyside63
+        - linux: py38-test-pyside514-skipexitcode
+        - linux: py39-test-pyside515-skipexitcode
+        - linux: py310-test-pyside63-skipexitcode
 
         # PySide6 6.4 failures due to https://github.com/spyder-ide/qtpy/issues/373
         # and https://github.com/matplotlib/matplotlib/issues/24155
         # Python 3.11.0 failing on Windows in test_image.py on
         # > assert df.find_factory(fname) is df.img_data
-        - linux: py310-test-pyside64
-        - linux: py311-test-pyside64
-        - macos: py310-test-pyside63
-        - macos: py311-test-pyside64
-        - windows: py310-test-pyside64
+        - linux: py310-test-pyside64-skipexitcode
+        - linux: py311-test-pyside64-skipexitcode
+        - macos: py310-test-pyside63-skipexitcode
+        - macos: py311-test-pyside64-skipexitcode
+        - windows: py310-test-pyside64-skipexitcode
         - windows: py311-test-pyqt515
 
         # Windows docs build
