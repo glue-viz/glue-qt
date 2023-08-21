@@ -18,7 +18,7 @@ If you don't see these in the list, then if you are using
 `Anaconda <https://www.anaconda.com/distribution/>`_ to manage your Python
 distribution, you can install the 3D viewers plugin using::
 
-    conda install -c glueviz glue-vispy-viewers
+    mamba install -c conda-forge glue-vispy-viewers
 
 With the plugin installed, you will now have access to two new data
 viewers in Glue:

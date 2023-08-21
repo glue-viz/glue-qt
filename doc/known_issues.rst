@@ -17,25 +17,6 @@ checkbox **Open using Rosetta**.
 
 Once you have done this, follow the regular
 :ref:`installation` instructions for glue as if you were using an intel Mac.
-Be sure to also read `Using glue on Big Sur`_ since this is the version of
-MacOS X that is installed on Apple M1 hardware.
-
-.. _apple-bigsur:
-
-Using glue on Big Sur
----------------------
-
-If you have issues with getting the 3D functionality to work, you will need to
-install the latest development version of VisPy. If you are using conda, you
-will first need to remove the conda-installed version of VisPy using::
-
-    conda remove vispy --force
-
-You can then install the latest development version of VisPy with::
-
-    pip install git+https://github.com/vispy/vispy
-
-Once this is done the 3D viewers should work properly.
 
 3D viewers not working on Linux with PyQt5
 ------------------------------------------
