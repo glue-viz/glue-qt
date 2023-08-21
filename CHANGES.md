@@ -1,5 +1,26 @@
 # Full changelog
 
+## v0.2.0 - 2023-08-21
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug Fixes
+
+- Fix imports of parse_data and parse_links by @astrofrog in https://github.com/glue-viz/glue-qt/pull/4
+- Fixed bug that caused plugins to be loaded twice by @astrofrog in https://github.com/glue-viz/glue-qt/pull/6
+
+#### Documentation
+
+- Fix documentation warnings by @astrofrog in https://github.com/glue-viz/glue-qt/pull/2
+- Sphinx book theme by @astrofrog in https://github.com/glue-viz/glue-qt/pull/5
+
+#### Other Changes
+
+- Improve compatibility with PySide by @astrofrog in https://github.com/glue-viz/glue-qt/pull/3
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.1.0...v0.2.0
+
 ## v0.1.0 - 2023-08-15
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
