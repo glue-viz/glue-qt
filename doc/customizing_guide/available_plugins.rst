@@ -31,7 +31,7 @@ plugin is installed, you should see the 3D viewers in the list:
 If you don't see these in the list, then, you can install the 3D viewers plugin
 using::
 
-    conda install -c glueviz glue-vispy-viewers
+    mamba install -c conda-forge glue-vispy-viewers
 
 or if you don't use conda::
 
@@ -56,7 +56,7 @@ We are currently developing a plugin to make it easy to export plots made in
 glue to standalone interactive figures using `plotly <https://plot.ly/>`_. If
 you are interested in trying this out, you can install it with::
 
-    conda install -c glueviz glue-plotly
+    mamba install -c conda-forge glue-plotly
 
 or if you don't use conda::
 
@@ -86,7 +86,7 @@ this to other formats and as well as other functionality (e.g. colormaps) that
 would be useful in medical imaging. You can install the current version of this
 plugin with::
 
-    conda install -c glueviz glue-medical
+    mamba install -c conda-forge glue-medical
 
 or if you don't use conda::
 
@@ -112,7 +112,7 @@ plugin tries to automatically set up the coordinate system for the datasets so
 that you can link datasets based on longitude/latitude. You can install the
 current version of this plugin with::
 
-    conda install -c glueviz glue-geospatial
+    mamba install -c conda-forge glue-geospatial
 
 or if you don't use conda::
 
@@ -141,7 +141,7 @@ The **glue-wwt** adds a data viewer to glue that allows users to overplot data
 onto maps of the sky, powered by `WorldWide Telescope
 <http://worldwidetelescope.org/webclient/>`_. You can install this plugin with::
 
-    conda install -c glueviz glue-wwt
+    mamba install -c conda-forge glue-wwt
 
 or if you don't use conda::
 
@@ -180,7 +180,7 @@ Application Messaging Protocol (SAMP) - these include for example `DS9
 <https://aladin.u-strasbg.fr/>`_. The **glue-samp** plugin adds the ability to
 use SAMP from glue.  You can install this plugin with::
 
-    conda install -c glueviz glue-samp
+    mamba install -c conda-forge glue-samp
 
 or if you don't use conda::
 

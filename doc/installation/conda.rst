@@ -1,112 +1,62 @@
-
-Anaconda Python distribution
-============================
+Installing with conda
+=====================
 
 **Platforms:** MacOS X, Linux, and Windows
 
-We recommend using the `Anaconda <https://www.anaconda.com/distribution/>`__ Python
-distribution from Continuum Analytics (or the related `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ distribution).
-Anaconda includes all of Glue's main dependencies. There are two ways of
-installing Glue with the Anaconda Python Distribution: :ref:`graphically using the
-Anaconda Navigator <anaconda_gui>`, or :ref:`using the conda command
-<anaconda_cli>` on the command-line, both of which are described
-below.
+Because glue is a reasonably big package with a number of dependencies, we have
+found that the default ``conda`` command included in Anaconda/Miniconda can run
+into issues when trying to solve the dependencies, so we highly recommend making use
+of the `mamba <https://mamba.readthedocs.io/en/latest/>`_ tool to install glue. We have
+provided separate instructions below for new and existing conda users.
 
-.. _anaconda_cli:
+New conda user
+--------------
 
-Command-line installation
--------------------------
+If you have never used conda before, we recommend downloading the **Mambaforge**
+distribution from https://conda-forge.org/miniforge/. For Windows users, you can
+download and install using an ``.exe`` installer. For Linux and MacOS X you
+should download the appropriate ``.sh`` file and install it using::
 
-Once Anaconda (or Miniconda) is installed, we recommend installing glue using
-the ``conda`` command on the command-line rather than using the
-:ref:`anaconda_gui`, because errors are more visible on the command-line if you
-run into any issues during the installation.
+    bash MambaForge-*.sh
 
-First, make sure that your conda command is up to date::
+Once installed, we recommend you create a new environment to install glue in using::
 
-    conda update -n root conda
+    mamba create -n glue-env
 
-then install glue with::
+You can then switch to this environment using::
 
-    conda install -c glueviz glueviz=1.2
+    mamba activate glue-env
 
-This will install the latest version of glue from the ``glueviz`` conda channel.
+and install glue with::
 
-If you run into any issues, even after having updated ``conda``, see the
-`Troubleshooting`_ section below. To update glue in future, use the same install
-command as above.
+    mamba install glueviz
 
-.. _anaconda_gui:
+Existing conda user
+-------------------
 
-Graphical User Interface
-------------------------
+If you already use the `Anaconda <https://www.anaconda.com/distribution/>`__ Python
+distribution from Continuum Analytics or the related `Miniconda
+<https://docs.conda.io/en/latest/miniconda.html>`__ distribution, we recommend first
+installing ``mamba`` using::
 
-If you prefer to not use the command-line to install glue, you can also use the
-Anaconda navigator, but be aware that it is harder to diagnose issues when
-things go wrong (the navigator can sometimes silently fail). Once Anaconda is
-installed, go to the **Applications** folder and launch the **Anaconda
-Navigator**:
+    conda install -c conda-forge mamba
 
-.. image:: images/navigator_icon.png
-   :align: center
-   :width: 80
+Once installed, we recommend you create a new environment to install glue in using::
 
-If you do not have the Anaconda Navigator icon, but have an Anaconda Launcher,
-you are using an old version of Anaconda, and we recommend that you update to
-the latest version.
+    mamba create -n glue-env
 
-Assuming you have the navigator open, before installing glue first click on the
-**Channels** button:
+You can then switch to this environment using::
 
-.. image:: images/navigator_channels_button.png
-   :align: center
-   :width: 373
+    mamba activate glue-env
 
-If not already present, add **glueviz** to the list of channels by clicking
-on **Add**, typing **glueviz**, and pressing enter, then click on **Update
-channels**:
+and install glue with::
 
-.. image:: images/navigator_channels_dialog.png
-   :align: center
-   :width: 414
+    mamba install -c conda-forge glueviz
 
-You can now install the latest version of glue by clicking on **Install**:
+Updating glue
+-------------
 
-.. image:: images/navigator_install.png
-   :align: center
-   :width: 264
+To update the packages in your ``glue-env`` environment to the latest available
+versions, you can do::
 
-Once the installation is complete, you can click on the **Launch** button (which
-will replace the **Install** button). If updates become available in future,
-these should be shown in the Navigator.
-
-Troubleshooting
----------------
-
-If you managed to install glue but it does not launch or you have issues with
-viewers not being available or not working correctly, the first thing to try
-is to update all your existing conda packages using::
-
-    conda update -c glueviz --all
-
-In some cases, glue won't even install due to conflicts between the version of
-dependencies required by glue and that required by other packages. The easiest
-way to avoid this is to install glue in a separate environment. To do this,
-first create an environment in which you will install glue::
-
-    conda create -n glueviz-env python
-
-This will create an environment called ``glueviz`` in which Python will be
-installed. You only need to create the environment once. Once created, you can
-switch to the environment with::
-
-    source activate glueviz-env
-
-Then, install glue as indicated in :ref:`anaconda_cli` using::
-
-    conda install -c glueviz glueviz
-
-Whenever you open a new terminal, if you want to run glue you should then
-remember to switch to the ``glueviz-env`` environment using the ``source
-activate`` command above. If you want to update glue, run the installation
-command again inside the environment.
+    mamba update -c conda-forge --all

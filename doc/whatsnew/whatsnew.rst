@@ -15,7 +15,7 @@ interested.
 Before we get started, here's a reminder on how to install/update glue. You can
 easily update glue if you are using Anaconda/Miniconda by doing::
 
-    conda install -c glueviz glueviz=1.2
+    mamba install -c conda-forge glueviz=1.2
 
 If instead you installed glue with pip, you can update with::
 
@@ -638,7 +638,7 @@ applications. We have now developed a plugin that adds SAMP capabilities to
 glue. To try this out, you will need to install the `glue-samp
 <https://github.com/glue-viz/glue-samp>`_ package, using::
 
-    conda install -c glueviz glue-samp
+    mamba install -c conda-forge glue-samp
 
 if you use conda, or::
 
@@ -769,7 +769,7 @@ To use this viewer, you
 will need to install the `glue-wwt <https://github.com/glue-viz/glue-wwt>`_
 plugin, using::
 
-    conda install -c glueviz glue-wwt
+    mamba install -c conda-forge glue-wwt
 
 if you use conda, or::
 
@@ -800,7 +800,7 @@ longitude/latitude scatter data to be overplotted:
 To use this, you will need to install the `glue-geospatial
 <https://github.com/glue-viz/glue-geospatial>`_ plugin, using::
 
-    conda install -c glueviz glue-geospatial
+    mamba install -c conda-forge glue-geospatial
 
 if you use conda, or::
 
