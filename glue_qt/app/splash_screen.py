@@ -24,7 +24,7 @@ class QtSplashScreen(QtWidgets.QWidget):
         self.layout.addStretch()
         self.layout.addWidget(self.progress)
 
-        pth = os.path.join(os.path.dirname(__file__), '..', '..', 'logo.png')
+        pth = os.path.join(os.path.dirname(__file__), '..', 'logo.png')
         self.image = QtGui.QPixmap(pth)
 
     def set_progress(self, value):
