@@ -4,6 +4,7 @@ import numpy as np
 
 from qtpy import QtWidgets, QtGui
 from qtpy.QtCore import Qt
+from echo import delay_callback
 
 from glue.core import BaseData
 from echo.qt import autoconnect_callbacks_to_qt, connect_value
@@ -49,6 +50,8 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
 
         self.layer_state.viewer_state.add_callback('x_att', self._update_checkboxes)
         self.layer_state.viewer_state.add_callback('y_att', self._update_checkboxes)
+        self.layer_state.add_callback('cmap_att', self._update_cmaps, priority=10000)
+
         if hasattr(self.layer_state.viewer_state, 'plot_mode'):
             self.layer_state.viewer_state.add_callback('plot_mode', self._update_vectors_visible)
 
@@ -226,3 +229,78 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.combodata_cmap.show()
             self.ui.label_colormap.show()
             self.ui.color_color.hide()
+
+    def _update_cmaps(self, *args):
+
+        with delay_callback(self.layer_state, 'cmap'):
+            if isinstance(self.layer_state.layer, BaseData):
+                layer = self.layer_state.layer
+            else:
+                layer = self.layer_state.layer.data
+
+            actual_component = layer.get_component(self.layer_state.cmap_att)
+            if getattr(actual_component, 'preferred_cmap', False):
+                cmap = actual_component.preferred_cmap
+                name = actual_component.cmap_name
+                self.ui.combodata_cmap.refresh_options(colormaps=[(name, cmap)])
+            else:
+                self.ui.combodata_cmap.refresh_options()
+
+
+class ScatterRegionLayerStyleEditor(QtWidgets.QWidget):
+
+    def __init__(self, layer, parent=None):
+
+        super().__init__(parent=parent)
+
+        self.ui = load_ui('region_layer_style_editor.ui', self,
+                          directory=os.path.dirname(__file__))
+
+        connect_kwargs = {'alpha': dict(value_range=(0, 1))}
+        self._connections = autoconnect_callbacks_to_qt(layer.state, self.ui, connect_kwargs)
+
+        self.layer_state = layer.state
+
+        self.layer_state.add_callback('cmap_mode', self._update_cmap_mode)
+
+        self._update_cmap_mode()
+        self.layer_state.add_callback('cmap_att', self._update_cmaps, priority=10000)
+
+    def _update_cmap_mode(self, cmap_mode=None):
+
+        if self.layer_state.cmap_mode == 'Fixed':
+            self.ui.label_cmap_attribute.hide()
+            self.ui.combosel_cmap_att.hide()
+            self.ui.label_cmap_limits.hide()
+            self.ui.valuetext_cmap_vmin.hide()
+            self.ui.valuetext_cmap_vmax.hide()
+            self.ui.button_flip_cmap.hide()
+            self.ui.combodata_cmap.hide()
+            self.ui.label_colormap.hide()
+            self.ui.color_color.show()
+        else:
+            self.ui.label_cmap_attribute.show()
+            self.ui.combosel_cmap_att.show()
+            self.ui.label_cmap_limits.show()
+            self.ui.valuetext_cmap_vmin.show()
+            self.ui.valuetext_cmap_vmax.show()
+            self.ui.button_flip_cmap.show()
+            self.ui.combodata_cmap.show()
+            self.ui.label_colormap.show()
+            self.ui.color_color.hide()
+
+    def _update_cmaps(self, *args):
+
+        with delay_callback(self.layer_state, 'cmap'):
+            if isinstance(self.layer_state.layer, BaseData):
+                layer = self.layer_state.layer
+            else:
+                layer = self.layer_state.layer.data
+
+            actual_component = layer.get_component(self.layer_state.cmap_att)
+            if getattr(actual_component, 'preferred_cmap', False):
+                cmap = actual_component.preferred_cmap
+                name = actual_component.cmap_name
+                self.ui.combodata_cmap.refresh_options(colormaps=[(name, cmap)])
+            else:
+                self.ui.combodata_cmap.refresh_options()
