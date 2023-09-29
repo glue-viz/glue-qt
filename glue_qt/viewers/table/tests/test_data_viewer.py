@@ -734,3 +734,45 @@ def test_table_widget_session_filter(tmpdir):
     assert widget2.state.filter_att == d.components[2]
     assert widget2.state.filter == 'cat'
     np.testing.assert_equal(model2.filter_mask, [True, False, True, False, False])
+
+
+def test_table_sorts_after_update_data():
+
+    # Test that a sorted table will resort if the
+    # underlying data components are updated
+    # (which will emit a NumericalDataChangedMessage)
+
+    app = get_qapp()  # noqa
+
+    d = Data(a=[1, 2, 3, 4, 5],
+             b=[3.2, 1.2, 4.5, 3.3, 2.2],
+             c=['e', 'b', 'c', 'a', 'f'], label='test')
+
+    dc = DataCollection([d])
+
+    gapp = GlueApplication(dc)
+
+    viewer = gapp.new_data_viewer(TableViewer)
+    viewer.add_data(d)
+
+    model = viewer.ui.table.model()
+
+    model.sort(1, Qt.AscendingOrder)
+
+    data = {'a': [2, 5, 1, 4, 3],
+            'b': [1.2, 2.2, 3.2, 3.3, 4.5],
+            'c': ['b', 'f', 'e', 'a', 'c']}
+    colors = [None for _ in range(5)]
+
+    check_values_and_color(model, data, colors)
+
+    d.update_components({d.components[2]: [3.2, 1.2, 4.5, 2.5, 3.4]})
+
+    process_events()
+
+    data = {'a': [2, 4, 1, 5, 3],
+            'b': [1.2, 2.5, 3.2, 3.4, 4.5],
+            'c': ['b', 'a', 'e', 'f', 'c']}
+    colors = [None for _ in range(5)]
+
+    check_values_and_color(model, data, colors)
