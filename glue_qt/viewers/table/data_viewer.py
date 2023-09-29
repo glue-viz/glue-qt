@@ -153,6 +153,8 @@ class DataTableModel(QtCore.QAbstractTableModel):
         self._update_visible()
         self.data_by_row_and_column.cache_clear()
         self.layoutChanged.emit()
+        self.sort_column = column
+        self.sort_ascending = ascending
 
     def get_filter_mask(self):
         if (self._state.filter is None) or (self._state.filter_att is None):
@@ -403,3 +405,17 @@ class TableViewer(DataViewer):
     @staticmethod
     def update_viewer_state(rec, context):
         return update_table_viewer_state(rec, context)
+
+    def _update_data_numerical(self, *args, **kwargs):
+        """
+        If we change the data in a component and
+        we are sorting on that component, we need to
+        trigger the sorting to happen again. Since it
+        is a little fragile to figure out which component
+        we are currently sorting on, we'll just sort whenever
+        we receive this message.
+        """
+        super()._update_data_numerical(*args, **kwargs)
+        if self.model is not None:
+            if getattr(self.model, 'sort_column', None) is not None:
+                self.model.sort(self.model.sort_column, self.model.sort_ascending)
