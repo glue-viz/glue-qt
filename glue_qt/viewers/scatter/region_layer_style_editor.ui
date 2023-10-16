@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>295</height>
+    <width>394</width>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
+   <item row="0" column="0">
     <widget class="QLabel" name="label_10">
      <property name="font">
       <font>
@@ -30,7 +30,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="0" column="1">
     <widget class="QComboBox" name="combosel_cmap_mode">
      <property name="maximumSize">
       <size>
@@ -40,7 +40,20 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="0" column="3">
+    <widget class="QColorBox" name="color_color">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QLabel" name="label_cmap_attribute">
      <property name="font">
       <font>
@@ -56,7 +69,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="2" column="0">
     <widget class="QLabel" name="label_cmap_limits">
      <property name="font">
       <font>
@@ -72,23 +85,43 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="1">
+    <widget class="QComboBox" name="combosel_percentile"/>
+   </item>
    <item row="2" column="2">
-    <widget class="QLineEdit" name="valuetext_cmap_vmin"/>
-   </item>
-   <item row="2" column="3">
-    <widget class="QToolButton" name="button_flip_cmap">
-     <property name="styleSheet">
-      <string notr="true">padding: 0px</string>
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="text">
-      <string>⇄</string>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>132</width>
+       <height>20</height>
+      </size>
      </property>
-    </widget>
+    </spacer>
    </item>
-   <item row="2" column="4">
-    <widget class="QLineEdit" name="valuetext_cmap_vmax"/>
+   <item row="3" column="1" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="valuetext_cmap_vmin"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="button_flip_cmap">
+       <property name="styleSheet">
+        <string notr="true">padding: 0px</string>
+       </property>
+       <property name="text">
+        <string>⇄</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="valuetext_cmap_vmax"/>
+     </item>
+    </layout>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_colormap">
      <property name="font">
       <font>
@@ -104,7 +137,20 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
+   <item row="4" column="1">
+    <widget class="QColormapCombo" name="combodata_cmap">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="sizeAdjustPolicy">
+      <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
     <widget class="QLabel" name="label_7">
      <property name="font">
       <font>
@@ -120,7 +166,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
+   <item row="5" column="1">
     <widget class="QSlider" name="value_alpha">
      <property name="maximum">
       <number>100</number>
@@ -130,7 +176,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_fill">
      <property name="font">
       <font>
@@ -146,14 +192,14 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
+   <item row="6" column="1">
     <widget class="QCheckBox" name="bool_fill">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -161,54 +207,28 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>85</height>
+       <height>54</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="6" column="1" colspan="4">
+   <item row="7" column="1" colspan="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>256</width>
+       <width>278</width>
        <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="1" column="2" colspan="2">
+   <item row="1" column="1" colspan="3">
     <widget class="QComboBox" name="combosel_cmap_att">
      <property name="sizeAdjustPolicy">
       <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2" colspan="2">
-    <widget class="QColormapCombo" name="combodata_cmap">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="sizeAdjustPolicy">
-      <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" colspan="2">
-    <widget class="QColorBox" name="color_color">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>
@@ -216,14 +236,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QColormapCombo</class>
-   <extends>QComboBox</extends>
-   <header>glue.utils.qt.colors</header>
-  </customwidget>
-  <customwidget>
    <class>QColorBox</class>
    <extends>QLabel</extends>
-   <header>glue.utils.qt.colors</header>
+   <header>glue_qt.utils.colors</header>
+  </customwidget>
+  <customwidget>
+   <class>QColormapCombo</class>
+   <extends>QComboBox</extends>
+   <header>glue_qt.utils.colors</header>
   </customwidget>
  </customwidgets>
  <resources/>

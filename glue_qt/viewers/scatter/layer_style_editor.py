@@ -229,6 +229,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.combodata_cmap.show()
             self.ui.label_colormap.show()
             self.ui.color_color.hide()
+            self.ui.combosel_percentile.show()
 
     def _update_cmaps(self, *args):
 
@@ -278,6 +279,7 @@ class ScatterRegionLayerStyleEditor(QtWidgets.QWidget):
             self.ui.combodata_cmap.hide()
             self.ui.label_colormap.hide()
             self.ui.color_color.show()
+            self.ui.combosel_percentile.hide()
         else:
             self.ui.label_cmap_attribute.show()
             self.ui.combosel_cmap_att.show()
@@ -288,6 +290,7 @@ class ScatterRegionLayerStyleEditor(QtWidgets.QWidget):
             self.ui.combodata_cmap.show()
             self.ui.label_colormap.show()
             self.ui.color_color.hide()
+            self.ui.combosel_percentile.show()
 
     def _update_cmaps(self, *args):
 
