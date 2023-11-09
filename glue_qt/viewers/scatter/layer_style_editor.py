@@ -229,7 +229,6 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.combodata_cmap.show()
             self.ui.label_colormap.show()
             self.ui.color_color.hide()
-            self.ui.combosel_percentile.show()
 
     def _update_cmaps(self, *args):
 
