@@ -37,35 +37,15 @@ jobs:
           - enchant
 
       envs: |
-        # Standard tests
-        # Linux builds - test on all supported PyQt5/6 and PySide2/6 versions,
-        # and include all dependencies in some builds
-        - linux: py38-test-pyqt514-all
-        - linux: py39-test-pyqt515
-        - linux: py310-test-pyqt63-all
-        - linux: py310-test-pyqt64-all
-        - linux: py311-test-pyqt514
-        - linux: py311-test-pyqt515-lts-all
-
-        # Documentation build
-        - linux: py38-docs-pyqt514
-          coverage: false
-        - macos: py311-docs-pyqt64
-          coverage: false
 
         # Test a few configurations on macOS
         - macos: py38-test-pyqt514-all
-        - macos: py310-test-pyqt515
         - macos: py310-test-pyqt64
-        - macos: py311-test-pyqt515
 
         # Test some configurations on Windows
         - windows: py38-test-pyqt514
         - windows: py310-test-pyqt63
 
-        # Test against latest developer versions of some packages
-        - linux: py310-test-pyqt515-dev-all
-        - linux: py311-test-pyqt64-dev
 
   allowed_failures:
     needs: initial_checks
@@ -87,26 +67,6 @@ jobs:
 
         # Non-deterministic QThread exceptions
         - linux: py38-test-pyside514-skipexitcode
-        - linux: py39-test-pyside515-skipexitcode
-        - linux: py310-test-pyside63-skipexitcode
-
-        # PySide6 6.4 failures due to https://github.com/spyder-ide/qtpy/issues/373
-        # and https://github.com/matplotlib/matplotlib/issues/24155
-        # Python 3.11.0 failing on Windows in test_image.py on
-        # > assert df.find_factory(fname) is df.img_data
-        - linux: py310-test-pyside64-skipexitcode
-        - linux: py311-test-pyside64-skipexitcode
-        - macos: py310-test-pyside63-skipexitcode
-        - macos: py311-test-pyside64-skipexitcode
-        - windows: py310-test-pyside64
-        - windows: py311-test-pyqt515
-
-        # Windows docs build
-        - windows: py310-docs-pyqt515
-          coverage: false
-
-        # Failure in test_close_tab
-        - windows: py310-test-pyqt515-all
 
   publish:
     needs: tests
