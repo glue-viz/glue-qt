@@ -1,5 +1,29 @@
 # Full changelog
 
+## v0.3.0 - 2023-11-15
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### New Features
+
+- Support regions in image viewer by @jfoster17 in https://github.com/glue-viz/glue-qt/pull/10
+
+#### Bug Fixes
+
+- Update splash screen path by @jfoster17 in https://github.com/glue-viz/glue-qt/pull/8
+- Refresh table sorting when data changes by @jfoster17 in https://github.com/glue-viz/glue-qt/pull/9
+
+#### Other Changes
+
+- Updated/simplified installation instructions by @astrofrog in https://github.com/glue-viz/glue-qt/pull/7
+
+### New Contributors
+
+- @jfoster17 made their first contribution in https://github.com/glue-viz/glue-qt/pull/8
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.2.0...v0.3.0
+
 ## v0.2.0 - 2023-08-21
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
