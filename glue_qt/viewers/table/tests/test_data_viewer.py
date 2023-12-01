@@ -13,7 +13,6 @@ from glue_qt.app import GlueApplication
 from ..data_viewer import DataTableModel, TableViewer
 
 from glue.core.edit_subset_mode import AndNotMode, OrMode, ReplaceMode
-from glue.tests.helpers import requires_pyqt_gt_59_or_pyside2
 
 
 class TestDataTableModel():
@@ -461,7 +460,6 @@ def test_incompatible_subset():
     assert refresh2.call_count == 0
 
 
-@requires_pyqt_gt_59_or_pyside2
 def test_table_incompatible_attribute():
     """
     Regression test for a bug where the table viewer generates an
@@ -487,24 +485,57 @@ def test_table_incompatible_attribute():
     process_events()
 
     assert len(viewer.layers) == 2
-    assert not viewer.layers[1].visible
     assert viewer.layers[0].visible
+    assert not viewer.layers[1].visible
 
     # This subset can be shown in the viewer
     sg2 = dc.new_subset_group('valid', d2.id['a'] == 'a')
 
+    process_events()
+
     assert len(viewer.layers) == 3
-    assert viewer.layers[2].visible
-    assert not viewer.layers[1].visible
     assert viewer.layers[0].visible
+    assert not viewer.layers[1].visible
+    assert viewer.layers[2].visible
 
     # The original IncompatibleAttribute was thrown
     # here as making the data layer invisible made
     # DataTableModel._update_visible() try and draw
     # the invalid subset
     viewer.layers[0].visible = False
-    assert viewer.layers[2].visible
+
+    process_events()
+
+    assert not viewer.layers[0].visible
     assert not viewer.layers[1].visible
+    assert viewer.layers[2].visible
+
+    # Another IncompatibleAttribute was thrown here
+    # as an invalid subset was attempted to be added
+    # to a table viewer showing only a subset
+
+    sg3 = dc.new_subset_group('invalid', d1.id['y'] > 6)
+
+    process_events()
+
+    assert len(viewer.layers) == 4
+    assert not viewer.layers[0].visible
+    assert not viewer.layers[1].visible
+    assert viewer.layers[2].visible
+    assert not viewer.layers[3].visible
+
+    # A previously disabled layer artist should
+    # be renabled when it can be visualized
+
+    sg1.subset_state = d2.id['b'] == 'b'
+
+    process_events()
+
+    assert len(viewer.layers) == 4
+    assert not viewer.layers[0].visible
+    assert viewer.layers[1].visible
+    assert viewer.layers[2].visible
+    assert not viewer.layers[3].visible
 
 
 def test_table_with_dask_column():
