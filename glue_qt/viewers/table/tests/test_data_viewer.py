@@ -482,7 +482,7 @@ def test_table_incompatible_attribute():
     sg1 = dc.new_subset_group('invalid', d1.id['x'] <= 3)
 
     gapp.show()
-    process_events()
+    process_events(0.5)
 
     assert len(viewer.layers) == 2
     assert viewer.layers[0].visible
@@ -491,7 +491,7 @@ def test_table_incompatible_attribute():
     # This subset can be shown in the viewer
     sg2 = dc.new_subset_group('valid', d2.id['a'] == 'a')
 
-    process_events()
+    process_events(0.5)
 
     assert len(viewer.layers) == 3
     assert viewer.layers[0].visible
@@ -504,7 +504,7 @@ def test_table_incompatible_attribute():
     # the invalid subset
     viewer.layers[0].visible = False
 
-    process_events()
+    process_events(0.5)
 
     assert not viewer.layers[0].visible
     assert not viewer.layers[1].visible
@@ -516,7 +516,7 @@ def test_table_incompatible_attribute():
 
     sg3 = dc.new_subset_group('invalid', d1.id['y'] > 6)
 
-    process_events()
+    process_events(0.5)
 
     assert len(viewer.layers) == 4
     assert not viewer.layers[0].visible
@@ -529,7 +529,7 @@ def test_table_incompatible_attribute():
 
     sg1.subset_state = d2.id['b'] == 'b'
 
-    process_events()
+    process_events(0.5)
 
     assert len(viewer.layers) == 4
     assert not viewer.layers[0].visible
