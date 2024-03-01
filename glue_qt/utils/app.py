@@ -1,6 +1,6 @@
 import time
 import platform
-from qtpy import QtCore, QtGui, QtWidgets
+from qtpy import QtCore, QtGui, QtWidgets, QtQuick
 
 from glue.config import settings
 from glue._settings_helpers import save_settings
@@ -46,6 +46,11 @@ def get_qapp(icon_path=None):
         # cause segmentation faults to crop up under certain conditions, so we
         # don't do it here and instead ask that the plugins do it in their
         # main __init__.py (which should get executed before glue is launched).
+
+        # NOTE: the following setting is needed to make sure we can use
+        # WebEngine at the same time as the OpenGL widget, at least on MacOS X.
+        # See https://bugreports.qt.io/browse/QTBUG-122886 for more details.
+        QtQuick.QQuickWindow.setGraphicsApi(QtQuick.QSGRendererInterface.GraphicsApi.OpenGL)
 
         qapp = QtWidgets.QApplication([''])
         qapp.setQuitOnLastWindowClosed(True)
