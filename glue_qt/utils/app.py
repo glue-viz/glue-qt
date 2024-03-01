@@ -1,6 +1,6 @@
 import time
 import platform
-from qtpy import QtCore, QtGui, QtWidgets, QtQuick
+from qtpy import QtCore, QtGui, QtWidgets, QtQuick, QT6
 
 from glue.config import settings
 from glue._settings_helpers import save_settings
@@ -50,7 +50,8 @@ def get_qapp(icon_path=None):
         # NOTE: the following setting is needed to make sure we can use
         # WebEngine at the same time as the OpenGL widget, at least on MacOS X.
         # See https://bugreports.qt.io/browse/QTBUG-122886 for more details.
-        QtQuick.QQuickWindow.setGraphicsApi(QtQuick.QSGRendererInterface.GraphicsApi.OpenGL)
+        if QT6:
+            QtQuick.QQuickWindow.setGraphicsApi(QtQuick.QSGRendererInterface.GraphicsApi.OpenGL)
 
         qapp = QtWidgets.QApplication([''])
         qapp.setQuitOnLastWindowClosed(True)
