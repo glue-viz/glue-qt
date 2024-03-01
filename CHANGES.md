@@ -1,5 +1,16 @@
 # Full changelog
 
+## v0.3.1 - 2024-03-01
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug Fixes
+
+* Added fix for using WebEngine and OpenGL in same glue session with Qt6 by @astrofrog in https://github.com/glue-viz/glue-qt/pull/15
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.3.0...v0.3.1
+
 ## v0.3.0 - 2023-11-15
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
