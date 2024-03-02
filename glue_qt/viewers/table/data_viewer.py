@@ -174,8 +174,23 @@ class DataTableModel(QtCore.QAbstractTableModel):
         Given which layers are visible or not, convert order to order_visible
         after applying the current filter_mask
         """
-
         self.data_by_row_and_column.cache_clear()
+
+        # We want to make visible subsets that were previously invisible
+        # because they were incompatible subsets. This requires some
+        # extra calls to to_mask() and could probably be optimized.
+
+        for layer_artist in self._table_viewer.layers:
+            if isinstance(layer_artist.layer, BaseData):
+                continue
+
+            if not layer_artist.enabled:
+                try:
+                    mask = layer_artist.layer.to_mask()
+                except IncompatibleAttribute:
+                    continue
+                layer_artist.enabled = True
+                layer_artist.visible = True
 
         # First, if the data layer is visible, show all rows
         for layer_artist in self._table_viewer.layers:
@@ -192,7 +207,11 @@ class DataTableModel(QtCore.QAbstractTableModel):
         visible = np.zeros(self.order.shape, dtype=bool)
         for layer_artist in self._table_viewer.layers:
             if layer_artist.visible:
-                mask = layer_artist.layer.to_mask()[self.order]
+                try:
+                    mask = layer_artist.layer.to_mask()[self.order]
+                except IncompatibleAttribute:
+                    layer_artist.disable_incompatible_subset()
+                    continue
                 if DASK_INSTALLED and isinstance(mask, da.Array):
                     mask = mask.compute()
                 visible |= mask
@@ -221,6 +240,7 @@ class TableLayerArtist(LayerArtist):
         self._refresh()
 
     def clear(self):
+        self.visible = False
         self._refresh()
 
 
