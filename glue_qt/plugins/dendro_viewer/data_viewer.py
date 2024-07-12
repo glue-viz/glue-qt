@@ -45,7 +45,7 @@ class DendrogramViewer(MatplotlibDataViewer):
         x, y = self.state._layout.xy
         x, y = x[::3], y[::3]
         xlim = np.array([x.min(), x.max()])
-        xpad = .05 * xlim.ptp()
+        xpad = .05 * np.ptp(xlim)
         xlim[0] -= xpad
         xlim[1] += xpad
 
@@ -56,7 +56,7 @@ class DendrogramViewer(MatplotlibDataViewer):
             ylim[0] /= pad
             ylim[1] *= pad
         else:
-            pad = .05 * ylim.ptp()
+            pad = .05 * np.ptp(ylim)
             ylim[0] -= pad
             ylim[1] += pad
 
