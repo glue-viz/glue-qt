@@ -172,10 +172,12 @@ class TestGlueApplication(object):
             d1 = Data(x=np.array([1, 2, 3]))
 
             self.app.choose_new_data_viewer(data=d1)
+            assert pc.call_count == 1
             args, kwargs = pc.call_args
             assert kwargs['default'] is ScatterViewer
 
             self.app.choose_new_data_viewer(data=d2)
+            assert pc.call_count == 2
             args, kwargs = pc.call_args
             assert kwargs['default'] is ImageViewer
 
@@ -195,7 +197,7 @@ class TestGlueApplication(object):
         e.mimeData.return_value = m
 
         self.app.dropEvent(e)
-        assert load_data.called_once_with('test.fits')
+        load_data.assert_called_once_with(['test.fits'])
         assert load_session.call_count == 0
 
         load_data.reset_mock()
@@ -204,7 +206,7 @@ class TestGlueApplication(object):
         m.setUrls([QtCore.QUrl('test1.fits'), QtCore.QUrl('test2.fits')])
         e.mimeData.return_value = m
         self.app.dropEvent(e)
-        assert load_data.called_once_with(['test1.fits', 'test2.fits'])
+        load_data.assert_called_once_with(['test1.fits', 'test2.fits'])
         assert load_session.call_count == 0
 
         load_data.reset_mock()
@@ -214,7 +216,7 @@ class TestGlueApplication(object):
         e.mimeData.return_value = m
         self.app.dropEvent(e)
         assert load_data.call_count == 0
-        assert load_session.called_once_with(['test.glu'])
+        load_session.assert_called_once_with('test.glu')
 
         load_data.reset_mock()
 

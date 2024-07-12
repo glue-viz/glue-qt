@@ -71,7 +71,7 @@ def test_die_on_error():
         with patch('qtpy.QtWidgets.QMessageBox') as mb:
             decorated_failing_function()
             assert mb.call_args[0][2] == 'An error occurred\nDialog failure'
-        assert exit.called_once_with(1)
+        exit.assert_called_once_with(1)
 
     with patch('sys.exit') as exit:
         with patch('qtpy.QtWidgets.QMessageBox') as mb:
@@ -86,7 +86,7 @@ def test_die_on_error():
             with die_on_error('An error occurred'):
                 failing_function()
             assert mb.call_args[0][2] == 'An error occurred\nDialog failure'
-        assert exit.called_once_with(1)
+        exit.assert_called_once_with(1)
 
     with patch('sys.exit') as exit:
         with patch('qtpy.QtWidgets.QMessageBox') as mb:
