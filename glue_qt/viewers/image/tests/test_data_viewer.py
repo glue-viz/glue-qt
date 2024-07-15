@@ -27,7 +27,6 @@ from glue.viewers.image.state import ImageLayerState, ImageSubsetLayerState, Agg
 from glue.core.link_helpers import LinkSame
 from glue_qt.app import GlueApplication
 from glue.core.fixed_resolution_buffer import ARRAY_CACHE, PIXEL_CACHE
-from glue.core.data_derived import IndexedData
 from glue_qt.tests.helpers import requires_pyqt
 
 from ..data_viewer import ImageViewer
