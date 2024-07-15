@@ -7,7 +7,7 @@ import pytest
 try:
     from qtpy import PYSIDE2, PYSIDE6
 except Exception:
-    PYSIDE2 = False
+    PYSIDE2 = PYSIDE6 = False
 
 from glue.config import CFG_DIR as CFG_DIR_ORIG
 
@@ -105,7 +105,7 @@ def pytest_unconfigure(config):
         # objgraph.show_most_common_types(limit=100)
 
 
-# With PySide2, tests can fail in a non-deterministic way on a teardown error
+# With PySide2/6, tests can fail in a non-deterministic way on a teardown error
 # or with the following error:
 #
 #   AttributeError: 'PySide2.QtGui.QStandardItem' object has no attribute '...'
