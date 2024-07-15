@@ -765,10 +765,14 @@ class CustomMatplotlibDataViewer(MatplotlibDataViewer):
         super(CustomMatplotlibDataViewer, self).add_data(data)
         if (self.state.x_min == 0 and self.state.x_max == 1 and self.state.y_min == 0 and self.state.y_max == 1):
             with ignore_callback(self.state, "x_min", "x_max", "y_min", "y_max"):
-                self.state.x_min = self.axes.dataLim.xmin
-                self.state.x_max = self.axes.dataLim.xmax
-                self.state.y_min = self.axes.dataLim.ymin
-                self.state.y_max = self.axes.dataLim.ymax
+                if not np.isinf(self.axes.dataLim.xmin):
+                    self.state.x_min = self.axes.dataLim.xmin
+                if not np.isinf(self.axes.dataLim.xmax):
+                    self.state.x_max = self.axes.dataLim.xmax
+                if not np.isinf(self.axes.dataLim.ymin):
+                    self.state.y_min = self.axes.dataLim.ymin
+                if not np.isinf(self.axes.dataLim.ymax):
+                    self.state.y_max = self.axes.dataLim.ymax
         self.limits_to_mpl()
         return True
 
