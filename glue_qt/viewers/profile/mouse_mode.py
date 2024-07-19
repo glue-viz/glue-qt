@@ -1,6 +1,7 @@
 from echo import CallbackProperty, delay_callback
 from glue.core.state_objects import State
 from glue.viewers.matplotlib.mouse_mode import MouseMode
+from matplotlib.patches import Rectangle
 
 __all__ = ['NavigateMouseMode', 'RangeMouseMode']
 
@@ -155,11 +156,12 @@ class RangeMouseMode(MouseMode):
             else:
                 self._lines[0].set_data([self.state.x_min, self.state.x_min], [0, 1])
                 self._lines[1].set_data([self.state.x_max, self.state.x_max], [0, 1])
-                self._interval.set_xy([[self.state.x_min, 0],
-                                       [self.state.x_min, 1],
-                                       [self.state.x_max, 1],
-                                       [self.state.x_max, 0],
-                                       [self.state.x_min, 0]])
+                if isinstance(self._interval, Rectangle):
+                    self._interval.set_xy([self.state.x_min, self.state.x_max])
+                else:
+                    self._interval.set_xy([[self.state.x_min, 0], [self.state.x_min, 1],
+                                           [self.state.x_max, 1], [self.state.x_max, 0],
+                                           [self.state.x_min, 0]])
         else:
             if self.state.x_min is not None and self.state.x_max is not None:
                 self._lines = (self._axes.axvline(self.state.x_min, color=COLOR),

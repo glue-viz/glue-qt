@@ -4,8 +4,8 @@ import os
 import pytest
 import numpy as np
 
-from glue.tests.helpers import requires_astropy, requires_h5py, requires_qt
-from glue_qt.tests.helpers import requires_pyqt
+from glue.tests.helpers import requires_astropy, requires_h5py
+from glue_qt.tests.helpers import requires_pyqt, requires_qt
 from glue.core.component import CoordinateComponent, Component
 from glue.core.state import GlueUnSerializer
 from glue.core.component_id import PixelComponentID

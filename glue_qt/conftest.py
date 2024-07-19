@@ -7,7 +7,7 @@ import pytest
 try:
     from qtpy import PYSIDE2, PYSIDE6
 except Exception:
-    PYSIDE2 = False
+    PYSIDE2 = PYSIDE6 = False
 
 from glue.config import CFG_DIR as CFG_DIR_ORIG
 
@@ -50,11 +50,15 @@ def pytest_configure(config):
 
     if config.getoption('no_optional_skip'):
         from glue.tests import helpers
+        from glue_qt.tests import helpers as qt_helpers
         for attr in helpers.__dict__:
             if attr.startswith('requires_'):
                 # The following line replaces the decorators with a function
-                # that does noting, effectively disabling it.
+                # that does nothing, effectively disabling it.
                 setattr(helpers, attr, lambda f: f)
+        for attr in qt_helpers.__dict__:
+            if attr.startswith('requires_'):
+                setattr(qt_helpers, attr, lambda f: f)
 
     # Make sure we don't affect the real glue config dir
     import tempfile
@@ -105,7 +109,7 @@ def pytest_unconfigure(config):
         # objgraph.show_most_common_types(limit=100)
 
 
-# With PySide2, tests can fail in a non-deterministic way on a teardown error
+# With PySide2/6, tests can fail in a non-deterministic way on a teardown error
 # or with the following error:
 #
 #   AttributeError: 'PySide2.QtGui.QStandardItem' object has no attribute '...'
