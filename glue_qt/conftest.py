@@ -50,11 +50,15 @@ def pytest_configure(config):
 
     if config.getoption('no_optional_skip'):
         from glue.tests import helpers
+        from glue_qt.tests import helpers as qt_helpers
         for attr in helpers.__dict__:
             if attr.startswith('requires_'):
                 # The following line replaces the decorators with a function
-                # that does noting, effectively disabling it.
+                # that does nothing, effectively disabling it.
                 setattr(helpers, attr, lambda f: f)
+        for attr in qt_helpers.__dict__:
+            if attr.startswith('requires_'):
+                setattr(qt_helpers, attr, lambda f: f)
 
     # Make sure we don't affect the real glue config dir
     import tempfile

@@ -5,10 +5,10 @@ from unittest.mock import MagicMock, patch
 from qtpy import QtCore, QtGui
 from qtpy.QtCore import Qt
 
-from glue_qt.utils import get_qapp, process_events
-from glue.core import Data, DataCollection, BaseData
-from glue_qt.utils import qt_to_mpl_color
 from glue_qt.app import GlueApplication
+from glue.core import Data, DataCollection, BaseData
+from glue_qt.tests.helpers import requires_pyqt_gt_59_or_pyside
+from glue_qt.utils import get_qapp, process_events, qt_to_mpl_color
 
 from ..data_viewer import DataTableModel, TableViewer
 
@@ -179,7 +179,6 @@ def test_table_widget(tmpdir):
     press_key(Qt.Key_Down)
 
     process_events()
-
     indices = selection.selectedRows()
 
     # We make sure that the third row is selected
@@ -460,6 +459,7 @@ def test_incompatible_subset():
     assert refresh2.call_count == 0
 
 
+@requires_pyqt_gt_59_or_pyside
 def test_table_incompatible_attribute():
     """
     Regression test for a bug where the table viewer generates an
