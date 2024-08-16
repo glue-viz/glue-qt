@@ -1445,20 +1445,14 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
         return result
 
     def __gluestate__(self, context):
-        viewers = [list(map(context.id, tab)) for tab in self.viewers]
-        data = self.session.data_collection
-        from glue.main import _loaded_plugins
-        state = dict(session=context.id(self.session), viewers=viewers,
-                    data=context.id(data), plugins=_loaded_plugins)
+        state = super().__gluestate__(context)
+        state['viewers'] = [list(map(context.id, tab)) for tab in self.viewers]
         state['tab_names'] = self.tab_names
         return state
 
     @classmethod
     def __setgluestate__(cls, rec, context):
-        self = cls(data_collection=context.object(rec['data']))
-        # manually register the newly-created session, which the viewers need
-        context.register_object(rec['session'], self.session)
-        self = super(GlueApplication, cls).__setgluestate__(rec, context)
+        self = super().__setgluestate__(rec, context)
         for i, tab in enumerate(rec['viewers']):
             if self.tab(i) is None:
                 self.new_tab()
