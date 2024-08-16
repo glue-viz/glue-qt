@@ -1453,6 +1453,12 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
     @classmethod
     def __setgluestate__(cls, rec, context):
         self = super().__setgluestate__(rec, context)
+
+        # COMPAT: removing the following if statement once we require#
+        # glue-core v1.22.0 or later
+        if sum(len(tab) for tab in self.viewers) > 0:
+            return self
+
         for i, tab in enumerate(rec['viewers']):
             if self.tab(i) is None:
                 self.new_tab()
