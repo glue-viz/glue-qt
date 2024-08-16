@@ -43,7 +43,9 @@ jobs:
         - linux: py38-test-pyqt514-all
         - linux: py39-test-pyqt515
         - linux: py310-test-pyqt63-all
-        - linux: py310-test-pyqt64-all
+        - linux: py311-test-pyqt64
+        - linux: py312-test-pyqt65
+        - linux: py311-test-pyqt66-all
         - linux: py311-test-pyqt514
         - linux: py311-test-pyqt515-lts-all
 
@@ -53,19 +55,22 @@ jobs:
         - macos: py311-docs-pyqt64
           coverage: false
 
-        # Test a few configurations on macOS
+        # Test a few configurations on macOS 12 (Intel) and 14 (ARM)
         - macos: py38-test-pyqt514-all
-        - macos: py310-test-pyqt515
-        - macos: py310-test-pyqt64
-        - macos: py311-test-pyqt515
+        - macos: py311-test-pyqt66
+        - macos: py312-test-pyqt67
 
         # Test some configurations on Windows
         - windows: py38-test-pyqt514
         - windows: py310-test-pyqt63
+        - windows: py311-test-pyqt65
+        - windows: py312-test-pyqt66
 
         # Test against latest developer versions of some packages
         - linux: py310-test-pyqt515-dev-all
         - linux: py311-test-pyqt64-dev
+        - linux: py312-test-pyqt515-dev
+        - linux: py312-test-pyqt67-dev-all
 
   allowed_failures:
     needs: initial_checks
@@ -92,13 +97,18 @@ jobs:
 
         # PySide6 6.4 failures due to https://github.com/spyder-ide/qtpy/issues/373
         # and https://github.com/matplotlib/matplotlib/issues/24155
+        # PyQt5 / < 6.6 segfaulting under macOS 14 (on arm64) in TestGlueDataDialog or TestLinkEditor
         # Python 3.11.0 failing on Windows in test_image.py on
         # > assert df.find_factory(fname) is df.img_data
         - linux: py310-test-pyside64-skipexitcode
-        - linux: py311-test-pyside64-skipexitcode
+        - linux: py311-test-pyside65-skipexitcode
+        - linux: py312-test-pyside67-skipexitcode
         - macos: py310-test-pyside63-skipexitcode
         - macos: py311-test-pyside64-skipexitcode
+        - macos: py312-test-pyside67-skipexitcode
+        - macos: py310-test-pyqt515
         - windows: py310-test-pyside64
+        - windows: py312-test-pyside66
         - windows: py311-test-pyqt515
 
         # Windows docs build
