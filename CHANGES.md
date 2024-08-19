@@ -1,5 +1,30 @@
 # Full changelog
 
+## v0.3.2 - 2024-08-19
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug Fixes
+
+* Improve tables for incompatible subsets by @jfoster17 in https://github.com/glue-viz/glue-qt/pull/12
+
+#### Other Changes
+
+* Update `ptp` call for numpy 2 by @Carifio24 in https://github.com/glue-viz/glue-qt/pull/19
+* Update links for standalone app to 2024.03.1 by @astrofrog in https://github.com/glue-viz/glue-qt/pull/20
+* Fix test suite by @astrofrog in https://github.com/glue-viz/glue-qt/pull/21
+* Don't apply color to existing datasets by default by @Carifio24 in https://github.com/glue-viz/glue-qt/pull/18
+* Add CI envs for PyQt 6.5-6.7, PySide 6.5-6.7 & Python 3.12; fix Readthedocs and matplotlib 3.9, Qt6 failures by @dhomeier in https://github.com/glue-viz/glue-qt/pull/17
+* Add full implementation of `__gluestate__` and `__setgluestate__` for application by @astrofrog in https://github.com/glue-viz/glue-qt/pull/22
+
+### New Contributors
+
+* @Carifio24 made their first contribution in https://github.com/glue-viz/glue-qt/pull/19
+* @dhomeier made their first contribution in https://github.com/glue-viz/glue-qt/pull/17
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.3.1...v0.3.2
+
 ## v0.3.1 - 2024-03-01
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
