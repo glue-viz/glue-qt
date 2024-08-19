@@ -1445,13 +1445,26 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
         return result
 
     def __gluestate__(self, context):
-        state = super(GlueApplication, self).__gluestate__(context)
+        state = super().__gluestate__(context)
+        state['viewers'] = [list(map(context.id, tab)) for tab in self.viewers]
         state['tab_names'] = self.tab_names
         return state
 
     @classmethod
     def __setgluestate__(cls, rec, context):
-        self = super(GlueApplication, cls).__setgluestate__(rec, context)
+        self = super().__setgluestate__(rec, context)
+
+        # COMPAT: removing the following if statement once we require#
+        # glue-core v1.22.0 or later
+        if sum(len(tab) for tab in self.viewers) > 0:
+            return self
+
+        for i, tab in enumerate(rec['viewers']):
+            if self.tab(i) is None:
+                self.new_tab()
+            for v in tab:
+                viewer = context.object(v)
+                self.add_widget(viewer, tab=i, hold_position=True)
         if 'tab_names' in rec:
             self.tab_names = rec['tab_names']
         return self
