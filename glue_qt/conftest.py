@@ -83,7 +83,7 @@ def pytest_unconfigure(config):
     config.CFG_DIR = CFG_DIR_ORIG
 
     # Remove reference to QApplication to prevent segmentation fault on PySide
-    from glue.utils import app
+    from glue_qt.utils import app
     app.qapp = None
 
     if OBJGRAPH_INSTALLED and not ON_APPVEYOR:
