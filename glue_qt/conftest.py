@@ -66,14 +66,8 @@ def pytest_configure(config):
     config.CFG_DIR = tempfile.mkdtemp()
 
     # Start up QApplication, if the Qt code is present
-    try:
-        from glue.utils import get_qapp
-    except Exception:
-        # Note that we catch any exception, not just ImportError, because
-        # QtPy can raise a PythonQtError.
-        pass
-    else:
-        get_qapp()
+    from glue_qt.utils import get_qapp
+    get_qapp()
 
     # Force loading of plugins
     from glue.main import load_plugins
@@ -89,13 +83,8 @@ def pytest_unconfigure(config):
     config.CFG_DIR = CFG_DIR_ORIG
 
     # Remove reference to QApplication to prevent segmentation fault on PySide
-    try:
-        from glue.utils import app
-        app.qapp = None
-    except Exception:  # for when we run the tests without the qt directories
-        # Note that we catch any exception, not just ImportError, because
-        # QtPy can raise a PythonQtError.
-        pass
+    from glue.utils import app
+    app.qapp = None
 
     if OBJGRAPH_INSTALLED and not ON_APPVEYOR:
 
