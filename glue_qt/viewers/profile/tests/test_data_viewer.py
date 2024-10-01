@@ -498,8 +498,10 @@ def test_unit_conversion_limits():
 
     assert viewer.state.x_min == 3.0
     assert viewer.state.x_max == 3.0
-    assert viewer.state.y_min == 0.
-    assert viewer.state.y_max == 1.
+
+    # Limits for constant data == 3.0; this was broken up to glue-core 1.21.1 (glue-viz/glue#2513)
+    assert viewer.state.y_min in (2.7, 0.0)
+    assert viewer.state.y_max in (3.3, 1.0)
 
     # Explicitly set unit on y axis to enable unit conversion
     viewer.state.y_display_unit = 'Jy'
