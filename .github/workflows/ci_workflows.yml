@@ -102,9 +102,9 @@ jobs:
         # PyQt5 / < 6.6 segfaulting under macOS 14 (on arm64) in TestGlueDataDialog or TestLinkEditor
         # Python 3.11.0 failing on Windows in test_image.py on
         # > assert df.find_factory(fname) is df.img_data
-        - linux: py310-test-pyside64-skipexitcode
-        - linux: py311-test-pyside65-skipexitcode
-        - linux: py312-test-pyside67-skipexitcode
+        - linux: py311-test-pyside64-skipexitcode
+        - linux: py312-test-pyside65-skipexitcode
+        - linux: py313-test-pyside67-skipexitcode
         - macos: py310-test-pyside63-skipexitcode
         - macos: py311-test-pyside64-skipexitcode
         - macos: py312-test-pyside67-skipexitcode
