@@ -1,7 +1,8 @@
 import pytest
 import numpy as np
 import matplotlib.pyplot as plt
-from astropy.utils import NumpyRNGContext
+import astropy
+from astropy.utils import minversion, NumpyRNGContext
 from astropy.wcs import WCS
 
 from glue.core import Data, DataCollection
@@ -9,6 +10,8 @@ from glue.core.coordinates import AffineCoordinates
 from glue_qt.app.application import GlueApplication
 from glue_qt.viewers.image import ImageViewer
 from glue_qt.viewers.matplotlib.tests.test_python_export import BaseTestExportPython
+
+ASTROPY_GE_7 = minversion(astropy, '7.0')
 
 
 class TestExportPython(BaseTestExportPython):
@@ -51,12 +54,16 @@ class TestExportPython(BaseTestExportPython):
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
     def test_simple(self, tmpdir, coords):
         self.viewer_load(coords)
+        if ASTROPY_GE_7 and coords == 'affine':
+            pytest.xfail('Astropy 7 issue with axis label rendering')
         self.assert_same(tmpdir)
 
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
     def test_simple_legend(self, tmpdir, coords):
         self.viewer_load(coords)
         self.viewer.state.show_legend = True
+        if ASTROPY_GE_7 and coords == 'affine':
+            pytest.xfail('Astropy 7 issue with axis label rendering')
         self.assert_same(tmpdir)
 
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
@@ -79,6 +86,8 @@ class TestExportPython(BaseTestExportPython):
         self.viewer.state.layers[0].stretch = 'sqrt'
         self.viewer.state.layers[0].contrast = 0.9
         self.viewer.state.layers[0].bias = 0.6
+        if ASTROPY_GE_7 and coords == 'affine':
+            pytest.xfail('Astropy 7 issue with axis label rendering')
         self.assert_same(tmpdir)
 
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
@@ -95,12 +104,16 @@ class TestExportPython(BaseTestExportPython):
     def test_aspect(self, tmpdir, coords):
         self.viewer_load(coords)
         self.viewer.state.aspect = 'auto'
+        if ASTROPY_GE_7 and coords == 'affine':
+            pytest.xfail('Astropy 7 issue with axis label rendering')
         self.assert_same(tmpdir)
 
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
     def test_subset(self, tmpdir, coords):
         self.viewer_load(coords)
         self.data_collection.new_subset_group('mysubset', self.data.id['cube'] > 0.5)
+        if ASTROPY_GE_7 and coords == 'affine':
+            pytest.xfail('Astropy 7 issue with axis label rendering')
         self.assert_same(tmpdir)
 
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
@@ -109,6 +122,8 @@ class TestExportPython(BaseTestExportPython):
         self.data_collection.new_subset_group('mysubset',
                                               self.viewer.state.reference_data.id['cube'] > 0.5)
         self.viewer.state.legend.visible = True
+        if ASTROPY_GE_7 and coords == 'affine':
+            pytest.xfail('Astropy 7 issue with axis label rendering')
         self.assert_same(tmpdir, tol=0.15)  # transparency and such
 
     @pytest.mark.parametrize('coords', [None, 'wcs', 'affine'])
