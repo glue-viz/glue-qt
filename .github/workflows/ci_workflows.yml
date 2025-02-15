@@ -33,8 +33,6 @@ jobs:
           - libegl1
           - libopenblas-dev
           - libhdf5-dev
-        brew:
-          - enchant
 
       envs: |
         # Standard tests
@@ -56,10 +54,12 @@ jobs:
           coverage: false
         - macos: py311-docs-pyqt64
           coverage: false
+          libraries:
+            brew:
+              - enchant
 
         # Test a few configurations on macOS 13 (Intel, default for py<310) and 14 (Arm)
         - macos: py38-test-pyqt514-all
-        - macos: py39-test-pyqt515
         - macos: py311-test-pyqt65
         - macos: py312-test-pyqt66
           runs-on: macos-13
