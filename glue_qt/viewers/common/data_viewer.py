@@ -123,6 +123,10 @@ class DataViewer(Viewer, BaseQtViewerWidget,
     def warn(self, message, *args, **kwargs):
         return warn(message, *args, **kwargs)
 
+    def close(self, warn=True):
+        # Override NotImplemented BaseViewer.close() added in glue#2520 (1.22)
+        BaseQtViewerWidget.close(self, warn=warn)
+
     def _close_nowarn(self):
         return self.close(warn=False)
 
