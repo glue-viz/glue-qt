@@ -1,5 +1,21 @@
 # Full changelog
 
+## v0.3.3 - 2025-02-27
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug Fixes
+
+* Fix import and segfault in test suite by @astrofrog in https://github.com/glue-viz/glue-qt/pull/25
+
+#### Other Changes
+
+* Pin pytest to <8.3.3 as the test suite currently segfaults with 8.3.3 by @astrofrog in https://github.com/glue-viz/glue-qt/pull/24
+* Add glue-core to dev-deps and Python 3.13 envs to CI; compatibility with glue 1.22 BaseViewer by @dhomeier in https://github.com/glue-viz/glue-qt/pull/26
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.3.2...v0.3.3
+
 ## v0.3.2 - 2024-08-19
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
