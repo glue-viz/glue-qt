@@ -160,7 +160,7 @@ class SliceWidget(QtWidgets.QWidget):
             self._play_timer.stop()
         else:
             self._play_timer.start()
-            self._play_timer.setInterval(500 / abs(self._play_speed))
+            self._play_timer.setInterval(round(500 / abs(self._play_speed)))
 
     def _play_slice(self):
         if self._play_speed > 0:
