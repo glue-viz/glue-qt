@@ -16,5 +16,7 @@ install individual glue packages, e.g.::
     pip install glue-qt[qt] # Qt-based front-end
     pip install glue-vispy-viewers  # 3D viewers
 
-The ``[qt]`` ensures PyQt5 gets installed, but you can also install PyQt6 or
-PySide yourself and miss out the ``[qt]``.
+The ``[qt]`` ensures PyQt5 gets installed and set as the front-end,
+but you can also instead install PySide2, PySide6, or PyQt6 by doing e.g.::
+
+    pip install glue-qt PyQt6
