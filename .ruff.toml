@@ -1,0 +1,245 @@
+extend = "pyproject.toml"
+lint.ignore = [
+    # NOTE: to find a good code to fix, run:
+    # ruff check --select="ALL" --statistics glue_qt/<subpackage>
+
+    # flake8-unused-arguments (ARG)
+    "ARG001",  # unused-function-argument
+    "ARG002",  # unused-method-argument
+    "ARG003",  # unused-class-method-argument
+    "ARG004",  # unused-static-method-argument
+    "ARG005",  # unused-lambda-argument
+
+    # flake8-bugbear (B)
+    "B006",  # MutableArgumentDefault
+    "B007",  # UnusedLoopControlVariable
+    "B009",  # `getattr` call with constant attribute value
+    "B010",  # `setattr` call with constant attribute value
+    "B018",  # Found useless expression
+    "B028",  # No-explicit-stacklevel
+    "B904",  # RaiseWithoutFromInsideExcept
+
+    # flake8-blind-except (BLE)
+    "BLE001",  # blind-except
+
+    # flake8-comprehensions (C4)
+    "C400",  # Unnecessary generator (rewrite as a list comprehension)
+    "C401",  # Unnecessary generator (rewrite as a set comprehension)
+    "C402",  # Unnecessary generator (rewrite as a dict comprehension)
+    "C403",  # Unnecessary list comprehension (rewrite as a set comprehension)
+    "C405",  # Unnecessary list literal (rewrite as a set literal)
+    "C406",  # Unnecessary list literal (rewrite as a dict literal)
+    "C408",  # Unnecessary `dict()` call (rewrite as a literal)
+    "C409",  # Unnecessary list literal passed to `tuple()` (rewrite as a set comprehension)
+    "C413",  # Unnecessary `list()` call around `sorted()`
+    "C416",  # Unnecessary list comprehension (rewrite using `list()`)
+    "C417",  # Unnecessary `map()` usage (rewrite using a list comprehension)
+    "C419",  # Unnecessary list comprehension
+
+    # mccabe (C90) : code complexity
+    # TODO: configure maximum allowed complexity (default 10; 40 exceptions, 4 > 28).
+    "C901",  # McCabeComplexity
+
+    # pydocstyle (D)
+    # Missing Docstrings
+    "D100",  # undocumented-public-module
+    "D101",  # undocumented-public-class
+    "D103",  # undocumented-public-function
+    "D104",  # undocumented-public-package
+    "D202",  # blank-line-after-function
+    "D204",  # incorrect-blank-line-after-class
+    "D205",  # blank-line-after-summary
+    "D209",  # new-line-after-last-paragraph
+    "D210",  # surrounding-whitespace
+    "D211",  # blank-line-before-class
+    "D214",  # overindented-section
+    # Docstring Content Issues
+    "D401",  # non-imperative-mood.
+    "D404",  # docstring-starts-with-this
+    "D412",  # blank-lines-between-header-and-content
+
+    # pycodestyle (E, W)
+    "E501",  # line-too-long
+    "W605",  # invalid-escape-sequence
+
+    # flake8-errmsg (EM)  : nicer error tracebacks
+    "EM101",   # raw-string-in-exception
+    "EM102",   # f-string-in-exception
+    "EM103",   # dot-format-in-exception
+
+    # eradicate (ERA)
+    # NOTE: be careful that developer notes are kept.
+    "ERA001",  # commented-out-code
+
+    # Pyflakes (F)
+    "F841",  # unused-variable
+
+    # flake8-boolean-trap (FBT)  : boolean flags should be kwargs, not args
+    # NOTE: a good thing to fix, but changes API.
+    "FBT002",  # boolean-default-value-in-function-definition
+    "FBT003",  # boolean-positional-value-in-function-call
+
+    # flake8-fixme (FIX)
+    "FIX001",  # Line contains FIXME. This should be fixed or at least FIXME replaced with TODO
+    "FIX003",  # Line contains XXX, consider resolving the issue
+
+    # isort (I)
+    "I001",  # unsorted imports
+
+    # flake8-import-conventions
+    "ICN001",  # unconventional-import-alias (! `matplotlib as mpl`)
+
+    # pep8-naming (N)
+    # NOTE: some of these can/should be fixed, but this changes the API.
+    "N801",  # invalid-class-name
+    "N802",  # invalid-function-name
+    "N805",  # invalid-first-argument-name-for-method
+    "N815",  # mixed-case-variable-in-class-scope
+    "N818",  # error-suffix-on-exception-name
+
+    # NumPy-specific rules (NPY)
+    "NPY002", # Replace legacy `np.random.rand` call with `np.random.Generator`  (2023-05-03)
+
+    # Perflint (PERF)
+    "PERF203",  # `try`-`except` within a loop incurs performance overhead
+    "PERF401",  # Use a list comprehension to create a transformed list
+
+    # pygrep-hooks (PGH)
+    "PGH004",  # Use specific rule codes when using `noqa`
+
+    # flake8-pie (PIE)
+    "PIE790",  # Unnecessary `pass` statement
+
+    # Pylint (PLC, PLE, PLR, PLW)
+    "PLR0402",  # ConsiderUsingFromImport
+    "PLR0911",  # too-many-return-statements
+    "PLR0912",  # too-many-branches
+    "PLR0913",  # too-many-args
+    "PLR0915",  # too-many-statements
+    "PLR1704",  # Redefining argument with the local name `{name}`
+    "PLR1714",  # Consider merging multiple comparisons
+    "PLR2004",  # MagicValueComparison
+    "PLR5501",  # collapsible-else-if
+    "PLW0602",  # global-variable-not-assigned
+    "PLW0603",  # global-statement
+    "PLW2901",  # redefined-loop-name
+
+    # flake8-pytest-style (PT)
+    "PT006",   # pytest-parametrize-names-wrong-type
+    "PT007",   # pytest-parametrize-values-wrong-type
+    "PT011",   # pytest-raises-too-broad
+    "PT023",   # pytest-incorrect-mark-parentheses-style
+
+    # flake8-use-pathlib (PTH)
+    "PTH100",  # os-path-abspath
+    "PTH103",  # os-makedirs
+    "PTH110",  # os-path-exists
+    "PTH118",  # os-path-join
+    "PTH120",  # os-path-dirname
+    "PTH123",  # builtin-open
+
+    # flake8-pyi (PYI)
+    "PYI024",  # Use `typing.NamedTuple` instead of `collections.namedtuple`
+
+    # flake8-quotes (Q)
+    "Q000",    # Single quotes found but double quotes preferred
+
+
+    # flake8-return (RET)
+    "RET501",  # unnecessary-return-none
+    "RET502",  # implicit-return-value
+    "RET503",  # implicit-return
+    "RET504",  # unnecessary-assign
+    "RET505",  # unnecessary-else-after-return
+    "RET506",  # unnecessary-else-after-raise
+
+    # flake8-raise (RSE)
+    "RSE102",  # unnecessary-paren-on-raise-exception
+
+    # Ruff-specific rules (RUF)
+    "RUF001",  # ambiguous-unicode-character-string
+    "RUF002",  # ambiguous-unicode-character-docstring
+    "RUF005",  # unpack-instead-of-concatenating-to-collection-literal -- it's not clearly faster.
+    "RUF010",  # use conversion in f-string
+    "RUF012",  # Mutable class attributes should be annotated with `typing.ClassVar`
+    "RUF015",  # Prefer `next(iter(datasets.keys()))` over single element slice
+    "RUF021",  # Parenthesize `a and b` expressions when chaining `and` and `or` together
+    "RUF022",  # `__all__` is not sorted
+    "RUF046",  # Value being cast to `int` is already an integer
+    "RUF100",  # Unused blanket `noqa` directive
+
+    # flake8-bandit (S)
+    "S101",  # Use of `assert` detected
+
+    # flake8-simplify (SIM)
+    "SIM102",  # NestedIfStatements
+    "SIM105",  # UseContextlibSuppress
+    "SIM108",  # UseTernaryOperator
+    "SIM114",  # if-with-same-arms
+    "SIM117",  # MultipleWithStatements
+    "SIM201",  # NegateEqualOp
+
+    # flake8-print (T20)
+    "T201",  # PrintUsed
+
+    # flake8-todos (TD)
+    "TD001",  # Invalid TODO tag
+    "TD003",  # Missing issue link on the line following this TODO
+    "TD004",  # Missing colon in TODO
+
+    # flake8-tidy-imports (TID)
+    "TID252",  # Prefer absolute imports over relative imports from parent modules
+
+    # tryceratops (TRY)
+    "TRY002",  # raise-vanilla-class
+    "TRY003",  # raise-vanilla-args
+    "TRY004",  # prefer-type-error
+
+    # pyupgrade (UP)
+    "UP004",  # Class `{name}` inherits from `object`
+    "UP008",  # Use `super()` instead of `super(__class__, self)`
+    "UP009",  # UTF-8 encoding declaration is unnecessary
+    "UP015",  # Unnecessary mode argument
+    "UP025",  # Remove unicode literals from strings
+    "UP030",  # Use implicit references for positional format fields
+    "UP031",  # Use format specifiers instead of percent format
+    "UP032",  # Use f-string instead of `format` call
+    "UP039",  # Unnecessary parentheses after class definition
+]
+lint.unfixable = []
+
+[lint.extend-per-file-ignores]
+"__init__.py" = ["E402", "F401", "F403", "PT013"]
+".github/workflows/check_failures.py" = ["ICN001", "S314"]
+"test_*.py" = ["B015", "RUF015"]  # Pointless comparison; prefer next({iterable}) over slice
+
+# module-import-not-at-top-of-file; superfluous-else-break; unnecessary-list-index-lookup
+"glue_qt/app/application.py" = ["E402", "RET508", "PLR1736"]
+# `assert False`; Assertion always fails, replace with `pytest.fail()`; insecure usage of temp file
+"glue_qt/app/tests/test_application.py" = ["B011", "PT015", "S108"]
+# Calling `readlines()`, `os.path.isdir()`; uses `%`; use `pathlib.Path.iterdir()`
+"doc/redirect.py" = ["FURB129", "G002", "PTH112", "PTH208"]
+
+"doc/conf.py" = ["E402"]                           # Module level import not at top of file
+"doc/developer_guide/random_data.py" = ["E402"]    # Module level import not at top of file
+"doc/customizing_guide/state_viewer/config.py" = ["ICN001"]  # `matplotlib` should be imported as `mpl`
+
+"glue_qt/app/feedback.py" = ["S310"]  # Audit URL open for permitted schemes
+"glue_qt/app/layer_tree_widget.py" = ["D403"]  # First word of the docstring should be capitalized
+"glue_qt/core/data_collection_model.py" = ["TRY300"]  # Consider moving this statement to an `else` block
+"glue_qt/core/fitters.py" = ["C414", "D208"]  # Unnecessary `list()` call; Docstring over-indented
+"glue_qt/main.py" = ["S102"]  # Use of `exec` detected
+"glue_qt/tests/test_session_back_compat.py" = ["E721"]  # Use `is` and `is not` for type comparisons
+"glue_qt/utils/colors.py" = ["E402"]  # Module level import not at top of file
+"glue_qt/viewers/matplotlib/legend_editor.py" = ["EXE002"]  # file is executable but no shebang is present
+"glue_qt/viewers/matplotlib/tests/test_data_viewer.py" = ["E714"]  # Test for object identity should be `is not`
+"glue_qt/viewers/table/data_viewer.py" = ["B019"]  # Use of `functools.lru_cache` or `functools.cache` on methods can lead to memory leaks
+
+# When a general exclusion is being fixed, but it affects many subpackages, it
+# is better to fix for subpackages individually. The general exclusion should be
+# copied to these subpackage sections and fixed there.
+"glue/core/*" = ["SIM101"]  # Multiple `isinstance` calls for `value`, merge into a single call
+
+"glue/utils/*" = ["B015"]   # Pointless comparison at end of function scope
+
+"doc/*" = []
