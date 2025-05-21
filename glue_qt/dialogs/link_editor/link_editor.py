@@ -155,6 +155,7 @@ class LinkEditorWidget(QtWidgets.QWidget):
             self._ui.combos2_header.hide()
             for widget in self.att_combos1 + self.att_names1 + self.att_combos2 + self.att_names2:
                 widget.hide()
+            self._ui.graph_widget.set_links(self.state.links)
             return
 
         self._ui.button_remove_link.setEnabled(True)
