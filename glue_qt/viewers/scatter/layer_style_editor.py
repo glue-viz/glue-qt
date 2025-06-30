@@ -216,7 +216,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.valuetext_cmap_vmin.hide()
             self.ui.valuetext_cmap_vmax.hide()
             self.ui.button_flip_cmap.hide()
-            self.ui.combodata_cmap.hide()
+            self.ui.cmap_cmap.hide()
             self.ui.label_colormap.hide()
             self.ui.color_color.show()
         else:
@@ -226,7 +226,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.valuetext_cmap_vmin.show()
             self.ui.valuetext_cmap_vmax.show()
             self.ui.button_flip_cmap.show()
-            self.ui.combodata_cmap.show()
+            self.ui.cmap_cmap.show()
             self.ui.label_colormap.show()
             self.ui.color_color.hide()
 

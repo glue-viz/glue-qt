@@ -221,6 +221,8 @@ class QColormapCombo(QtWidgets.QComboBox):
 
 class QColormapWidget(QtWidgets.QWidget):
 
+    changed = QtCore.Signal()
+
     def __init__(self, *args, **kwargs):
         super(QColormapWidget, self).__init__(*args, **kwargs)
         layout = QtWidgets.QHBoxLayout()
@@ -232,13 +234,35 @@ class QColormapWidget(QtWidgets.QWidget):
         self.setLayout(layout)
 
         self.cmap_checkbox.toggled.connect(self._update_from_checkbox)
-        self.currentIndexChanged = self.cmap_combo.currentIndexChanged
+        self.cmap_combo.currentIndexChanged.connect(self._update_from_combo)
 
-    def _update_from_checkbox(self, _value):
-        self.currentIndexChanged.emit(self.cmap_combo.currentIndex())
+    def value(self):
+        return self.itemData(self.cmap_combo.currentIndex()).data
 
-    def setCurrentIndex(self, index):
+    def isChecked(self):
+        return self.cmap_checkbox.isChecked()
+
+    def _update_from_checkbox(self, value):
+        print("Update from checkbox")
+        print(self.value().name)
+        self.changed.emit()
+        print("======")
+
+    def _update_from_combo(self, index):
+        print("Update from combo")
+        print(self.value().name)
         self.cmap_combo.setCurrentIndex(index)
+        print("*************")
+
+    def set(self, index, reverse):
+        print("SET")
+        with QtCore.QSignalBlocker(self.cmap_combo), QtCore.QSignalBlocker(self.cmap_checkbox):
+            self.cmap_combo.setCurrentIndex(index)
+            self.cmap_checkbox.setChecked(reverse)
+            print("Exiting signal blocker")
+        print(self.value().name)
+        print("XXXXXXXX")
+        self.changed.emit()
 
     def count(self):
         return self.cmap_combo.count()
@@ -248,8 +272,63 @@ class QColormapWidget(QtWidgets.QWidget):
         data = wrapper.data
         if self.cmap_checkbox.isChecked():
             data = data.reversed()
+        print("itemData")
+        print(data.name)
+        print("--------")
         return UserDataWrapper(data=data)
 
+
+def _find_cmap_combo_data(widget, value):
+    """
+    Returns the index in a combo box where itemData == value
+
+    Raises a ValueError if data is not found
+    """
+    # Here we check that the result is True, because some classes may overload
+    # == and return other kinds of objects whether true or false.
+    checked = widget.isChecked()
+    for idx in range(widget.count()):
+        if (item_data := widget.itemData(idx)) is not None:
+            if isinstance(item_data, UserDataWrapper):
+                data = item_data.data
+                if data is value or (data == value) is True:
+                    return idx, checked 
+                data = data.reversed()
+                if data is value or (data == value) is True:
+                    return idx, not checked
+            else:
+                if item_data is value or (item_data == value) is True:
+                    return idx, checked 
+                item_data = item_data.reversed()
+                if item_data is value or (item_data == value) is True:
+                    return idx, not checked
+    else:
+        raise ValueError("%s not found in combo box" % (value,))
+
+
+def connect_color_combo(client, prop, widget):
+
+    def update_widget(item):
+        try:
+            idx, reverse = _find_cmap_combo_data(widget, item)
+        except ValueError:
+            if item is None:
+                idx, reverse = -1, False
+            else:
+                raise
+        print("Found data", idx, reverse)
+        widget.set(idx, reverse)
+
+    def update_prop():
+        print("Update prop")
+        setattr(client, prop, widget.value())
+
+    add_callback(client, prop, update_widget)
+    widget.changed.connect(nonpartial(update_prop))
+    update_widget(getattr(client, prop))
+
+
+HANDLERS['cmap'] = connect_color_combo
 
 if __name__ == "__main__":
 
