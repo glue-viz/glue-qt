@@ -219,6 +219,18 @@ class QColormapCombo(QtWidgets.QComboBox):
         self._update_icons()
 
 
+class QColormapWidget(QtWidgets.QWidget):
+
+    def __init__(self, *args, **kwargs):
+        super(QColormapWidget, self).__init__(*args, **kwargs)
+        layout = QtWidgets.QHBoxLayout(parent=self)
+        self.cmap_combo = QColormapCombo(parent=self)
+        self.cmap_checkbox = QtWidgets.QCheckBox(parent=self)
+        layout.addWidget(self.cmap_combo)
+        layout.addWidget(self.cmap_checkbox)
+        self.setLayout(layout)
+
+
 if __name__ == "__main__":
 
     from glue_qt.utils import get_qapp
