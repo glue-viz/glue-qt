@@ -237,7 +237,7 @@ class QColormapWidget(QtWidgets.QWidget):
         self.cmap_combo.currentIndexChanged.connect(self._update_from_combo)
 
     def value(self):
-        return self.itemData(self.cmap_combo.currentIndex()).data
+        return self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_checkbox.isChecked()).data
 
     def isChecked(self):
         return self.cmap_checkbox.isChecked()
@@ -267,10 +267,10 @@ class QColormapWidget(QtWidgets.QWidget):
     def count(self):
         return self.cmap_combo.count()
 
-    def itemData(self, index):
+    def itemData(self, index, reverse=False):
         wrapper = self.cmap_combo.itemData(index)
         data = wrapper.data
-        if self.cmap_checkbox.isChecked():
+        if reverse:
             data = data.reversed()
         print("itemData")
         print(data.name)
@@ -286,22 +286,17 @@ def _find_cmap_combo_data(widget, value):
     """
     # Here we check that the result is True, because some classes may overload
     # == and return other kinds of objects whether true or false.
-    checked = widget.isChecked()
     for idx in range(widget.count()):
         if (item_data := widget.itemData(idx)) is not None:
             if isinstance(item_data, UserDataWrapper):
                 data = item_data.data
-                if data is value or (data == value) is True:
-                    return idx, checked 
-                data = data.reversed()
-                if data is value or (data == value) is True:
-                    return idx, not checked
             else:
-                if item_data is value or (item_data == value) is True:
-                    return idx, checked 
-                item_data = item_data.reversed()
-                if item_data is value or (item_data == value) is True:
-                    return idx, not checked
+                data = item_data
+            if data is value or (data == value) is True:
+                return idx, False 
+            data = data.reversed()
+            if data is value or (data == value) is True:
+                return idx, True
     else:
         raise ValueError("%s not found in combo box" % (value,))
 
@@ -321,6 +316,7 @@ def connect_color_combo(client, prop, widget):
 
     def update_prop():
         print("Update prop")
+        print(widget.value().name)
         setattr(client, prop, widget.value())
 
     add_callback(client, prop, update_widget)
