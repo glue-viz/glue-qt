@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>330</width>
-    <height>296</height>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -220,17 +220,7 @@
         </widget>
        </item>
        <item row="4" column="1" colspan="3">
-        <widget class="QColormapCombo" name="combodata_cmap">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-         </property>
-        </widget>
+        <widget class="QColormapWidget" name="combodata_cmap" native="true"/>
        </item>
       </layout>
      </widget>
@@ -1044,9 +1034,10 @@
    <header>glue_qt.utils.colors</header>
   </customwidget>
   <customwidget>
-   <class>QColormapCombo</class>
-   <extends>QComboBox</extends>
+   <class>QColormapWidget</class>
+   <extends>QWidget</extends>
    <header>glue_qt.utils.colors</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

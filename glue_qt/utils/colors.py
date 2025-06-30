@@ -223,12 +223,32 @@ class QColormapWidget(QtWidgets.QWidget):
 
     def __init__(self, *args, **kwargs):
         super(QColormapWidget, self).__init__(*args, **kwargs)
-        layout = QtWidgets.QHBoxLayout(parent=self)
-        self.cmap_combo = QColormapCombo(parent=self)
-        self.cmap_checkbox = QtWidgets.QCheckBox(parent=self)
+        layout = QtWidgets.QHBoxLayout()
+        self.cmap_combo = QColormapCombo()
+        self.cmap_checkbox = QtWidgets.QCheckBox(text="Reverse")
+        self.cmap_combo.setMaximumWidth(100)
         layout.addWidget(self.cmap_combo)
         layout.addWidget(self.cmap_checkbox)
         self.setLayout(layout)
+
+        self.cmap_checkbox.toggled.connect(self._update_from_checkbox)
+        self.currentIndexChanged = self.cmap_combo.currentIndexChanged
+
+    def _update_from_checkbox(self, _value):
+        self.currentIndexChanged.emit(self.cmap_combo.currentIndex())
+
+    def setCurrentIndex(self, index):
+        self.cmap_combo.setCurrentIndex(index)
+
+    def count(self):
+        return self.cmap_combo.count()
+
+    def itemData(self, index):
+        wrapper = self.cmap_combo.itemData(index)
+        data = wrapper.data
+        if self.cmap_checkbox.isChecked():
+            data = data.reversed()
+        return UserDataWrapper(data=data)
 
 
 if __name__ == "__main__":
