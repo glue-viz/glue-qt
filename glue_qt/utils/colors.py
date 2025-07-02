@@ -11,7 +11,7 @@ from matplotlib import cm
 
 __all__ = ['mpl_to_qt_color', 'qt_to_mpl_color', 'cmap2pixmap',
            'tint_pixmap', 'QColorBox', 'ColorProperty', 'connect_color',
-           'QColormapCombo', 'QColormapWidget']
+           'QColormapCombo', 'connect_colormap_widget', 'QColormapWidget']
 
 
 def mpl_to_qt_color(color, alpha=None):
@@ -290,7 +290,7 @@ def _find_cmap_combo_data(widget, value):
     raise ValueError("%s not found in combo box" % (value,))
 
 
-def connect_color_combo(client, prop, widget):
+def connect_colormap_widget(client, prop, widget):
 
     def update_widget(item):
         try:
@@ -310,7 +310,7 @@ def connect_color_combo(client, prop, widget):
     update_widget(getattr(client, prop))
 
 
-HANDLERS['cmap'] = connect_color_combo
+HANDLERS['cmap'] = connect_colormap_widget
 
 if __name__ == "__main__":
 
