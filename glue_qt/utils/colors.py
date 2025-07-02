@@ -227,16 +227,17 @@ class QColormapWidget(QtWidgets.QWidget):
         super(QColormapWidget, self).__init__(*args, **kwargs)
         layout = QtWidgets.QHBoxLayout()
         self.cmap_combo = QColormapCombo()
+        self.cmap_combo.setMinimumWidth(100)
         self.cmap_button = QtWidgets.QPushButton(text="⇄")
         self.cmap_button.setCheckable(True)
         self.cmap_button.setMaximumWidth(25)
-        self.cmap_button.adjustSize()
-        layout.addWidget(self.cmap_combo)
+        layout.addWidget(self.cmap_combo, stretch=1)
         layout.addWidget(self.cmap_button)
+        layout.setSpacing(3)
         self.setLayout(layout)
 
-        self.cmap_button.toggled.connect(self._update_from_checkbox)
-        self.cmap_combo.currentIndexChanged.connect(self._update_from_combo)
+        self.cmap_button.toggled.connect(self._update_from_widget)
+        self.cmap_combo.currentIndexChanged.connect(self._update_from_widget)
 
     def value(self):
         return self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_button.isChecked()).data
@@ -244,11 +245,8 @@ class QColormapWidget(QtWidgets.QWidget):
     def isChecked(self):
         return self.cmap_button.isChecked()
 
-    def _update_from_checkbox(self, value):
+    def _update_from_widget(self, value):
         self.changed.emit()
-
-    def _update_from_combo(self, index):
-        self.cmap_combo.setCurrentIndex(index)
 
     def set(self, index, reverse):
         with QtCore.QSignalBlocker(self.cmap_combo), QtCore.QSignalBlocker(self.cmap_button):

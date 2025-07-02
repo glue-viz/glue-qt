@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>330</width>
-    <height>322</height>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,7 +71,6 @@
         <widget class="QLabel" name="label_7">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -159,7 +158,6 @@
         <widget class="QLabel" name="label_10">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -175,7 +173,6 @@
         <widget class="QLabel" name="label_cmap_limits">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -191,7 +188,6 @@
         <widget class="QLabel" name="label_colormap">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -207,7 +203,6 @@
         <widget class="QLabel" name="label_cmap_attribute">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -221,6 +216,12 @@
        </item>
        <item row="4" column="1" colspan="3">
         <widget class="QColormapWidget" name="cmap_cmap" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
         </widget>
        </item>
       </layout>
@@ -265,7 +266,6 @@
         <widget class="QLabel" name="label">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -281,7 +281,6 @@
         <widget class="QLabel" name="label_size_limits">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -310,7 +309,6 @@
         <widget class="QLabel" name="label_dpi">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -329,7 +327,6 @@
         <widget class="QLabel" name="label_size_attribute">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -348,7 +345,6 @@
         <widget class="QLabel" name="label_size_scaling">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -367,7 +363,6 @@
         <widget class="QLabel" name="label_size_mode">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -444,7 +439,6 @@
         <widget class="QLabel" name="label_14">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -477,7 +471,6 @@
         <widget class="QLabel" name="label_stretch">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -513,7 +506,6 @@
         <widget class="QLabel" name="label_contrast">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -536,7 +528,6 @@
         <widget class="QLabel" name="label_fill">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -604,7 +595,6 @@
         <widget class="QLabel" name="label_8">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -636,7 +626,6 @@
         <widget class="QLabel" name="label_9">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -652,7 +641,6 @@
         <widget class="QLabel" name="label_2">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -754,7 +742,6 @@
         <widget class="QLabel" name="label_6">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -767,7 +754,6 @@
         <widget class="QLabel" name="label_5">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -832,7 +818,6 @@
         <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -855,7 +840,6 @@
         <widget class="QLabel" name="label_vector_x">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -887,7 +871,6 @@
         <widget class="QLabel" name="label_12">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -906,7 +889,6 @@
         <widget class="QLabel" name="label_4">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -929,7 +911,6 @@
         <widget class="QLabel" name="label_vector_y">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -945,7 +926,6 @@
         <widget class="QLabel" name="label_11">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -994,7 +974,6 @@
         <widget class="QLabel" name="label_13">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
