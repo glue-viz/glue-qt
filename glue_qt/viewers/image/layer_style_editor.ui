@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>292</width>
-    <height>197</height>
+    <height>204</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,6 @@
     <widget class="QLabel" name="label_3">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -59,7 +58,6 @@
     <widget class="QLabel" name="label_2">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -92,20 +90,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QColormapCombo" name="combodata_cmap">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
-         </property>
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-        </widget>
+        <widget class="QColormapWidget" name="cmap_cmap" native="true"/>
        </item>
        <item>
         <widget class="QColorBox" name="color_color">
@@ -249,7 +234,6 @@
     <widget class="QLabel" name="label_5">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -265,7 +249,6 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -299,9 +282,10 @@
    <header>glue_qt.utils.colors</header>
   </customwidget>
   <customwidget>
-   <class>QColormapCombo</class>
-   <extends>QComboBox</extends>
+   <class>QColormapWidget</class>
+   <extends>QWidget</extends>
    <header>glue_qt.utils.colors</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
