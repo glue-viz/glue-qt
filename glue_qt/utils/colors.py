@@ -280,12 +280,11 @@ def _find_cmap_combo_data(widget, value):
             else:
                 data = item_data
             if data is value or (data == value) is True:
-                return idx, False 
+                return idx, False
             data = data.reversed()
             if data is value or (data == value) is True:
                 return idx, True
-    else:
-        raise ValueError("%s not found in combo box" % (value,))
+    raise ValueError("%s not found in combo box" % (value,))
 
 
 def connect_color_combo(client, prop, widget):
