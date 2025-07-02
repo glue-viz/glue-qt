@@ -257,6 +257,9 @@ class QColormapWidget(QtWidgets.QWidget):
     def count(self):
         return self.cmap_combo.count()
 
+    def refresh_options(self):
+        self.cmap_combo.refresh_options()
+
     def itemData(self, index, reverse=False):
         wrapper = self.cmap_combo.itemData(index)
         data = wrapper.data

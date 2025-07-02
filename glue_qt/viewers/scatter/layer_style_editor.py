@@ -242,9 +242,9 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             if getattr(actual_component, 'preferred_cmap', False):
                 cmap = actual_component.preferred_cmap
                 name = actual_component.cmap_name
-                self.ui.combodata_cmap.refresh_options(colormaps=[(name, cmap)])
+                self.ui.cmap_cmap.refresh_options(colormaps=[(name, cmap)])
             else:
-                self.ui.combodata_cmap.refresh_options()
+                self.ui.cmap_cmap.refresh_options()
 
 
 class ScatterRegionLayerStyleEditor(QtWidgets.QWidget):
