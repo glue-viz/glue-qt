@@ -240,7 +240,8 @@ class QColormapWidget(QtWidgets.QWidget):
         self.cmap_combo.currentIndexChanged.connect(self._update_from_widget)
 
     def value(self):
-        return self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_button.isChecked()).data
+        wrapper = self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_button.isChecked())
+        return wrapper.data if wrapper is not None else None
 
     def isChecked(self):
         return self.cmap_button.isChecked()
@@ -262,6 +263,8 @@ class QColormapWidget(QtWidgets.QWidget):
 
     def itemData(self, index, reverse=False):
         wrapper = self.cmap_combo.itemData(index)
+        if wrapper is None:
+            return None
         data = wrapper.data
         if reverse:
             data = data.reversed()
