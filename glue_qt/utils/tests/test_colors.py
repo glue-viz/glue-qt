@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from echo import CallbackProperty
 from qtpy import QtGui
 
-from ..colors import qt_to_mpl_color, QColorBox, connect_color, QColormapCombo
+from ..colors import qt_to_mpl_color, QColorBox, connect_color, QColormapCombo, QColormapWidget
 
 
 def test_colors():
@@ -52,3 +52,8 @@ def test_connect_color():
 def test_colormap_combo():
 
     combo = QColormapCombo()
+
+
+def test_colormap_widget():
+
+    widget = QColormapWidget()

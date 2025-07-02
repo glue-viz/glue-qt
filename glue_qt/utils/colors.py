@@ -11,7 +11,7 @@ from matplotlib import cm
 
 __all__ = ['mpl_to_qt_color', 'qt_to_mpl_color', 'cmap2pixmap',
            'tint_pixmap', 'QColorBox', 'ColorProperty', 'connect_color',
-           'QColormapCombo']
+           'QColormapCombo', 'QColormapWidget']
 
 
 def mpl_to_qt_color(color, alpha=None):
