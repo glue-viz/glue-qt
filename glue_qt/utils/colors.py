@@ -227,41 +227,33 @@ class QColormapWidget(QtWidgets.QWidget):
         super(QColormapWidget, self).__init__(*args, **kwargs)
         layout = QtWidgets.QHBoxLayout()
         self.cmap_combo = QColormapCombo()
-        self.cmap_checkbox = QtWidgets.QCheckBox(text="Reverse")
-        self.cmap_combo.setMaximumWidth(100)
+        self.cmap_button = QtWidgets.QPushButton(text="⇄")
+        self.cmap_button.setCheckable(True)
+        self.cmap_button.setMaximumWidth(25)
+        self.cmap_button.adjustSize()
         layout.addWidget(self.cmap_combo)
-        layout.addWidget(self.cmap_checkbox)
+        layout.addWidget(self.cmap_button)
         self.setLayout(layout)
 
-        self.cmap_checkbox.toggled.connect(self._update_from_checkbox)
+        self.cmap_button.toggled.connect(self._update_from_checkbox)
         self.cmap_combo.currentIndexChanged.connect(self._update_from_combo)
 
     def value(self):
-        return self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_checkbox.isChecked()).data
+        return self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_button.isChecked()).data
 
     def isChecked(self):
-        return self.cmap_checkbox.isChecked()
+        return self.cmap_button.isChecked()
 
     def _update_from_checkbox(self, value):
-        print("Update from checkbox")
-        print(self.value().name)
         self.changed.emit()
-        print("======")
 
     def _update_from_combo(self, index):
-        print("Update from combo")
-        print(self.value().name)
         self.cmap_combo.setCurrentIndex(index)
-        print("*************")
 
     def set(self, index, reverse):
-        print("SET")
-        with QtCore.QSignalBlocker(self.cmap_combo), QtCore.QSignalBlocker(self.cmap_checkbox):
+        with QtCore.QSignalBlocker(self.cmap_combo), QtCore.QSignalBlocker(self.cmap_button):
             self.cmap_combo.setCurrentIndex(index)
-            self.cmap_checkbox.setChecked(reverse)
-            print("Exiting signal blocker")
-        print(self.value().name)
-        print("XXXXXXXX")
+            self.cmap_button.setChecked(reverse)
         self.changed.emit()
 
     def count(self):
@@ -272,9 +264,6 @@ class QColormapWidget(QtWidgets.QWidget):
         data = wrapper.data
         if reverse:
             data = data.reversed()
-        print("itemData")
-        print(data.name)
-        print("--------")
         return UserDataWrapper(data=data)
 
 
@@ -311,12 +300,9 @@ def connect_color_combo(client, prop, widget):
                 idx, reverse = -1, False
             else:
                 raise
-        print("Found data", idx, reverse)
         widget.set(idx, reverse)
 
     def update_prop():
-        print("Update prop")
-        print(widget.value().name)
         setattr(client, prop, widget.value())
 
     add_callback(client, prop, update_widget)

@@ -221,12 +221,6 @@
        </item>
        <item row="4" column="1" colspan="3">
         <widget class="QColormapWidget" name="cmap_cmap" native="true">
-         <property name="maximumSize">
-          <size>
-           <width>227</width>
-           <height>16777215</height>
-          </size>
-         </property>
         </widget>
        </item>
       </layout>
