@@ -1,9 +1,10 @@
 from unittest.mock import MagicMock
 
 from echo import CallbackProperty
+from glue.config import colormaps
 from qtpy import QtGui
 
-from ..colors import qt_to_mpl_color, QColorBox, connect_color, QColormapCombo
+from ..colors import qt_to_mpl_color, QColorBox, connect_color, QColormapCombo, connect_colormap_widget, QColormapWidget
 
 
 def test_colors():
@@ -52,3 +53,41 @@ def test_connect_color():
 def test_colormap_combo():
 
     combo = QColormapCombo()
+
+
+def test_colormap_widget():
+
+    widget = QColormapWidget()
+
+
+def test_colormap_widget_value():
+
+    class FakeClass(object):
+        cmap = CallbackProperty()
+
+    c = FakeClass()
+    widget = QColormapWidget()
+
+    connect_colormap_widget(c, 'cmap', widget)
+
+    cmap0 = colormaps.members[0][1]
+
+    widget.set(0, True)
+    assert c.cmap == cmap0.reversed()
+
+    cmap1 = colormaps.members[1][1]
+    widget.set(1, True)
+    assert c.cmap == cmap1.reversed()
+
+    widget.set(1, False)
+    assert c.cmap == cmap1
+
+    c.cmap = cmap0
+    assert widget.cmap_combo.currentIndex() == 0
+    assert not widget.cmap_button.isChecked()
+    assert widget.value() == cmap0
+
+    c.cmap = cmap1.reversed()
+    assert widget.cmap_combo.currentIndex() == 1
+    assert widget.cmap_button.isChecked()
+    assert widget.value() == cmap1.reversed()
