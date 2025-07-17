@@ -275,7 +275,7 @@ class QColormapWidget(QtWidgets.QWidget):
 
 def _find_cmap_combo_data(widget, value):
     """
-    Returns the index in a combo box where itemData == value
+    Returns the index in a combo box where the colormap or its reverse equals the value
 
     Raises a ValueError if data is not found
     """
