@@ -253,6 +253,8 @@ class QColormapWidget(QtWidgets.QWidget):
         with QtCore.QSignalBlocker(self.cmap_combo), QtCore.QSignalBlocker(self.cmap_button):
             self.cmap_combo.setCurrentIndex(index)
             self.cmap_button.setChecked(reverse)
+        reversible = callable(getattr(self.value(), 'reversed', None))
+        self.cmap_button.setEnabled(reversible)
         self.changed.emit()
 
     def count(self):
@@ -287,9 +289,11 @@ def _find_cmap_combo_data(widget, value):
                 data = item_data
             if data is value or (data == value) is True:
                 return idx, False
-            data = data.reversed()
-            if data is value or (data == value) is True:
-                return idx, True
+            if callable(getattr(data, 'reversed', None)):
+                data = data.reversed()
+                if data is value or (data == value) is True:
+                    return idx, True
+    return -1, False
     raise ValueError("%s not found in combo box" % (value,))
 
 
