@@ -101,6 +101,9 @@ namespaces = false
 "glue_qt.viewers.profile.tests" = [ "data/*.glu",]
 "glue_qt.viewers.scatter.tests" = [ "data/*.glu",]
 
+[tool.setuptools_scm]
+version_file = "glue_qt/_version.py"
+
 [tool.pytest.ini_options]
 addopts = "-p no:logging"
 # Legacy ignores?
