@@ -38,8 +38,6 @@ jobs:
         # Standard tests
         # Linux builds - test on all supported PyQt5/6 and PySide2/6 versions,
         # and include all dependencies in some builds
-        - linux: py38-test-pyqt514-all
-        - linux: py39-test-pyqt515
         - linux: py310-test-pyqt63-all
         - linux: py311-test-pyqt64
         - linux: py312-test-pyqt65
@@ -47,10 +45,11 @@ jobs:
         - linux: py313-test-pyqt67
         - linux: py311-test-pyqt66-all
         - linux: py311-test-pyqt514
-        - linux: py311-test-pyqt515-lts-all
+        - linux: py312-test-pyqt514
+        - linux: py312-test-pyqt515-lts-all
 
         # Documentation build
-        - linux: py38-docs-pyqt514
+        - linux: py313-docs-pyqt514
           coverage: false
         - macos: py311-docs-pyqt64
           coverage: false
@@ -66,10 +65,10 @@ jobs:
         - macos: py313-test-pyqt68
 
         # Test some configurations on Windows
-        - windows: py38-test-pyqt514
         - windows: py310-test-pyqt63
         - windows: py311-test-pyqt65
         - windows: py312-test-pyqt67
+        - windows: py313-test-pyqt67
 
         # Test against latest developer versions of some packages
         - linux: py311-test-pyqt64-dev
