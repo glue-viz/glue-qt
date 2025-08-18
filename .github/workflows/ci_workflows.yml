@@ -45,8 +45,6 @@ jobs:
         - linux: py313-test-pyqt67
         - linux: py311-test-pyqt66-all
         - linux: py311-test-pyqt514
-        - linux: py312-test-pyqt514
-        - linux: py312-test-pyqt515-lts-all
 
         # Documentation build
         - linux: py313-docs-pyqt514
@@ -95,8 +93,6 @@ jobs:
       envs: |
 
         # Non-deterministic QThread exceptions
-        - linux: py38-test-pyside514-skipexitcode
-        - linux: py39-test-pyside515-skipexitcode
         - linux: py310-test-pyside63-skipexitcode
 
         # PySide6 6.4 failures due to https://github.com/spyder-ide/qtpy/issues/373
