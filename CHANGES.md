@@ -1,5 +1,38 @@
 # Full changelog
 
+## v0.4.0 - 2025-08-19
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### New Features
+
+* Generalize slice widget to support 3D viewers by @Carifio24 in https://github.com/glue-viz/glue-qt/pull/46
+
+#### Bug Fixes
+
+* Provide int to self._play_timer.setInterval by @nabobalis in https://github.com/glue-viz/glue-qt/pull/27
+* Remove graph edge when a link between datasets is completely removed by @Carifio24 in https://github.com/glue-viz/glue-qt/pull/44
+* Skip failing test_resize_limits check on linux-*-qt5* by @dhomeier in https://github.com/glue-viz/glue-qt/pull/45
+
+#### Documentation
+
+* Add pre-commit and Ruff codestyle check setup and documentation by @dhomeier in https://github.com/glue-viz/glue-qt/pull/31
+* Update pip installation instructions by @astrofrog in https://github.com/glue-viz/glue-qt/pull/28
+
+#### Other Changes
+
+* Migrate configuration to pyproject.toml by @dhomeier in https://github.com/glue-viz/glue-qt/pull/49
+* Use extracted `pixel_selection_mode` from glue-core by @CyclingNinja in https://github.com/glue-viz/glue-qt/pull/33
+
+### New Contributors
+
+* @nabobalis made their first contribution in https://github.com/glue-viz/glue-qt/pull/27
+* @pre-commit-ci[bot] made their first contribution in https://github.com/glue-viz/glue-qt/pull/34
+* @CyclingNinja made their first contribution in https://github.com/glue-viz/glue-qt/pull/33
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.3.3...v0.4.0
+
 ## v0.3.3 - 2025-02-27
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
