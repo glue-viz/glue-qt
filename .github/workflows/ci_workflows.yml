@@ -45,6 +45,7 @@ jobs:
         - linux: py313-test-pyqt67
         - linux: py311-test-pyqt66-all
         - linux: py311-test-pyqt514
+        - linux: py314-test-pyqt68
 
         # Documentation build
         - linux: py313-docs-pyqt514
