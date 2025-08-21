@@ -11,7 +11,7 @@ from matplotlib import cm
 
 __all__ = ['mpl_to_qt_color', 'qt_to_mpl_color', 'cmap2pixmap',
            'tint_pixmap', 'QColorBox', 'ColorProperty', 'connect_color',
-           'QColormapCombo']
+           'QColormapCombo', 'connect_colormap_widget', 'QColormapWidget']
 
 
 def mpl_to_qt_color(color, alpha=None):
@@ -218,6 +218,106 @@ class QColormapCombo(QtWidgets.QComboBox):
         super(QColormapCombo, self).resizeEvent(*args, **kwargs)
         self._update_icons()
 
+
+class QColormapWidget(QtWidgets.QWidget):
+
+    changed = QtCore.Signal()
+
+    def __init__(self, *args, **kwargs):
+        super(QColormapWidget, self).__init__(*args, **kwargs)
+        layout = QtWidgets.QHBoxLayout()
+        self.cmap_combo = QColormapCombo()
+        self.cmap_combo.setMinimumWidth(100)
+        self.cmap_button = QtWidgets.QPushButton(text="⇄")
+        self.cmap_button.setCheckable(True)
+        self.cmap_button.setMaximumWidth(25)
+        layout.addWidget(self.cmap_combo, stretch=1)
+        layout.addWidget(self.cmap_button)
+        layout.setSpacing(3)
+        self.setLayout(layout)
+
+        self.cmap_button.toggled.connect(self._update_from_widget)
+        self.cmap_combo.currentIndexChanged.connect(self._update_from_widget)
+
+    def value(self):
+        wrapper = self.itemData(self.cmap_combo.currentIndex(), reverse=self.cmap_button.isChecked())
+        return wrapper.data if wrapper is not None else None
+
+    def isChecked(self):
+        return self.cmap_button.isChecked()
+
+    def _update_from_widget(self, value):
+        self.changed.emit()
+
+    def set(self, index, reverse):
+        with QtCore.QSignalBlocker(self.cmap_combo), QtCore.QSignalBlocker(self.cmap_button):
+            self.cmap_combo.setCurrentIndex(index)
+            self.cmap_button.setChecked(reverse)
+        reversible = callable(getattr(self.value(), 'reversed', None))
+        self.cmap_button.setEnabled(reversible)
+        self.changed.emit()
+
+    def count(self):
+        return self.cmap_combo.count()
+
+    def refresh_options(self):
+        self.cmap_combo.refresh_options()
+
+    def itemData(self, index, reverse=False):
+        wrapper = self.cmap_combo.itemData(index)
+        if wrapper is None:
+            return None
+        data = wrapper.data
+        if reverse:
+            data = data.reversed()
+        return UserDataWrapper(data=data)
+
+
+def _find_cmap_combo_data(widget, value):
+    """
+    Returns the index in a combo box where the colormap or its reverse equals the value
+
+    Raises a ValueError if data is not found
+    """
+    # Here we check that the result is True, because some classes may overload
+    # == and return other kinds of objects whether true or false.
+    for idx in range(widget.count()):
+        if (item_data := widget.itemData(idx)) is not None:
+            if isinstance(item_data, UserDataWrapper):
+                data = item_data.data
+            else:
+                data = item_data
+            if data is value or (data == value) is True:
+                return idx, False
+            if callable(getattr(data, 'reversed', None)):
+                data = data.reversed()
+                if data is value or (data == value) is True:
+                    return idx, True
+    return -1, False
+    raise ValueError("%s not found in combo box" % (value,))
+
+
+def connect_colormap_widget(client, prop, widget):
+
+    def update_widget(item):
+        try:
+            idx, reverse = _find_cmap_combo_data(widget, item)
+        except ValueError:
+            if item is None:
+                idx, reverse = -1, False
+            else:
+                raise
+        widget.set(idx, reverse)
+
+    def update_prop():
+        setattr(client, prop, widget.value())
+
+    add_callback(client, prop, update_widget)
+    widget.changed.connect(nonpartial(update_prop))
+    update_widget(getattr(client, prop))
+
+
+HANDLERS['cmap'] = connect_colormap_widget
 
 if __name__ == "__main__":
 

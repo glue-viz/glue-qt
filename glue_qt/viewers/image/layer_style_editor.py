@@ -30,7 +30,7 @@ class ImageLayerStyleEditor(QtWidgets.QWidget):
     def _update_color_mode(self, color_mode):
         if color_mode == 'Colormaps':
             self.ui.color_color.hide()
-            self.ui.combodata_cmap.show()
+            self.ui.cmap_cmap.show()
         else:
             self.ui.color_color.show()
-            self.ui.combodata_cmap.hide()
+            self.ui.cmap_cmap.hide()
