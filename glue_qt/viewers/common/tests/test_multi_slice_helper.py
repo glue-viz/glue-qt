@@ -1,11 +1,10 @@
+from ..data_slice_widget import SliceWidget
+from ..slice_widget import MultiSliceWidgetHelper
+
 from echo import CallbackProperty, HasCallbackProperties
 from glue.core import Data
 from numpy import arange
 from qtpy.QtWidgets import QVBoxLayout
-QVBoxLayout
-
-from ..data_slice_widget import SliceWidget
-from ..slice_widget import MultiSliceWidgetHelper
 
 
 class ViewerTestState(HasCallbackProperties):
