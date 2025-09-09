@@ -114,14 +114,17 @@ class MultiSliceWidgetHelper(object):
                     world_warning = False
                     world_label = self.data.pixel_component_ids[i].label
 
-                slider = SliceWidget(world_label,
-                                     hi=self.data.shape[i] - 1, world=world,
-                                     world_unit=world_unit, world_warning=world_warning)
+                if self.data.shape[i] > 1:
+                    slider = SliceWidget(world_label,
+                                         hi=self.data.shape[i] - 1, world=world,
+                                         world_unit=world_unit, world_warning=world_warning)
 
-                self.slider_state = slider.state
-                self.slider_state.add_callback('slice_center', self.sync_state_from_sliders)
-                self._sliders.append(slider)
-                self.layout.addWidget(slider)
+                    self.slider_state = slider.state
+                    self.slider_state.add_callback('slice_center', self.sync_state_from_sliders)
+                    self._sliders.append(slider)
+                    self.layout.addWidget(slider)
+                else:
+                    self._sliders.append(None)
 
         for i in range(self.data.ndim):
             if self._sliders[i] is not None:
