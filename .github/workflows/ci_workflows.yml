@@ -60,7 +60,6 @@ jobs:
         - macos: py310-test-pyqt514-all
         - macos: py311-test-pyqt65
         - macos: py312-test-pyqt66
-          runs-on: macos-13
         - macos: py313-test-pyqt68
 
         # Test some configurations on Windows
