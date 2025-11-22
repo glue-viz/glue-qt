@@ -1,5 +1,16 @@
 # Full changelog
 
+## v0.4.1 - 2025-11-22
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug Fixes
+
+* Don't show a slider for a "flat" dimension by @Carifio24 in https://github.com/glue-viz/glue-qt/pull/51
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.4.0...v0.4.1
+
 ## v0.4.0 - 2025-08-19
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
