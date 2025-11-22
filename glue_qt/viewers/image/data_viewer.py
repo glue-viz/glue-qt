@@ -12,10 +12,7 @@ from glue.utils import defer_draw, decorate_all_methods
 # Import the mouse mode to make sure it gets registered
 from glue_qt.viewers.image.contrast_mouse_mode import ContrastBiasMode  # noqa
 from glue_qt.viewers.image.profile_viewer_tool import ProfileViewerTool  # noqa
-try:
-    from glue.viewers.image.pixel_selection_mode import PixelSelectionTool  # noqa
-except ModuleNotFoundError:
-    from glue_qt.viewers.image.pixel_selection_mode import PixelSelectionTool  #noqa
+from glue.viewers.image.pixel_selection_mode import PixelSelectionTool  # noqa
 
 
 
