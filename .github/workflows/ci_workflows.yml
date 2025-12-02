@@ -71,11 +71,11 @@ jobs:
         - linux: py311-test-pyqt64-dev
         - linux: py312-test-pyqt515-dev-all
         - linux: py312-test-pyqt67-dev
-       # Test against latest developer versions of some packages
-       - linux: py311-test-pyqt64-dev
-       - linux: py312-test-pyqt515-dev-all
-       - linux: py313-test-pyqt67-dev
-       - linux: py314-test-pyqt68-dev-all
+        # Test against latest developer versions of some packages
+        - linux: py311-test-pyqt64-dev
+        - linux: py312-test-pyqt515-dev-all
+        - linux: py313-test-pyqt67-dev
+        - linux: py314-test-pyqt68-dev-all
 
   allowed_failures:
     needs: initial_checks
