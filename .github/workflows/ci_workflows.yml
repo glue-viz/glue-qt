@@ -57,7 +57,7 @@ jobs:
               - enchant
 
         # Test a few configurations on macOS 13 (Intel, default for py<310) and 14 (Arm)
-        - macos: py310-test-pyqt514-all
+        - macos: py310-test-pyqt515-all
         - macos: py311-test-pyqt65
         - macos: py312-test-pyqt66
         - macos: py313-test-pyqt68
@@ -72,7 +72,11 @@ jobs:
         - linux: py311-test-pyqt64-dev
         - linux: py312-test-pyqt515-dev-all
         - linux: py312-test-pyqt67-dev
-        - linux: py313-test-pyqt68-dev-all
+       # Test against latest developer versions of some packages
+       - linux: py311-test-pyqt64-dev
+       - linux: py312-test-pyqt515-dev-all
+       - linux: py313-test-pyqt67-dev
+       - linux: py314-test-pyqt68-dev-all
 
   allowed_failures:
     needs: initial_checks
