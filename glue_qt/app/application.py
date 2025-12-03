@@ -219,7 +219,7 @@ class ExportHelper(object):
         if outmode is None:
             return saver(app)
         elif outmode in ['file', 'directory']:
-            outfile, file_filter = compat.getsavefilename(parent=app)
+            outfile, _file_filter = compat.getsavefilename(parent=app)
             if not outfile:
                 return
             return saver(app, outfile)
@@ -1063,7 +1063,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
     def _restore_session(self, *args):
         """ Load a previously-saved state, and restart the session """
         fltr = "Glue sessions (*.glu)"
-        file_name, file_filter = compat.getopenfilename(
+        file_name, _file_filter = compat.getopenfilename(
             parent=self, filters=fltr)
         if not file_name:
             return

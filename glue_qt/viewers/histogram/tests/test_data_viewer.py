@@ -674,13 +674,13 @@ class TestHistogramViewer(object):
         self.viewer.add_data(self.data)
         self.viewer.state.legend.visible = True
 
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 1
         assert labels[0] == 'd1'
 
         self.data_collection.new_subset_group('test', self.data.id['x'] > 1)
         assert len(viewer_state.layers) == 2
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 2
         assert labels[1] == 'test'
 
@@ -723,7 +723,7 @@ def test_with_dask_array():
     assert len(viewer.layers) == 1
     assert viewer.layers[0].enabled
 
-    zid, yid, xid = data.pixel_component_ids
+    _zid, yid, xid = data.pixel_component_ids
 
     subset_state = RoiSubsetState(xatt=xid, yatt=yid,
                                   roi=RectangularROI(xmin=3.5, xmax=5.5, ymin=3.7, ymax=7.5))

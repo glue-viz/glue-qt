@@ -648,13 +648,13 @@ class BaseTestMatplotlibDataViewer(object):
         legend = self.viewer.axes.get_legend()
         assert not (legend is None)
 
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 1
         assert labels[0] == self.data.label
 
         self.init_subset()
         assert len(viewer_state.layers) == 2
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 2
         assert labels[1] == 'subset 1'
 
