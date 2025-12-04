@@ -41,7 +41,7 @@ class EmceeGaussianFitter(BaseFitter1D):
                                         args=[x, y, dy])
 
         # burnin
-        pos, prob, state = sampler.run_mcmc(p0, burnin)
+        pos, _prob, _state = sampler.run_mcmc(p0, burnin)
         sampler.reset()
 
         # run
@@ -58,7 +58,7 @@ class EmceeGaussianFitter(BaseFitter1D):
         chain = fit_result.flatchain
         amp, mean, sigma = chain.mean(axis=0)
         damp, dmean, dsigma = np.std(chain, axis=0)
-        walkers, steps, dim = fit_result.chain.shape
+        walkers, steps, _dim = fit_result.chain.shape
 
         result = [
             "Walkers: %i" % walkers,

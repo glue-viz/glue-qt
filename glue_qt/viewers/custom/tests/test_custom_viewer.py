@@ -147,7 +147,7 @@ class TestCustomViewer(object):
         w = self.build()
         w.add_data(self.data)
 
-        a, k = plot_data.call_args
+        _a, k = plot_data.call_args
         assert isinstance(k['axes'], Axes)
         assert set(k.keys()) == set(('axes', 'a', 'b', 'g', 'h'))
         assert k['a'] == 50
@@ -160,7 +160,7 @@ class TestCustomViewer(object):
 
         self.dc.new_subset_group(subset_state=self.data.id['x'] > 2)
 
-        a, k = plot_subset.call_args
+        _a, k = plot_subset.call_args
         assert set(k.keys()) == set(('b', 'c', 'd', 'e', 'f', 'style'))
 
         assert_array_equal(k['b'], [3])
@@ -175,7 +175,7 @@ class TestCustomViewer(object):
         roi = MagicMock()
         w.apply_roi(roi)
 
-        a, k = make_selector.call_args
+        _a, k = make_selector.call_args
 
         assert set(k.keys()) == set(('roi', 'c'))
         assert k['roi'] is roi
@@ -185,7 +185,7 @@ class TestCustomViewer(object):
         ct = settings_changed.call_count
         w.options_widget().bool_d.setChecked(False)
         assert settings_changed.call_count == ct + 1
-        a, k = settings_changed.call_args
+        _a, k = settings_changed.call_args
         assert 'state' in k
 
     def test_component_autoupdate(self):

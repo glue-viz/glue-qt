@@ -95,7 +95,7 @@ def test_change_label_invalid_row():
 
 
 def test_flags():
-    model, layer_artists = setup_model(1)
+    model, _layer_artists = setup_model(1)
 
     expected = (Qt.ItemIsEditable |
                 Qt.ItemIsDragEnabled |
@@ -226,7 +226,7 @@ def test_artist_check_uncheck_works():
 
 def test_data():
 
-    model, mgrs = setup_model(3)
+    model, _mgrs = setup_model(3)
     idx = model.index(3)
     assert model.data(idx, Qt.DisplayRole) is None
     idx = model.index(1)

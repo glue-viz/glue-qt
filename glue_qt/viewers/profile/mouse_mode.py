@@ -147,7 +147,7 @@ class RangeMouseMode(MouseMode):
         self.move_params
 
     def _update_artist(self, *args):
-        y_min, y_max = self._axes.get_ylim()
+        _y_min, _y_max = self._axes.get_ylim()
         if hasattr(self, '_lines'):
             if self.state.x_min is None or self.state.x_max is None:
                 self._lines[0].set_visible(False)
