@@ -1002,3 +1002,25 @@ class TestScatterViewer(object):
             assert projtrans._state['x_scale'] == 'linear'
             assert projtrans._state['y_scale'] == 'linear'
             subset.delete()
+
+    def test_cmap_att_change_preserves_cmap(self):
+
+        # This is a regression test to make sure that changing the
+        # colormap attribute doesn't reset the colormap
+
+        self.viewer.add_data(self.data)
+
+        layer = self.viewer.layers[0]
+        layer.state.cmap_att = self.data.id['x']
+        layer.state.cmap = colormaps.members[3][1]
+        layer.state.cmap_att = self.data.id['y']
+
+        assert layer.state.cmap == colormaps.members[3][1]
+
+        # Check that this works as expected when we have a preferred colormap
+
+        component = layer.get_component('x')
+        component.preferred_cmap = colormaps.members[2][1]
+        layer.state.cmap_att = self.data.id['x']
+
+        assert layer.state.cmap == colormaps.members[2][1]
