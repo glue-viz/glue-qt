@@ -8,7 +8,6 @@ from echo import delay_callback
 
 from glue.core import BaseData
 from echo.qt import autoconnect_callbacks_to_qt, connect_value
-from echo.qt.connect import UserDataWrapper
 from glue_qt.utils import load_ui, fix_tab_widget_fontsize
 from glue.core.exceptions import IncompatibleAttribute
 

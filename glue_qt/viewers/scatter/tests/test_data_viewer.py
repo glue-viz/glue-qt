@@ -1019,8 +1019,10 @@ class TestScatterViewer(object):
 
         # Check that this works as expected when we have a preferred colormap
 
-        component = layer.get_component('x')
-        component.preferred_cmap = colormaps.members[2][1]
+        component = layer.layer.get_component('x')
+        preferred = colormaps.members[2][1]
+        component.preferred_cmap = preferred
+        component.cmap_name = preferred.name
         layer.state.cmap_att = self.data.id['x']
 
         assert layer.state.cmap == colormaps.members[2][1]
