@@ -8,6 +8,7 @@ from echo import delay_callback
 
 from glue.core import BaseData
 from echo.qt import autoconnect_callbacks_to_qt, connect_value
+from echo.qt.connect import UserDataWrapper
 from glue_qt.utils import load_ui, fix_tab_widget_fontsize
 from glue.core.exceptions import IncompatibleAttribute
 
@@ -232,6 +233,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
 
     def _update_cmaps(self, *args):
 
+        current_cmap = self.layer_state.cmap
         with delay_callback(self.layer_state, 'cmap'):
             if isinstance(self.layer_state.layer, BaseData):
                 layer = self.layer_state.layer
@@ -245,6 +247,15 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
                 self.ui.combodata_cmap.refresh_options(colormaps=[(name, cmap)])
             else:
                 self.ui.combodata_cmap.refresh_options()
+
+            index = 0
+            for i in range(self.ui.combodata_cmap.count()):
+                data = self.ui.combodata_cmap.itemData(i).data
+                if data == current_cmap:
+                    index = i
+                    break
+
+            self.layer_state.cmap = self.ui.combodata_cmap.itemData(index).data
 
 
 class ScatterRegionLayerStyleEditor(QtWidgets.QWidget):
