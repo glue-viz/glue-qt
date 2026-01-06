@@ -733,13 +733,13 @@ class TestImageViewer(object):
         self.viewer.add_data(self.image1)
         self.viewer.state.legend.visible = True
 
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 1
         assert labels[0] == 'image1'
 
         self.data_collection.new_subset_group('test', self.image1.id['x'] > 1)
         assert len(viewer_state.layers) == 2
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 2
         assert labels[1] == 'test'
 
