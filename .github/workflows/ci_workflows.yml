@@ -49,7 +49,7 @@ jobs:
         # Documentation build
         - linux: py311-docs-pyqt514
           coverage: false
-        - macos: py311-docs-pyqt64
+        - macos: py314-docs-pyqt67
           coverage: false
           libraries:
             brew:
