@@ -38,8 +38,6 @@ jobs:
         # Standard tests
         # Linux builds - test on all supported PyQt5/6 and PySide2/6 versions,
         # and include all dependencies in some builds
-        - linux: py38-test-pyqt514-all
-        - linux: py39-test-pyqt515
         - linux: py310-test-pyqt63-all
         - linux: py311-test-pyqt64
         - linux: py312-test-pyqt65
@@ -49,32 +47,35 @@ jobs:
         - linux: py311-test-pyqt514
 
         # Documentation build
-        - linux: py38-docs-pyqt514
+        - linux: py311-docs-pyqt514
           coverage: false
-        - macos: py311-docs-pyqt64
+        - macos: py314-docs-pyqt67
           coverage: false
           libraries:
             brew:
               - enchant
 
         # Test a few configurations on macOS 13 (Intel, default for py<310) and 14 (Arm)
-        - macos: py38-test-pyqt514-all
+        - macos: py310-test-pyqt515-all
         - macos: py311-test-pyqt65
         - macos: py312-test-pyqt66
-          runs-on: macos-13
         - macos: py313-test-pyqt68
 
         # Test some configurations on Windows
-        - windows: py38-test-pyqt514
         - windows: py310-test-pyqt63
         - windows: py311-test-pyqt65
         - windows: py312-test-pyqt67
+        - windows: py313-test-pyqt67
 
         # Test against latest developer versions of some packages
         - linux: py311-test-pyqt64-dev
         - linux: py312-test-pyqt515-dev-all
         - linux: py312-test-pyqt67-dev
-        - linux: py313-test-pyqt68-dev-all
+        # Test against latest developer versions of some packages
+        - linux: py311-test-pyqt64-dev
+        - linux: py312-test-pyqt515-dev-all
+        - linux: py313-test-pyqt67-dev
+        - linux: py314-test-pyqt68-dev-all
 
   allowed_failures:
     needs: initial_checks
@@ -95,8 +96,6 @@ jobs:
       envs: |
 
         # Non-deterministic QThread exceptions
-        - linux: py38-test-pyside514-skipexitcode
-        - linux: py39-test-pyside515-skipexitcode
         - linux: py310-test-pyside63-skipexitcode
 
         # PySide6 6.4 failures due to https://github.com/spyder-ide/qtpy/issues/373
