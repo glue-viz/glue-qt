@@ -173,12 +173,12 @@ class TestGlueApplication(object):
 
             self.app.choose_new_data_viewer(data=d1)
             assert pc.call_count == 1
-            args, kwargs = pc.call_args
+            _args, kwargs = pc.call_args
             assert kwargs['default'] is ScatterViewer
 
             self.app.choose_new_data_viewer(data=d2)
             assert pc.call_count == 2
-            args, kwargs = pc.call_args
+            _args, kwargs = pc.call_args
             assert kwargs['default'] is ImageViewer
 
             pc.reset_mock()

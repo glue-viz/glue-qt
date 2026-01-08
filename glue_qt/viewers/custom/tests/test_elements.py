@@ -7,7 +7,7 @@ from ..elements import (FormElement, NumberElement, ChoiceElement,
 
 def get_value(element):
 
-    prefix, widget_cls, property = element.ui_and_state()
+    _prefix, _widget_cls, property = element.ui_and_state()
 
     class TemporaryState(State):
         a = property

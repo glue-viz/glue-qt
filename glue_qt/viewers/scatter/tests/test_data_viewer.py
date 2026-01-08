@@ -689,13 +689,13 @@ class TestScatterViewer(object):
         self.viewer.add_data(self.data)
         viewer_state.legend.visible = True
 
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 1
         assert labels[0] == 'd1'
 
         self.data_collection.new_subset_group('test', self.data.id['x'] > 1)
         assert len(viewer_state.layers) == 2
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
 
         assert len(handles) == 2
         assert labels[1] == 'test'
@@ -710,7 +710,7 @@ class TestScatterViewer(object):
         assert len(viewer_state.layers) == 4
 
         # 'd2' is not enabled (no linked component)
-        handles, labels, handler_dict = self.viewer.get_handles_legend()
+        handles, labels, _handler_dict = self.viewer.get_handles_legend()
         assert len(handles) == 2
 
     def test_changing_plot_modes(self):
