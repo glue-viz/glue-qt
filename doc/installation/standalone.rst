@@ -24,9 +24,9 @@ should check one of the other installation methods mentioned in
 MacOS X (Silicon)
 -----------------
 
-Download the :download:`glue 2024.03.1.dmg
-<https://glueviz.s3.amazonaws.com/installers/2024.03.1/glue%202024.03.1.dmg>`
-file, open it and copy the **glue 2024.03.1.app** application to your
+Download the :download:`glue 2026.02.0.dmg
+<https://glueviz.s3.amazonaws.com/installers/2026.02.0/glue%202026.02.0.dmg>`
+file, open it and copy the **glue 2026.02.0.app** application to your
 **Applications** folder (or any other location you want to use). You will
 likely see a dialog asking you whether to continue opening the application as it
 was downloaded from the internet - if so, you can proceed (this is a standard
@@ -43,9 +43,9 @@ one from
 Windows
 -------
 
-Download the :download:`glue 2024.03.1.exe
-<https://glueviz.s3.amazonaws.com/installers/2024.03.1/glue%202024.03.1.exe>` file.
-Once the file has downloaded, open the **glue 2024.03.1.exe** application. You
+Download the :download:`glue 2026.02.0.exe
+<https://glueviz.s3.amazonaws.com/installers/2026.02.0/glue%202026.02.0.exe>` file.
+Once the file has downloaded, open the **glue 2026.02.0.exe** application. You
 will likely then see a dialog such as:
 
 .. image:: images/warning1_windows.png
