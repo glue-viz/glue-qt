@@ -2,7 +2,7 @@
 Widgets for sending feedback reports
 """
 import os
-import pkg_resources
+from importlib.metadata import distributions
 
 from qtpy import QtGui, QtWidgets
 from urllib.parse import urlencode
@@ -18,8 +18,8 @@ def diagnostics():
     Return a some system informaton useful for debugging
     """
     versions = ""
-    for pkg in pkg_resources.working_set:
-        versions += "* {0}: {1}\n".format(pkg.key, pkg.version)
+    for pkg in distributions():
+        versions += "* {0}: {1}\n".format(pkg.name, pkg.version)
     return versions.strip()
 
 

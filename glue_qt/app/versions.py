@@ -1,5 +1,5 @@
 import os
-import pkg_resources
+from importlib.metadata import distributions
 
 from glue import __version__
 
@@ -31,7 +31,7 @@ class QVersionsDialog(CenteredDialog):
         self.ui.button_copy.clicked.connect(nonpartial(self._copy))
 
     def _update_deps(self):
-        status = {pkg.key: pkg.version for pkg in pkg_resources.working_set}
+        status = {pkg.name: pkg.version for pkg in distributions()}
         self._text = ""
         for name, version in [('Glue', __version__)] + list(status.items()):
             QtWidgets.QTreeWidgetItem(self.ui.version_tree.invisibleRootItem(),
