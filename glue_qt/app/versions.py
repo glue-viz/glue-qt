@@ -2,7 +2,6 @@ import os
 from importlib.metadata import distributions
 from packaging.utils import canonicalize_name
 
-from glue import __version__
 
 from qtpy import QtWidgets
 from qtpy.QtCore import Qt
