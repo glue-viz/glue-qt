@@ -2,7 +2,7 @@
 Widgets for sending feedback reports
 """
 import os
-from importlib.metadata import distributions
+from glue_qt.app.versions import get_package_versions
 
 from qtpy import QtGui, QtWidgets
 from urllib.parse import urlencode
@@ -18,8 +18,8 @@ def diagnostics():
     Return a some system informaton useful for debugging
     """
     versions = ""
-    for pkg in distributions():
-        versions += "* {0}: {1}\n".format(pkg.name, pkg.version)
+    for name, version in get_package_versions():
+        versions += "* {0}: {1}\n".format(name, version)
     return versions.strip()
 
 
