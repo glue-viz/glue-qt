@@ -1,7 +1,7 @@
 import os
-import pkg_resources
+from importlib.metadata import distributions
+from packaging.utils import canonicalize_name
 
-from glue import __version__
 
 from qtpy import QtWidgets
 from qtpy.QtCore import Qt
@@ -9,7 +9,14 @@ from qtpy.QtCore import Qt
 from glue.utils import nonpartial
 from glue_qt.utils import load_ui, CenteredDialog
 
-__all__ = ['QVersionsDialog']
+__all__ = ['QVersionsDialog', 'get_package_versions']
+
+
+def get_package_versions():
+    """
+    Return a sorted list of (package_name, version) tuples for all installed packages.
+    """
+    return sorted((canonicalize_name(pkg.name), pkg.version) for pkg in distributions())
 
 
 class QVersionsDialog(CenteredDialog):
@@ -31,9 +38,8 @@ class QVersionsDialog(CenteredDialog):
         self.ui.button_copy.clicked.connect(nonpartial(self._copy))
 
     def _update_deps(self):
-        status = {pkg.key: pkg.version for pkg in pkg_resources.working_set}
         self._text = ""
-        for name, version in [('Glue', __version__)] + list(status.items()):
+        for name, version in get_package_versions():
             QtWidgets.QTreeWidgetItem(self.ui.version_tree.invisibleRootItem(),
                                       [name, version])
             self._text += "{0}: {1}\n".format(name, version)

@@ -4,7 +4,7 @@
 
 import os
 import sys
-from pkg_resources import get_distribution
+import importlib.metadata
 
 # -- General configuration ----------------------------------------------------
 
@@ -61,7 +61,7 @@ copyright = u'2012-2019, Chris Beaumont, Thomas Robitaille, Michelle Borkin'
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-version = release = get_distribution('glue-core').version
+version = release = importlib.metadata.version('glue-core')
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
