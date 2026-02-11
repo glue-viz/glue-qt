@@ -1,5 +1,21 @@
 # Full changelog
 
+## v0.4.2 - 2026-02-11
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+### What's Changed
+
+#### Bug Fixes
+
+* Replace pkg_resources with importlib.metadata by @Carifio24 in https://github.com/glue-viz/glue-qt/pull/61
+
+#### Other Changes
+
+* Remove support for py38 and py39 by @CyclingNinja in https://github.com/glue-viz/glue-qt/pull/50
+* Updated download links for 2026.02.0 standalone app by @astrofrog in https://github.com/glue-viz/glue-qt/pull/60
+
+**Full Changelog**: https://github.com/glue-viz/glue-qt/compare/v0.4.1...v0.4.2
+
 ## v0.4.1 - 2025-11-22
 
 <!-- Release notes generated using configuration in .github/release.yml at main -->
