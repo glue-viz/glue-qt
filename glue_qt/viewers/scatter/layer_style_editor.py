@@ -232,6 +232,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
 
     def _update_cmaps(self, *args):
 
+        current_cmap = self.layer_state.cmap
         with delay_callback(self.layer_state, 'cmap'):
             if isinstance(self.layer_state.layer, BaseData):
                 layer = self.layer_state.layer
@@ -245,6 +246,18 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
                 self.ui.combodata_cmap.refresh_options(colormaps=[(name, cmap)])
             else:
                 self.ui.combodata_cmap.refresh_options()
+
+            # The idea here is to preserve the current colormap if it's still an
+            # acceptable option. There may be a more elegant way to do this,
+            # but it does the job
+            index = 0
+            for i in range(self.ui.combodata_cmap.count()):
+                data = self.ui.combodata_cmap.itemData(i).data
+                if data == current_cmap:
+                    index = i
+                    break
+
+            self.layer_state.cmap = self.ui.combodata_cmap.itemData(index).data
 
 
 class ScatterRegionLayerStyleEditor(QtWidgets.QWidget):
