@@ -216,7 +216,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.valuetext_cmap_vmin.hide()
             self.ui.valuetext_cmap_vmax.hide()
             self.ui.button_flip_cmap.hide()
-            self.ui.combodata_cmap.hide()
+            self.ui.cmap_cmap.hide()
             self.ui.label_colormap.hide()
             self.ui.color_color.show()
         else:
@@ -226,7 +226,7 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             self.ui.valuetext_cmap_vmin.show()
             self.ui.valuetext_cmap_vmax.show()
             self.ui.button_flip_cmap.show()
-            self.ui.combodata_cmap.show()
+            self.ui.cmap_cmap.show()
             self.ui.label_colormap.show()
             self.ui.color_color.hide()
 
@@ -243,9 +243,9 @@ class ScatterLayerStyleEditor(QtWidgets.QWidget):
             if getattr(actual_component, 'preferred_cmap', False):
                 cmap = actual_component.preferred_cmap
                 name = actual_component.cmap_name
-                self.ui.combodata_cmap.refresh_options(colormaps=[(name, cmap)])
+                self.ui.cmap_cmap.refresh_options(colormaps=[(name, cmap)])
             else:
-                self.ui.combodata_cmap.refresh_options()
+                self.ui.cmap_cmap.refresh_options()
 
             # The idea here is to preserve the current colormap if it's still an
             # acceptable option. There may be a more elegant way to do this,
