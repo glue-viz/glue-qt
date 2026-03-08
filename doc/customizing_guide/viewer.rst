@@ -149,7 +149,7 @@ which should be used as follows::
 
         def __init__(self, *args, **kwargs):
             super(TutorialViewerState).__init__(*args, **kwargs)
-            MyExampleState.linestyle.set_choices(['solid', 'dashed', 'dotted'])
+            self.linestyle.set_choices(['solid', 'dashed', 'dotted'])
 
 This then makes it so that the ``linestyle`` property knows about what valid
 values are, and this will come in useful when developing for example Qt widgets
