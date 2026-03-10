@@ -227,3 +227,20 @@ def qurl_to_path(url):
             path = path[1:]
 
     return path
+
+
+def is_descendant_of(descendant_widget, ancestor_widget):
+    """
+    Checks if descendant_widget is a descendant (child, grandchild, etc.)
+    of ancestor_widget.
+    """
+    if not (ancestor_widget and descendant_widget):
+        return False
+
+    current_parent = descendant_widget.parent()
+    while current_parent:
+        if current_parent == ancestor_widget:
+            return True
+        current_parent = current_parent.parent()
+
+    return False

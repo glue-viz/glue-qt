@@ -5,7 +5,7 @@ import sys
 
 import pytest
 import numpy as np
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, PropertyMock
 
 from qtpy import QtCore
 from glue.core.data import Data
@@ -85,7 +85,44 @@ class TestGlueApplication(object):
 
     @requires_ipython
     def test_toggle_terminal(self):
-        with patch.object(self.app, '_terminal') as term:
+
+        self.app.show()
+
+        self.app._toggle_terminal()
+        assert self.app._terminal.isVisible()
+        assert self.app.terminal_tab == 0
+
+        self.app._toggle_terminal()
+        assert not self.app._terminal.isVisible()
+        assert self.app.terminal_tab == 0
+
+        self.app.new_tab()
+        self.app.tab_widget.setCurrentIndex(1)
+        assert self.app.terminal_tab == 0
+
+        self.app._toggle_terminal()
+        assert self.app._terminal.isVisible()
+        assert self.app.terminal_tab == 1
+
+        self.app._toggle_terminal()
+        assert not self.app._terminal.isVisible()
+        assert self.app.terminal_tab == 1
+
+        self.app.close_tab(1)
+        assert self.app.terminal_tab is None
+        assert self.app._terminal is not None
+        assert not self.app._terminal.isVisible()
+
+        self.app._toggle_terminal()
+        assert self.app._terminal.isVisible()
+        assert self.app.terminal_tab == 0
+
+    @requires_ipython
+    def test_terminal_warnings(self):
+        with patch.object(self.app, '_terminal') as term, \
+             patch.object(GlueApplication, 'terminal_tab', new_callable=PropertyMock) as term_tab:
+
+            term_tab.return_value = 0
 
             self.app._terminal = term
 
