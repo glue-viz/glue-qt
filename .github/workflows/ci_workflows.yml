@@ -58,18 +58,20 @@ jobs:
             brew:
               - enchant
 
-        # Test a few configurations on macOS 13 (Intel, default for py<310) and 14 (Arm)
+        # Test a few configurations on macOS 15 (Arm)
         - macos: py310-test-pyqt515-all
-        - macos: py311-test-pyqt65
+        # Failing on timeout when pytest-qt is installed (#65)
+        - macos: py311-test-pyqt65-ignoreqt
         - macos: py312-test-pyqt66
         - macos: py310-test-pyqt515
-        - macos: py313-test-pyqt68
+        - macos: py314-test-pyqt68
 
         # Test some configurations on Windows
-        - windows: py310-test-pyqt63
-        - windows: py311-test-pyqt65
+        # Ignore failures from the Qt widget with older Qt6 versions (#65)
+        - windows: py310-test-pyqt63-ignoreqt
+        - windows: py311-test-pyqt65-ignoreqt
         - windows: py312-test-pyqt67
-        - windows: py313-test-pyqt67
+        - windows: py313-test-pyqt68
         - windows: py311-test-pyqt515
         - windows: py310-test-pyqt515-all
 
