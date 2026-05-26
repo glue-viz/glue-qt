@@ -67,7 +67,7 @@ test = [
 glue = "glue_qt.main:main"
 
 [project.entry-points."glue.plugins"]
-pv_slicer = "glue_qt.plugins.tools.pv_slicer:setup"
+path_slicer = "glue_qt.plugins.tools.path_slicer:setup"
 dendro_viewer = "glue_qt.plugins.dendro_viewer:setup"
 image_viewer = "glue_qt.viewers.image:setup"
 scatter_viewer = "glue_qt.viewers.scatter:setup"

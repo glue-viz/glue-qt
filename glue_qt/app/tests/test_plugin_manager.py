@@ -40,7 +40,7 @@ def test_basic(tmpdir):
 
     config = ph.PluginConfig.load()
     config.plugins['spectrum_tool'] = False
-    config.plugins['pv_slicer'] = False
+    config.plugins['path_slicer'] = False
     config.save()
 
     w = QtPluginManager()

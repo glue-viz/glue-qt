@@ -195,12 +195,16 @@ class BasicToolbar(QtWidgets.QToolBar):
 
         self.actions[tool.tool_id] = action
 
-        # Bind tool visibility to tool.enabled
+        # Bind tool visibility to tool.enabled. The callback only fires
+        # on changes, so we also apply the current value here so a tool
+        # that set ``self.enabled = False`` in its __init__ (before this
+        # callback is registered) gets hidden up front.
         def toggle(state):
             action.setVisible(state)
             action.setEnabled(state)
 
         add_callback(tool, 'enabled', toggle)
+        toggle(tool.enabled)
 
         self.tools[tool.tool_id] = tool
 
