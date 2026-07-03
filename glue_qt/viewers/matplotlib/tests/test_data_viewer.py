@@ -19,7 +19,7 @@ from glue_qt.app.application import GlueApplication
 from glue.core.roi import XRangeROI
 from glue_qt.utils import process_events
 from glue.tests.helpers import requires_matplotlib_ge_22
-from glue_qt.tests.helpers import requires_pyqt, PYQT5_INSTALLED
+from glue_qt.tests.helpers import requires_pyqt, PYQT5_INSTALLED, PYQT6_GT_68
 
 
 class MatplotlibDrawCounter(object):
@@ -595,9 +595,12 @@ class BaseTestMatplotlibDataViewer(object):
         self.viewer.figure.canvas.draw()
         process_events(wait=0.1)
 
-        # Broken in Linux CI with PyQT5
-        if not (PYQT5_INSTALLED and sys.platform == 'linux'):
-            assert not np.allclose(limits(self.viewer), initial_limits, rtol=1e-7, atol=0)
+        # Broken in Linux CI with PyQT5 and PyQT6 >= 6.9
+        if (PYQT5_INSTALLED or PYQT6_GT_68) and sys.platform == 'linux':
+            frozen = True
+        else:
+            frozen = False
+        assert np.allclose(limits(self.viewer), initial_limits, rtol=1e-7, atol=0) is frozen
 
         # Now change the viewer size a number of times and make sure if we
         # return to the original size, the limits match the initial ones.

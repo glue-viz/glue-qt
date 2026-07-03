@@ -22,8 +22,10 @@ requires_pyside = pytest.mark.skipif(str(not PYSIDE_INSTALLED),
 requires_qt = pytest.mark.skipif(str(not QT_INSTALLED),
                                  reason='An installation of Qt is required')
 
-PYQT_GT_59, _ = make_skipper('PyQt5', version='5.10')
+PYQT5_GT_59, _ = make_skipper('PyQt5', version='5.10')
 
-requires_pyqt_gt_59_or_pyside = pytest.mark.skipif(str(not (PYQT_GT_59 or PYQT6_INSTALLED or
+PYQT6_GT_68, _ = make_skipper('PyQt6', version='6.9')
+
+requires_pyqt_gt_59_or_pyside = pytest.mark.skipif(str(not (PYQT5_GT_59 or PYQT6_INSTALLED or
                                                             PYSIDE_INSTALLED)),
                                                    reason='Requires PyQt > 5.9 or PySide2/6')

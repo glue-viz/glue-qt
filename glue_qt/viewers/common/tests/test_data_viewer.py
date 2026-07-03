@@ -104,6 +104,8 @@ class BaseTestDataViewer(object):
         w.state.title = "My Viewer"
         assert w.parent().windowTitle() == "My Viewer"
 
+        app.close()
+
     def test_viewer_title_tool(self):
 
         # check that the viewer title tool correctly updates the title
@@ -119,6 +121,8 @@ class BaseTestDataViewer(object):
             tool.activate()
         assert w.state.title == "My Viewer"
         assert w.parent().windowTitle() == "My Viewer"
+
+        app.close()
 
 
 class TestDataViewerScatter(BaseTestDataViewer):
