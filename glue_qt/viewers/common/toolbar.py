@@ -1,3 +1,4 @@
+from functools import partial
 import os
 import warnings
 
@@ -176,11 +177,17 @@ class BasicToolbar(QtWidgets.QToolBar):
 
     def add_tool(self, tool):
 
+        def toggle(action, state):
+            action.setVisible(state)
+            action.setEnabled(state)
+
         if isinstance(tool, DropdownTool) and len(tool.subtools) > 0:
             menu = QtWidgets.QMenu(self)
             for t in tool.subtools:
                 action = self._make_action(t)
                 menu.addAction(action)
+                # Bind subtool visibility to tool.enabled
+                add_callback(t, 'enabled', partial(toggle, action))
         elif len(tool.menu_actions()) > 0:
             menu = QtWidgets.QMenu(self)
             for ma in tool.menu_actions():
@@ -191,16 +198,12 @@ class BasicToolbar(QtWidgets.QToolBar):
 
         action = self._make_action(tool, menu=menu)
 
+        # Bind tool visibility to tool.enabled
+        add_callback(tool, 'enabled', partial(toggle, action))
+
         self.addAction(action)
 
         self.actions[tool.tool_id] = action
-
-        # Bind tool visibility to tool.enabled
-        def toggle(state):
-            action.setVisible(state)
-            action.setEnabled(state)
-
-        add_callback(tool, 'enabled', toggle)
 
         self.tools[tool.tool_id] = tool
 
