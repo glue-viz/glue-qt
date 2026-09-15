@@ -2,6 +2,9 @@ from glue.utils import defer_draw, decorate_all_methods
 from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
 from glue_qt.viewers.scatter.layer_style_editor import ScatterLayerStyleEditor
 from glue.viewers.scatter.layer_artist import ScatterLayerArtist
+from glue.viewers.matplotlib.line_layers import (VerticalLineLayerArtist,
+                                                 HorizontalLineLayerArtist)
+from glue_qt.viewers.common.line_layer_style_editor import LineLayerStyleEditor
 from glue_qt.viewers.scatter.options_widget import ScatterOptionsWidget
 from glue.viewers.scatter.state import ScatterViewerState
 
@@ -17,7 +20,9 @@ class ScatterViewer(MatplotlibScatterMixin, MatplotlibDataViewer):
     LABEL = '2D Scatter'
     # We don't yet allow ScatterRegionLayerArtists directly on a ScatterViewer.
     # If we wanted to do so, we would need to expand these options.
-    _layer_style_widget_cls = {ScatterLayerArtist: ScatterLayerStyleEditor}
+    _layer_style_widget_cls = {ScatterLayerArtist: ScatterLayerStyleEditor,
+                               VerticalLineLayerArtist: LineLayerStyleEditor,
+                               HorizontalLineLayerArtist: LineLayerStyleEditor}
     _state_cls = ScatterViewerState
     _options_cls = ScatterOptionsWidget
     _data_artist_cls = ScatterLayerArtist

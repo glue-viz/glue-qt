@@ -44,3 +44,4 @@ glue/qt/glue_qt_resources.py
 .vscode
 # vscode plugin
 .history
+glue_qt/_version.py

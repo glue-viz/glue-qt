@@ -4,6 +4,9 @@ from glue.viewers.scatter.layer_artist import ScatterLayerArtist, ScatterRegionL
 from glue_qt.viewers.image.layer_style_editor import ImageLayerStyleEditor
 from glue_qt.viewers.image.layer_style_editor_subset import ImageLayerSubsetStyleEditor
 from glue.viewers.image.layer_artist import ImageLayerArtist, ImageSubsetLayerArtist
+from glue.viewers.matplotlib.line_layers import (VerticalLineLayerArtist,
+                                                 HorizontalLineLayerArtist)
+from glue_qt.viewers.common.line_layer_style_editor import LineLayerStyleEditor
 from glue_qt.viewers.image.options_widget import ImageOptionsWidget
 from glue_qt.viewers.image.mouse_mode import RoiClickAndDragMode
 from glue.viewers.image.state import ImageViewerState
@@ -29,7 +32,9 @@ class ImageViewer(MatplotlibImageMixin, MatplotlibDataViewer):
     _layer_style_widget_cls = {ImageLayerArtist: ImageLayerStyleEditor,
                                ImageSubsetLayerArtist: ImageLayerSubsetStyleEditor,
                                ScatterLayerArtist: ScatterLayerStyleEditor,
-                               ScatterRegionLayerArtist: ScatterRegionLayerStyleEditor}
+                               ScatterRegionLayerArtist: ScatterRegionLayerStyleEditor,
+                               VerticalLineLayerArtist: LineLayerStyleEditor,
+                               HorizontalLineLayerArtist: LineLayerStyleEditor}
     _state_cls = ImageViewerState
     _options_cls = ImageOptionsWidget
 

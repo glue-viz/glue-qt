@@ -1,6 +1,9 @@
 from glue.utils import defer_draw, decorate_all_methods
 from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
 from glue_qt.viewers.histogram.layer_style_editor import HistogramLayerStyleEditor
+from glue.viewers.histogram.layer_artist import HistogramLayerArtist
+from glue.viewers.matplotlib.line_layers import VerticalLineLayerArtist
+from glue_qt.viewers.common.line_layer_style_editor import LineLayerStyleEditor
 from glue_qt.viewers.histogram.options_widget import HistogramOptionsWidget
 from glue_qt.viewers.histogram.layer_artist import QThreadedHistogramLayerArtist
 from glue.viewers.histogram.state import HistogramViewerState
@@ -15,7 +18,8 @@ class HistogramViewer(MatplotlibHistogramMixin, MatplotlibDataViewer):
 
     LABEL = '1D Histogram'
 
-    _layer_style_widget_cls = HistogramLayerStyleEditor
+    _layer_style_widget_cls = {HistogramLayerArtist: HistogramLayerStyleEditor,
+                               VerticalLineLayerArtist: LineLayerStyleEditor}
     _options_cls = HistogramOptionsWidget
 
     _state_cls = HistogramViewerState
