@@ -41,7 +41,8 @@ def test_scatter_viewer_line_layers():
     vartist = add_vertical_lines(viewer, lines)
     hartist = add_horizontal_lines(viewer, lines)
 
-    assert vartist.enabled and hartist.enabled
+    assert vartist.enabled
+    assert hartist.enabled
     assert_positions(vartist, [1, 2, 3])
     assert_positions(hartist, [1, 2, 3], horizontal=True)
 
@@ -110,7 +111,8 @@ def test_session_round_trip(tmpdir):
     vline2, hline2 = viewer2.layers[1], viewer2.layers[2]
     assert isinstance(vline2, VerticalLineLayerArtist)
     assert isinstance(hline2, HorizontalLineLayerArtist)
-    assert vline2.enabled and hline2.enabled
+    assert vline2.enabled
+    assert hline2.enabled
     assert_positions(vline2, [1, 2, 3])
     assert_positions(hline2, [1, 2, 3], horizontal=True)
     assert vline2.state.linewidth == 5
