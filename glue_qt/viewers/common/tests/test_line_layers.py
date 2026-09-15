@@ -121,3 +121,34 @@ def test_session_round_trip(tmpdir):
 
     viewer2.close()
     app2.close()
+
+
+def test_computation_monitor_with_line_layers():
+
+    # The 'Computing' overlay monitor iterates over all layer artists and
+    # should not fail on line layers, which do not have an is_computing
+    # property (the profile and histogram viewers both use threaded layer
+    # artists which trigger the monitor)
+
+    from glue_qt.viewers.histogram import HistogramViewer
+
+    app = GlueApplication()
+    spectrum = Data(flux=np.random.random(10), label='spectrum')
+    lines = Data(position=[1., 3., 2., 3.], label='lines')
+    app.data_collection.append(spectrum)
+    app.data_collection.append(lines)
+    app.data_collection.add_link(LinkSame(lines.id['position'], spectrum.pixel_component_ids[0]))
+
+    for viewer_cls in (ProfileViewer, HistogramViewer):
+
+        viewer = app.new_data_viewer(viewer_cls)
+        viewer.add_data(spectrum)
+        add_vertical_lines(viewer, lines)
+
+        # This is what the QTimer calls periodically while any computation
+        # is in progress
+        viewer._update_computation()
+
+        viewer.close()
+
+    app.close()
