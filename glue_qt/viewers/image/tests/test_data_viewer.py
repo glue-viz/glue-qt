@@ -11,6 +11,7 @@ from astropy.wcs import WCS
 
 import numpy as np
 from numpy.testing import assert_allclose
+from matplotlib.backend_bases import MouseEvent
 
 from glue.viewers.image.frb_artist import FRBArtist
 from glue.core.coordinates import IdentityCoordinates
@@ -165,6 +166,42 @@ class TestImageViewer(object):
         assert not self.viewer.state.y_log
 
         assert len(self.viewer.state.layers) == 1
+
+    def test_cursor_status_includes_value(self):
+
+        self.viewer.add_data(self.image1)
+        canvas = self.viewer.axes.figure.canvas
+        canvas.draw()  # WCSAxes formats positions only once drawn
+
+        def move_to(x, y):
+            event = MouseEvent('motion_notify_event', canvas, *self.viewer.axes.transData.transform((x, y)))
+            canvas.callbacks.process('motion_notify_event', event)
+            return event
+
+        event = move_to(1, 0)
+        message = self.viewer.statusBar().currentMessage()
+        assert message == self.viewer.cursor_status(event.xdata, event.ydata)
+        assert message.startswith(self.viewer.axes.format_coord(event.xdata, event.ydata))
+        assert message.endswith(' | x = 2')
+
+        self.viewer.state.layers[0].attribute = self.image1.id['y']
+        assert self.viewer.cursor_status(1, 0).endswith(' | y = 5')
+
+        # Outside the image only the position is shown
+        assert self.viewer.cursor_status(5, 0) == self.viewer.axes.format_coord(5, 0)
+
+        # The value follows the slices for cubes
+        self.viewer.add_data(self.hypercube)
+        self.viewer.state.reference_data = self.hypercube
+        self.viewer.state.slices = (1, 2, 0, 0)
+        assert self.viewer.cursor_status(3, 1).endswith(' | x = {0}'.format(self.hypercube['x'][1, 2, 1, 3]))
+
+        # An attribute named after its dataset is reported as 'value'
+        named = Data(label='named', named=[[7, 8], [9, 10]])
+        self.data_collection.append(named)
+        viewer = self.application.new_data_viewer(ImageViewer, data=named)
+        assert viewer.cursor_status(1, 1).endswith(' | value = 10')
+        viewer.close()
 
     def test_custom_coords(self):
 

@@ -5,6 +5,7 @@ import sys
 import pytest
 import numpy as np
 from numpy.testing import assert_allclose
+from matplotlib.backend_bases import MouseEvent
 
 try:
     import objgraph
@@ -127,6 +128,19 @@ class BaseTestMatplotlibDataViewer(object):
 
         assert len(self.viewer.state.layers) == 1
         assert self.viewer.state.layers[0].layer is self.data
+
+    def test_cursor_position_in_status_bar(self):
+
+        self.viewer.add_data(self.data)
+        canvas = self.viewer.axes.figure.canvas
+        canvas.draw()  # WCSAxes formats positions only once drawn
+
+        bbox = self.viewer.axes.bbox
+        event = MouseEvent('motion_notify_event', canvas, bbox.x0 + bbox.width / 2, bbox.y0 + bbox.height / 2)
+        canvas.callbacks.process('motion_notify_event', event)
+
+        assert event.inaxes is self.viewer.axes
+        assert self.viewer.statusBar().currentMessage() == self.viewer.cursor_status(event.xdata, event.ydata) != ''
 
     def test_add_data_with_subset(self):
 

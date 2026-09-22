@@ -37,12 +37,28 @@ class MatplotlibDataViewer(MatplotlibViewerMixin, DataViewer):
 
         MatplotlibViewerMixin.setup_callbacks(self)
 
+        self.figure.canvas.mpl_connect('motion_notify_event', self._update_cursor_status)
+
         self.central_widget.resize(600, 400)
         self.resize(self.central_widget.size())
 
         self._monitor_computation = QTimer()
         self._monitor_computation.setInterval(500)
         self._monitor_computation.timeout.connect(self._update_computation)
+
+    def _update_cursor_status(self, event):
+        if event.inaxes is self.axes:
+            self.set_status(self.cursor_status(event.xdata, event.ydata))
+
+    def cursor_status(self, x, y):
+        """
+        The status bar message for the mouse at data coordinates ``x, y``.
+
+        By default this is the position as formatted by the axes (for example
+        world coordinates on WCSAxes, where the ``w`` key switches between
+        world and pixel coordinates); viewers can extend it.
+        """
+        return self.axes.format_coord(x, y)
 
     def _update_computation(self, message=None):
 
