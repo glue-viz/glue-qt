@@ -19,7 +19,7 @@ from glue_qt.core.style_dialog import StyleDialog
 from glue_qt.icons import layer_artist_icon
 from glue_qt.core.mime import LAYERS_MIME_TYPE
 from glue.utils import nonpartial
-from glue_qt.utils import PythonListModel, PyMimeData
+from glue_qt.utils import PythonListModel, PyMimeData, toolbar_icon_size
 from glue.core.hub import HubListener
 from glue.core.message import (LayerArtistEnabledMessage,
                                LayerArtistUpdatedMessage,
@@ -200,7 +200,7 @@ class LayerArtistView(QtWidgets.QListView, HubListener):
         self.setDragEnabled(True)
         self.setAcceptDrops(True)
         self.setDragDropMode(QtWidgets.QAbstractItemView.InternalMove)
-        self.setIconSize(QtCore.QSize(15, 15))
+        self.setIconSize(toolbar_icon_size(self))
         self.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.setContextMenuPolicy(Qt.ActionsContextMenu)

@@ -10,7 +10,7 @@ from glue_qt.core.mime import LAYERS_MIME_TYPE
 from glue_qt.icons import layer_icon
 
 from glue_qt.core.style_dialog import StyleDialog
-from glue_qt.utils import PyMimeData
+from glue_qt.utils import PyMimeData, toolbar_icon_size
 from glue.core.message import Message
 
 DATA_IDX = 0
@@ -454,7 +454,7 @@ class DataCollectionView(QtWidgets.QTreeView, HubListener):
         self.setItemDelegate(LabeledDelegate())
         self.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
-        self.setIconSize(QtCore.QSize(16, 16))
+        self.setIconSize(toolbar_icon_size(self))
 
     def selected_layers(self):
         idxs = self.selectedIndexes()

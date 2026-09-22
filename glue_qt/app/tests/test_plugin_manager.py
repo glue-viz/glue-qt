@@ -1,4 +1,6 @@
 from unittest.mock import patch
+from qtpy import QtWidgets
+from qtpy.QtCore import Qt
 
 from glue import _plugin_helpers as ph
 from glue.main import load_plugins
@@ -63,10 +65,13 @@ def test_permission_fail(tmpdir):
     with open(config.CFG_DIR, 'w') as f:
         f.write("test")
 
-    config2 = ph.PluginConfig.load()
-
     with patch('qtpy.QtWidgets.QMessageBox') as qmb:
         w = QtPluginManager()
+        # Saving unchanged settings is a no-op in newer glue-core. Make an
+        # actual pending edit so finalize attempts the unwritable path.
+        w._checkboxes['test_plugin'] = QtWidgets.QTreeWidgetItem(['', 'test_plugin'])
+        w._checkboxes['test_plugin'].setCheckState(0, Qt.Unchecked)
         w.finalize()
+        w.ui.close()
 
     assert qmb.call_count == 1

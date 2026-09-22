@@ -1,6 +1,5 @@
 import os
 import weakref
-import platform
 from collections import OrderedDict
 
 import numpy as np
@@ -8,7 +7,8 @@ from matplotlib.colors import ColorConverter
 
 from qtpy import QtWidgets
 from glue.core.message import SettingsChangeMessage
-from glue_qt.utils import load_ui, ColorProperty, get_qapp
+from glue_qt.utils import (load_ui, ColorProperty, get_qapp,
+                           default_font_size, fix_tab_widget_fontsize)
 from glue_qt.utils.widget_properties import (CurrentComboTextProperty,
                                                 ValueProperty, ButtonProperty)
 from glue._settings_helpers import save_settings
@@ -87,19 +87,19 @@ class PreferencesDialog(QtWidgets.QDialog):
 
         self.ui.button_reset_dialogs.clicked.connect(self._reset_dialogs)
 
-        # The following is needed because of a bug in Qt which means that
-        # tab titles don't get scaled right.
-        if platform.system() == 'Darwin':
-            app = get_qapp()
-            app_font = app.font()
-            self.ui.tab_widget.setStyleSheet('font-size: {0}px'.format(app_font.pointSize()))
+        fix_tab_widget_fontsize(self.ui.tab_widget)
 
         from glue.config import settings
         self.background = settings.BACKGROUND_COLOR
         self.foreground = settings.FOREGROUND_COLOR
         self.data_color = settings.DATA_COLOR
         self.data_alpha = settings.DATA_ALPHA
-        self.font_size = settings.FONT_SIZE
+        # FONT_SIZE = -1 means "track the platform default"; show the
+        # effective size rather than the sentinel.
+        if settings.FONT_SIZE is None or settings.FONT_SIZE == -1:
+            self.font_size = default_font_size()
+        else:
+            self.font_size = settings.FONT_SIZE
 
         self._update_theme_from_colors()
 
@@ -153,7 +153,12 @@ class PreferencesDialog(QtWidgets.QDialog):
         settings.BACKGROUND_COLOR = self.background
         settings.DATA_COLOR = self.data_color
         settings.DATA_ALPHA = self.data_alpha
-        settings.FONT_SIZE = self.font_size
+        # Persist only a real override; a value equal to the platform
+        # default keeps tracking it (sentinel -1).
+        if self.font_size == default_font_size():
+            settings.FONT_SIZE = -1
+        else:
+            settings.FONT_SIZE = self.font_size
 
         self._autolink_pane.finalize()
 

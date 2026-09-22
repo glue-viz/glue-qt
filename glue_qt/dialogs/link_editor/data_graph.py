@@ -70,9 +70,6 @@ class DataNode:
 
         # Add text label
         self.label = QGraphicsTextItem(data.label)
-        font = self.label.font()
-        font.setPointSize(10)
-        self.label.setFont(font)
 
         # Add line between label and node
         self.line1 = QGraphicsLineItem(0, 0, 1, 1)

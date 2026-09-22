@@ -5,22 +5,52 @@ from qtpy import QtCore, QtGui, QtWidgets, QtQuick, QT6
 from glue.config import settings
 from glue._settings_helpers import save_settings
 
-__all__ = ['process_events', 'get_qapp', 'fix_tab_widget_fontsize', 'update_global_font_size']
+__all__ = ['process_events', 'get_qapp', 'fix_tab_widget_fontsize',
+           'update_global_font_size', 'default_font_size',
+           'toolbar_icon_size']
 
 qapp = None
 
+# The platform default font point size, captured before any custom
+# application font is applied. FONT_SIZE = -1/None means "track this".
+_default_point_size = None
 
-def __get_font_size_offset():
-    if platform.system() == 'Darwin':
-        # On Mac, the fonts are generally too large compared to other
-        # applications, so we reduce the default here. In future we should
-        # make this a setting in the system preferences.
-        size_offset = 2
-    else:
-        # On other platforms, we reduce the font size by 1 point to save
-        # space too. Again, this should probably be a global setting.
-        size_offset = 1
-    return size_offset
+
+def _font_size_is_set():
+    return settings.FONT_SIZE is not None and settings.FONT_SIZE != -1
+
+
+def default_font_size():
+    """
+    The default application font point size, before any FONT_SIZE override.
+    """
+    if _default_point_size is not None:
+        return _default_point_size
+    return QtGui.QFont().pointSize()
+
+
+def toolbar_icon_size(widget):
+    """
+    The platform toolbar icon size, capped at 24 px, as a QSize.
+    """
+    size = min(widget.style().pixelMetric(QtWidgets.QStyle.PM_ToolBarIconSize), 24)
+    return QtCore.QSize(size, size)
+
+
+def _fix_mac_app_name():
+    # A Qt application launched from a plain Python interpreter shows
+    # "python" as the macOS menu-bar application name: the name comes from
+    # the Python framework bundle's CFBundleName, which no Qt API can
+    # change. Update it through Cocoa before the QApplication (and with it
+    # the native menu bar) is created.
+    try:
+        from Foundation import NSBundle
+    except ImportError:
+        return
+    bundle = NSBundle.mainBundle()
+    info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
+    if info is not None:
+        info['CFBundleName'] = 'glue'
 
 
 def process_events(wait=None):
@@ -35,11 +65,14 @@ def process_events(wait=None):
 
 def get_qapp(icon_path=None):
 
-    global qapp
+    global qapp, _default_point_size
 
     qapp = QtWidgets.QApplication.instance()
 
     if qapp is None:
+
+        if platform.system() == 'Darwin':
+            _fix_mac_app_name()
 
         # NOTE: plugins that need WebEngine may complain that QtWebEngineWidgets
         # needs to be imported before QApplication is constructed, but this can
@@ -53,23 +86,32 @@ def get_qapp(icon_path=None):
         if QT6:
             QtQuick.QQuickWindow.setGraphicsApi(QtQuick.QSGRendererInterface.GraphicsApi.OpenGL)
 
-        qapp = QtWidgets.QApplication([''])
+        qapp = QtWidgets.QApplication(['glue'])
+        qapp.setApplicationName('glue')
         qapp.setQuitOnLastWindowClosed(True)
 
         if icon_path is not None:
             qapp.setWindowIcon(QtGui.QIcon(icon_path))
 
-        size_offset = __get_font_size_offset()
-        font = qapp.font()
+        # Remember the platform default before any override so the -1
+        # ("use default") setting can always get back to it.
+        _default_point_size = qapp.font().pointSize()
 
-        if settings.FONT_SIZE is None or settings.FONT_SIZE == -1:
-            default_font = QtGui.QFont()
-            settings.FONT_SIZE = default_font.pointSize()
+        # Older versions saved the derived default as if it were a user
+        # override. Migrate that value back to the default sentinel once.
+        if _default_point_size == settings.FONT_SIZE:
+            settings.FONT_SIZE = -1
             save_settings()
 
-        point_size = settings.FONT_SIZE
-        font.setPointSize(int(point_size - size_offset))
-        qapp.setFont(font)
+        if _font_size_is_set():
+            font = qapp.font()
+            font.setPointSize(int(settings.FONT_SIZE))
+            qapp.setFont(font)
+
+    elif _default_point_size is None:
+        # A host (e.g. IPython) created the application: its font is the
+        # default, and QFont() would track any override applied later
+        _default_point_size = qapp.font().pointSize()
 
     # Make sure we use high resolution icons for HDPI displays.
     try:
@@ -82,12 +124,12 @@ def get_qapp(icon_path=None):
 
 def fix_tab_widget_fontsize(tab_widget):
     """
-    Because of a bug in Qt, tab titles on MacOS X don't have the right font size
+    Because of a bug in Qt5, tab titles on MacOS X don't pick up a custom
+    application font. Only needed when FONT_SIZE overrides the default.
     """
-    if platform.system() == 'Darwin':
-        app = get_qapp()
-        app_font = app.font()
-        tab_widget.setStyleSheet('font-size: {0}px'.format(app_font.pointSize()))
+    if platform.system() == 'Darwin' and not QT6 and _font_size_is_set():
+        app_font = get_qapp().font()
+        tab_widget.setStyleSheet('font-size: {0}pt'.format(app_font.pointSize()))
 
 
 def update_global_font_size():
@@ -96,8 +138,7 @@ def update_global_font_size():
     if qapp is None:
         get_qapp()
 
+    point_size = settings.FONT_SIZE if _font_size_is_set() else default_font_size()
     font = qapp.font()
-    point_size = settings.FONT_SIZE
-    size_offset = __get_font_size_offset()
-    font.setPointSize(int(point_size - size_offset))
+    font.setPointSize(int(point_size))
     qapp.setFont(font)

@@ -16,7 +16,7 @@ from glue.core.coordinates import WCSCoordinates
 from glue import env
 from glue.main import load_plugins
 from glue_qt.icons import get_icon
-from glue_qt.utils import get_qapp, update_global_font_size
+from glue_qt.utils import get_qapp, update_global_font_size, toolbar_icon_size
 from glue_qt.app.actions import action
 from glue_qt.dialogs.data_wizard import data_wizard
 from glue_qt.dialogs.link_editor import LinkEditor
@@ -378,7 +378,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
 
         self._data_toolbar = QtWidgets.QToolBar("Session and Data toolbar")
 
-        self._data_toolbar.setIconSize(QtCore.QSize(16, 16))
+        self._data_toolbar.setIconSize(toolbar_icon_size(self))
 
         self._button_open_session = QtWidgets.QToolButton()
         self._button_open_session.setText("Open Session")
@@ -442,7 +442,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
 
         self._console_toolbar = QtWidgets.QToolBar('Advanced toolbar')
 
-        self._console_toolbar.setIconSize(QtCore.QSize(14, 14))
+        self._console_toolbar.setIconSize(toolbar_icon_size(self))
 
         spacer = QtWidgets.QWidget()
         spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding,

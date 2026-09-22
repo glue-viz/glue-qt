@@ -31,7 +31,6 @@ class BaseQtViewerWidget(QtWidgets.QMainWindow):
 
         status_bar = self.statusBar()
         status_bar.setSizeGripEnabled(False)
-        status_bar.setStyleSheet("QStatusBar{font-size:10px}")
 
         self.setFocusPolicy(Qt.StrongFocus)
         self.setAttribute(Qt.WA_DeleteOnClose)
