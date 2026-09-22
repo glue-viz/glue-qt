@@ -20,20 +20,27 @@ class MultiSliceWidgetHelper(object):
         self.layout.setContentsMargins(0, 3, 0, 3)
 
         self.viewer_state.add_callback('x_att', self.sync_sliders_from_state)
-        self.viewer_state.add_callback('y_att', self.sync_sliders_from_state)
-        if hasattr(self.viewer_state, 'z_att'):
-            self.viewer_state.add_callback('z_att', self.sync_sliders_from_state)
+        for att in ('y_att', 'z_att'):
+            if hasattr(self.viewer_state, att):
+                self.viewer_state.add_callback(att, self.sync_sliders_from_state)
         self.viewer_state.add_callback('slices', self.sync_sliders_from_state)
         self.viewer_state.add_callback('reference_data', self.sync_sliders_from_state)
 
         self._sliders = []
 
         self._reference_data = None
-        self._x_att = None
-        self._y_att = None
-        self._z_att = None
+        self._atts = []
 
         self.sync_sliders_from_state()
+
+    def _plot_atts(self):
+        # The profile viewer has no y_att, and its x_att can be a world
+        # component - the corresponding pixel component is then in x_att_pixel
+        atts = [getattr(self.viewer_state, 'x_att_pixel', self.viewer_state.x_att)]
+        for name in ('y_att', 'z_att'):
+            if hasattr(self.viewer_state, name):
+                atts.append(getattr(self.viewer_state, name))
+        return atts
 
     @property
     def data(self):
@@ -63,36 +70,41 @@ class MultiSliceWidgetHelper(object):
     @avoid_circular
     def sync_sliders_from_state(self, *args):
 
-        if self.data is None or \
-           self.viewer_state.x_att is None or \
-           self.viewer_state.y_att is None or \
-           (hasattr(self.viewer_state, "z_att") and self.viewer_state.z_att is None):
+        atts = self._plot_atts()
+
+        if self.data is None or any(att is None for att in atts):
+            # Clear so that no stale interactive sliders remain when e.g.
+            # the reference data has been removed
+            self._reference_data = None
+            self._atts = []
+            self._clear()
             return
 
-        if any((self.viewer_state.x_att is self.viewer_state.y_att,
-                self.viewer_state.x_att is getattr(self.viewer_state, "z_att", None),
-                self.viewer_state.y_att is getattr(self.viewer_state, "z_att", None))):
+        if len(atts) != len({id(att) for att in atts}):
+            return
+
+        if len(self.viewer_state.slices or ()) != self.data.ndim:
+            # The reference_data notification can arrive before the state has
+            # rebuilt x_att/slices for the new data (the profile state
+            # registers its handler as a 2-arg callback, which echo runs
+            # after 1-arg ones like this one); the delayed x_att/slices
+            # notifications re-trigger this sync with consistent state.
             return
 
         # Update sliders if needed
 
         if (self.viewer_state.reference_data is not self._reference_data or
-            self.viewer_state.x_att is not self._x_att or
-            self.viewer_state.y_att is not self._y_att or
-            (hasattr(self.viewer_state, "z_att") and self.viewer_state.z_att is not self._z_att)):
+                len(atts) != len(self._atts) or
+                any(att is not previous for att, previous in zip(atts, self._atts))):
 
             self._reference_data = self.viewer_state.reference_data
-            self._x_att = self.viewer_state.x_att
-            self._y_att = self.viewer_state.y_att
-            self._z_att = getattr(self.viewer_state, "z_att", None)
+            self._atts = atts
 
             self._clear()
 
             for i in range(self.data.ndim):
 
-                if i == self.viewer_state.x_att.axis or \
-                   i == self.viewer_state.y_att.axis or \
-                   (hasattr(self.viewer_state, "z_att") and i == self.viewer_state.z_att.axis):
+                if any(i == att.axis for att in atts):
                     self._sliders.append(None)
                     continue
 

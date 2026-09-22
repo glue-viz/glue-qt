@@ -5,6 +5,7 @@ from qtpy import QtWidgets
 from glue.core.coordinate_helpers import dependent_axes
 from echo.qt import autoconnect_callbacks_to_qt
 from glue_qt.utils import load_ui, fix_tab_widget_fontsize
+from glue_qt.viewers.common.slice_widget import MultiSliceWidgetHelper
 
 __all__ = ['ProfileOptionsWidget']
 
@@ -36,6 +37,19 @@ class ProfileOptionsWidget(QtWidgets.QWidget):
         self.viewer_state.add_callback('x_att', self._on_attribute_change)
 
         self.ui.text_warning.hide()
+
+        if hasattr(viewer_state, 'slices'):
+            self.slice_helper = MultiSliceWidgetHelper(viewer_state=self.viewer_state,
+                                                       layout=self.ui.layout_slices)
+            self.viewer_state.add_callback('function', self._update_slices_visibility)
+            self._update_slices_visibility()
+        else:
+            # glue-core without the 'slice' collapse function
+            self.ui.widget_slices.hide()
+
+    def _update_slices_visibility(self, *args):
+        # The sliders only apply to the 'slice' collapse function
+        self.ui.widget_slices.setVisible(self.viewer_state.function == 'slice')
 
     def _on_attribute_change(self, *args):
 

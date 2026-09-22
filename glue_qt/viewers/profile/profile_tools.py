@@ -18,6 +18,7 @@ from glue.viewers.common.tool import Tool
 from glue.viewers.image.state import AggregateSlice
 from glue.core.aggregate import mom1, mom2
 from glue.core import BaseData, Subset
+from glue.core.units import UnitConverter
 from glue_qt.viewers.image import ImageViewer
 from glue.core.link_manager import is_convertible_to_single_pixel_cid
 from echo import SelectionCallbackProperty
@@ -170,7 +171,18 @@ class ProfileTools(QtWidgets.QWidget):
             axis = pix_cid.axis
             axis_view = [0] * data.ndim
             axis_view[pix_cid.axis] = slice(None)
-            axis_values = data[self.viewer.state.x_att, axis_view]
+            if getattr(self.viewer.state, 'wcsaxes_active', False):
+                # The profile is plotted in the reference data's pixel
+                # coordinates, with WCSAxes formatting the tick labels
+                axis_values = data[self.viewer.state.x_att_pixel, tuple(axis_view)]
+            else:
+                # The profile is plotted in display units, so convert the
+                # native world values before comparing (to_unit is a no-op
+                # when no display unit override is set)
+                axis_values = data[self.viewer.state.x_att, tuple(axis_view)]
+                axis_values = UnitConverter().to_unit(
+                    self.viewer.state.reference_data, self.viewer.state.x_att,
+                    axis_values, self.viewer.state.x_display_unit)
             slc = int(np.argmin(np.abs(axis_values - x)))
 
         return axis, slc

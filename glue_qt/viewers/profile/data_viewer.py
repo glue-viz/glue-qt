@@ -29,5 +29,8 @@ class ProfileViewer(MatplotlibProfileMixin, MatplotlibDataViewer):
     tools = ['select:xrange', 'profile-analysis']
 
     def __init__(self, session, parent=None, state=None):
-        MatplotlibDataViewer.__init__(self, session, parent=parent, state=state)
+        # WCSAxes support in MatplotlibProfileMixin arrived together with the
+        # ProfileViewerState.wcsaxes flag in glue-core
+        wcs = hasattr(ProfileViewerState, 'wcsaxes')
+        MatplotlibDataViewer.__init__(self, session, parent=parent, wcs=wcs, state=state)
         MatplotlibProfileMixin.setup_callbacks(self)

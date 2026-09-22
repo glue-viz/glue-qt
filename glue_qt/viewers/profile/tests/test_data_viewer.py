@@ -17,6 +17,7 @@ from glue_qt.app import GlueApplication
 from glue.core.component_link import ComponentLink
 from glue_qt.viewers.matplotlib.tests.test_data_viewer import BaseTestMatplotlibDataViewer
 from glue.core.coordinates import IdentityCoordinates
+from glue.viewers.profile.state import ProfileViewerState
 from glue.viewers.profile.tests.test_state import SimpleCoordinates
 from glue.core.tests.test_state import clone
 from glue.core.state import GlueUnSerializer
@@ -26,6 +27,18 @@ from glue.config import settings, unit_converter
 from ..data_viewer import ProfileViewer
 
 DATA = os.path.join(os.path.dirname(__file__), 'data')
+
+# With a WCSAxes-capable glue-core the profile viewer plots world x
+# coordinates in pixel space (the WCS formats the tick labels), so limits,
+# ROIs and positions are pixel values in that mode
+WCSAXES = hasattr(ProfileViewerState, 'wcsaxes')
+
+requires_slice_function = pytest.mark.skipif(
+    not hasattr(ProfileViewerState, 'slices'),
+    reason='installed glue-core has no slice collapse function')
+
+requires_wcsaxes = pytest.mark.skipif(
+    not WCSAXES, reason='installed glue-core has no WCSAxes profile support')
 
 
 def setup_function(func):
@@ -85,7 +98,7 @@ class TestProfileViewer(object):
         self.viewer.state.function = 'mean'
         assert len(self.viewer.layers) == 1
         layer_artist = self.viewer.layers[0]
-        assert_allclose(layer_artist.state.profile[0], [0, 2, 4])
+        assert_allclose(layer_artist.state.profile[0], [0, 1, 2] if WCSAXES else [0, 2, 4])
         assert_allclose(layer_artist.state.profile[1], [3.5, 11.5, 19.5])
 
     def test_incompatible(self):
@@ -117,7 +130,7 @@ class TestProfileViewer(object):
         self.viewer.apply_roi(roi)
 
         assert len(self.data.subsets) == 1
-        assert_equal(self.data.subsets[0].to_mask()[:, 0, 0], [0, 1, 0])
+        assert_equal(self.data.subsets[0].to_mask()[:, 0, 0], [0, 0, 1] if WCSAXES else [0, 1, 0])
 
     def test_enabled_layers(self):
 
@@ -305,8 +318,7 @@ class TestProfileViewer(object):
         self.viewer.state.y_min = 0.3
         self.viewer.state.y_max = 0.5
         self.viewer.state.reset_limits()
-        assert self.viewer.state.x_min == 0
-        assert self.viewer.state.x_max == 4
+        assert (self.viewer.state.x_min, self.viewer.state.x_max) == ((-0.5, 2.5) if WCSAXES else (0, 4))
         assert self.viewer.state.y_min == 7
         assert self.viewer.state.y_max == 23
 
@@ -389,34 +401,43 @@ def test_unit_conversion():
     assert viewer.layers[0].enabled
     assert viewer.layers[1].enabled
 
+    # In native units WCSAxes mode is active, so profiles are plotted in the
+    # pixel coordinates of the reference data (d1)
     x, y = viewer.state.layers[0].profile
-    assert_allclose(x, [1.e9, 2.e9, 3.e9])
+    assert_allclose(x, [0, 1, 2] if WCSAXES else [1.e9, 2.e9, 3.e9])
     assert_allclose(y, [1, 2, 3])
 
     x, y = viewer.state.layers[1].profile
-    assert_allclose(x, 299792458 / np.array([0.1, 0.2, 0.3]))
+    d2_freq = 299792458 / np.array([0.1, 0.2, 0.3])
+    assert_allclose(x, d2_freq / 1e9 - 1 if WCSAXES else d2_freq)
     assert_allclose(y, [2000, 1000, 3000])
 
-    assert viewer.state.x_min == 1.e9
-    assert viewer.state.x_max == 3.e9
+    assert (viewer.state.x_min, viewer.state.x_max) == ((-0.5, 2.5) if WCSAXES else (1.e9, 3.e9))
     assert viewer.state.y_min == 1.
     assert viewer.state.y_max == 3.
 
-    # Change the limits to make sure they are always converted
-    viewer.state.x_min = 5e8
-    viewer.state.x_max = 4e9
-    viewer.state.y_min = 0.5
-    viewer.state.y_max = 3.5
-
-    roi = XRangeROI(1.4e9, 2.1e9)
+    if WCSAXES:
+        # ROIs are applied in pixel coordinates of the reference data
+        roi = XRangeROI(0.9, 2.1)
+        masks = [0, 1, 1], [1, 0, 0]
+    else:
+        # Change the limits to make sure they are always converted
+        viewer.state.x_min = 5e8
+        viewer.state.x_max = 4e9
+        viewer.state.y_min = 0.5
+        viewer.state.y_max = 3.5
+        roi = XRangeROI(1.4e9, 2.1e9)
+        masks = [0, 1, 0], [0, 1, 0]
     viewer.apply_roi(roi)
 
     assert len(d1.subsets) == 1
-    assert_equal(d1.subsets[0].to_mask(), [0, 1, 0])
+    assert_equal(d1.subsets[0].to_mask(), masks[0])
 
     assert len(d2.subsets) == 1
-    assert_equal(d2.subsets[0].to_mask(), [0, 1, 0])
+    assert_equal(d2.subsets[0].to_mask(), masks[1])
 
+    # A display unit override switches back to plain numeric world values,
+    # which also resets the x limits (pixel limits cannot be converted)
     viewer.state.x_display_unit = 'GHz'
     viewer.state.y_display_unit = 'mJy'
 
@@ -428,8 +449,7 @@ def test_unit_conversion():
     assert_allclose(x, 2.99792458 / np.array([1, 2, 3]))
     assert_allclose(y, [2000, 1000, 3000])
 
-    assert viewer.state.x_min == 0.5
-    assert viewer.state.x_max == 4.
+    assert (viewer.state.x_min, viewer.state.x_max) == ((1., 3.) if WCSAXES else (0.5, 4.))
 
     # Units get reset because they were originally 'native' and 'native' to a
     # specific unit always trigger resetting the limits since different datasets
@@ -462,8 +482,9 @@ def test_unit_conversion():
     assert len(d2.subsets) == 1
     assert_equal(d2.subsets[0].to_mask(), [0, 1, 1])
 
-    assert_allclose(viewer.state.x_min, (4 * u.GHz).to_value(u.cm, equivalencies=u.spectral()))
-    assert_allclose(viewer.state.x_max, (0.5 * u.GHz).to_value(u.cm, equivalencies=u.spectral()))
+    x_min_ghz, x_max_ghz = (3, 1) if WCSAXES else (4, 0.5)
+    assert_allclose(viewer.state.x_min, (x_min_ghz * u.GHz).to_value(u.cm, equivalencies=u.spectral()))
+    assert_allclose(viewer.state.x_max, (x_max_ghz * u.GHz).to_value(u.cm, equivalencies=u.spectral()))
     assert_allclose(viewer.state.y_min, 0.5)
     assert_allclose(viewer.state.y_max, 3.5)
 
@@ -496,8 +517,8 @@ def test_unit_conversion_limits():
 
     assert viewer.state.x_att is d1.id['B']
 
-    assert viewer.state.x_min == 3.0
-    assert viewer.state.x_max == 3.0
+    # WCSAxes mode is active (native units), so x limits are pixel bounds
+    assert (viewer.state.x_min, viewer.state.x_max) == ((-0.5, 0.5) if WCSAXES else (3.0, 3.0))
 
     # Limits for constant data == 3.0; this was broken up to glue-core 1.21.1 (glue-viz/glue#2513)
     assert viewer.state.y_min in (2.7, 0.0)
@@ -506,7 +527,7 @@ def test_unit_conversion_limits():
     # Explicitly set unit on y axis to enable unit conversion
     viewer.state.y_display_unit = 'Jy'
 
-    assert_allclose(viewer.state.layers[0].profile[0], [3])
+    assert_allclose(viewer.state.layers[0].profile[0], [0] if WCSAXES else [3])
     assert_allclose(viewer.state.layers[0].profile[1], [3])
 
     # Change the limits to see if they are updated or reset
@@ -515,13 +536,14 @@ def test_unit_conversion_limits():
     viewer.state.y_min = 0.0
     viewer.state.y_max = 4.0
 
+    # The unit override leaves WCSAxes mode, so the x limits are reset to
+    # the (constant) world values rather than converted
     viewer.state.x_display_unit = 'cm'
 
     assert_allclose(viewer.state.layers[0].profile[0], [300])
     assert_allclose(viewer.state.layers[0].profile[1], [3])
 
-    assert_allclose(viewer.state.x_min, 0)
-    assert_allclose(viewer.state.x_max, 1000)
+    assert_allclose((viewer.state.x_min, viewer.state.x_max), (300, 300) if WCSAXES else (0, 1000))
     assert_allclose(viewer.state.y_min, 0)
     assert_allclose(viewer.state.y_max, 4)
 
@@ -530,27 +552,186 @@ def test_unit_conversion_limits():
     assert_allclose(viewer.state.layers[0].profile[0], [300])
     assert_allclose(viewer.state.layers[0].profile[1], [3000])
 
-    assert_allclose(viewer.state.x_min, 0)
-    assert_allclose(viewer.state.x_max, 1000)
+    assert_allclose((viewer.state.x_min, viewer.state.x_max), (300, 300) if WCSAXES else (0, 1000))
     assert_allclose(viewer.state.y_min, 0)
     assert_allclose(viewer.state.y_max, 4000)
 
+    # Changing x_att resets the display unit to the native one, which
+    # re-enters WCSAxes mode
     viewer.state.x_att = d1.id['A']
 
-    assert_allclose(viewer.state.layers[0].profile[0], [1, 2, 3])
+    assert_allclose(viewer.state.layers[0].profile[0], [0, 1, 2] if WCSAXES else [1, 2, 3])
     assert_allclose(viewer.state.layers[0].profile[1], [1000, 2000, 3000])
 
-    assert_allclose(viewer.state.x_min, 1)
-    assert_allclose(viewer.state.x_max, 3)
+    assert_allclose((viewer.state.x_min, viewer.state.x_max), (-0.5, 2.5) if WCSAXES else (1, 3))
     assert_allclose(viewer.state.y_min, 0)
     assert_allclose(viewer.state.y_max, 4000)
 
     viewer.state.layers[0].attribute = d1.id['f2']
 
-    assert_allclose(viewer.state.layers[0].profile[0], [1, 2, 3])
+    assert_allclose(viewer.state.layers[0].profile[0], [0, 1, 2] if WCSAXES else [1, 2, 3])
     assert_allclose(viewer.state.layers[0].profile[1], [10, 20, 30])
 
-    assert_allclose(viewer.state.x_min, 1)
-    assert_allclose(viewer.state.x_max, 3)
+    assert_allclose((viewer.state.x_min, viewer.state.x_max), (-0.5, 2.5) if WCSAXES else (1, 3))
     assert_allclose(viewer.state.y_min, 10)
     assert_allclose(viewer.state.y_max, 30)
+
+
+
+@requires_slice_function
+def test_slice_function_sliders():
+
+    app = GlueApplication()
+
+    data = Data(label='d1', x=np.arange(24).reshape((3, 4, 2)).astype(float))
+    data.coords = SimpleCoordinates()
+    app.data_collection.append(data)
+
+    viewer = app.new_data_viewer(ProfileViewer)
+    viewer.add_data(data)
+
+    options = viewer.options_widget()
+
+    # The sliders are hidden until the slice function is selected
+    assert options.ui.widget_slices.isHidden()
+
+    viewer.state.function = 'slice'
+    assert not options.ui.widget_slices.isHidden()
+
+    # One slider per non-profile axis
+    assert options.slice_helper._sliders[0] is None
+    assert options.slice_helper._sliders[1] is not None
+    assert options.slice_helper._sliders[2] is not None
+
+    # Moving a slider updates the state and the profile
+    options.slice_helper._sliders[1].state.slice_center = 2
+    assert viewer.state.slices == (0, 2, 0)
+    _x, y = viewer.state.layers[0].profile
+    assert_allclose(y, data['x'][:, 2, 0])
+
+    viewer.state.function = 'mean'
+    assert options.ui.widget_slices.isHidden()
+
+    app.close()
+
+
+@requires_wcsaxes
+def test_wcsaxes_profile():
+
+    # With a WCSAxes-capable glue-core, the qt profile viewer gets WCSAxes
+    # and plots in pixel coordinates with WCS-formatted tick labels
+
+    app = GlueApplication()
+
+    data = Data(label='d1', x=np.arange(24).reshape((3, 4, 2)).astype(float))
+    data.coords = SimpleCoordinates()
+    app.data_collection.append(data)
+
+    viewer = app.new_data_viewer(ProfileViewer)
+    viewer.add_data(data)
+
+    assert viewer.state.wcsaxes
+    assert viewer.state.wcsaxes_active
+    assert viewer.axes.wcs is data.coords
+
+    x, _y = viewer.state.layers[0].profile
+    assert_allclose(x, [0, 1, 2])
+
+    app.close()
+
+
+@requires_slice_function
+def test_reference_data_ndim_change():
+
+    # Regression test: switching reference data to a dataset with a different
+    # number of dimensions used to crash the slice helper (whose callback can
+    # run before the state has resized slices) and corrupt the viewer state
+
+    from glue.core.link_helpers import LinkSame
+
+    app = GlueApplication()
+
+    d1 = Data(label='d1', x=np.arange(3).astype(float))
+    d3 = Data(label='d3', y=np.arange(24).reshape((3, 4, 2)).astype(float))
+    app.data_collection.append(d1)
+    app.data_collection.append(d3)
+    app.data_collection.add_link(LinkSame(d1.pixel_component_ids[0],
+                                          d3.pixel_component_ids[0]))
+
+    viewer = app.new_data_viewer(ProfileViewer)
+    viewer.add_data(d1)
+    viewer.add_data(d3)
+
+    options = viewer.options_widget()
+
+    viewer.state.reference_data = d3
+    assert viewer.state.slices == (0, 0, 0)
+    assert viewer.state.x_att is d3.pixel_component_ids[0]
+    assert len([s for s in options.slice_helper._sliders if s is not None]) == 2
+
+    viewer.state.reference_data = d1
+    assert viewer.state.slices == (0,)
+    assert viewer.state.x_att is d1.pixel_component_ids[0]
+
+    app.close()
+
+
+@requires_slice_function
+def test_slice_sliders_data_removed():
+
+    # Regression test: removing the reference data used to leave stale
+    # interactive sliders behind
+
+    app = GlueApplication()
+
+    data = Data(label='d1', x=np.arange(24).reshape((3, 4, 2)).astype(float))
+    app.data_collection.append(data)
+
+    viewer = app.new_data_viewer(ProfileViewer)
+    viewer.add_data(data)
+    viewer.state.function = 'slice'
+
+    options = viewer.options_widget()
+    assert any(s is not None for s in options.slice_helper._sliders)
+
+    app.data_collection.remove(data)
+    assert options.slice_helper._sliders == []
+
+    app.close()
+
+
+def test_profile_tools_unit_override():
+
+    # The navigation/range position lookup must follow the plotted
+    # coordinates: display-unit world values when a display unit override is
+    # active, and pixels in WCSAxes mode
+
+    settings.UNIT_CONVERTER = 'test-spectral2'
+
+    wcs1 = WCS(naxis=1)
+    wcs1.wcs.ctype = ['FREQ']
+    wcs1.wcs.crval = [1]
+    wcs1.wcs.cdelt = [1]
+    wcs1.wcs.crpix = [1]
+    wcs1.wcs.cunit = ['GHz']
+
+    d1 = Data(f1=[1., 2., 3.], label='d1')
+    d1.coords = wcs1
+
+    app = GlueApplication()
+    app.data_collection.append(d1)
+
+    viewer = app.new_data_viewer(ProfileViewer)
+    viewer.add_data(d1)
+
+    tools = viewer.toolbar.tools['profile-analysis']._profile_tools
+
+    if WCSAXES:
+        # WCSAxes mode: positions are pixel coordinates
+        assert tools._get_axis_and_pixel_slice(d1, 2.0) == (0, 2)
+
+    # Display unit override: positions are display-unit world values
+    viewer.state.x_display_unit = 'MHz'
+    assert tools._get_axis_and_pixel_slice(d1, 3000.0) == (0, 2)
+
+    app.close()
