@@ -126,7 +126,7 @@ class EquationEditorDialog(QtWidgets.QDialog):
             for cid in data.coordinate_components + data.main_components:
                 self.references[cid.label] = cid
 
-        example = sorted(self.references, key=len)[0]
+        example = min(self.references, key=len)
 
         self.ui.text_label.setPlaceholderText("New attribute name")
         self.ui.expression.setPlaceholderText(self.placeholder_text.format(example=example))
