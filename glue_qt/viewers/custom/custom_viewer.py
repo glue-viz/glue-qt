@@ -95,7 +95,7 @@ from glue_qt.viewers.custom.elements import (FormElement,
 
 __all__ = ["AttributeWithInfo", "ViewerUserState", "UserDefinedFunction",
            "CustomViewer", "CustomViewerMeta", "CustomSubsetState",
-           "CustomViewer", "CustomLayerArtist", "CustomMatplotlibDataViewer"]
+           "CustomLayerArtist", "CustomMatplotlibDataViewer"]
 
 
 class AttributeWithInfo(np.ndarray):
