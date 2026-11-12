@@ -36,6 +36,8 @@ class SliceWidget(QtWidgets.QWidget):
         self._world = np.asarray(world)
         self._world_warning = world_warning
         self._world_unit = world_unit
+        # datetime64 world values (a WCS time axis) are shown as ISO strings
+        self._world_is_time = world is not None and self._world.dtype.kind == 'M'
 
         self.ui = load_ui('data_slice_widget.ui', self,
                           directory=os.path.dirname(__file__))
@@ -69,7 +71,12 @@ class SliceWidget(QtWidgets.QWidget):
         # this by figuring out the precision needed so that when converted to
         # a string, every string value is different.
 
-        if world is not None and len(world) > 1:
+        if self._world_is_time:
+            # Show milliseconds only if some of the times need them
+            whole_seconds = (self._world == self._world.astype('datetime64[s]')).all()
+            self._time_unit = 's' if whole_seconds else 'ms'
+            self.label_fmt = "{:g}"
+        elif world is not None and len(world) > 1:
             self.label_fmt = format_minimal(world)[0]
         else:
             self.label_fmt = "{:g}"
@@ -116,11 +123,16 @@ class SliceWidget(QtWidgets.QWidget):
             else:
                 self.text_warning.hide()
             self.state.slider_unit = self._world_unit
-            self.state.slider_label = self.label_fmt.format(value)
+            self.state.slider_label = self._format_world(value)
         else:
             self.text_warning.hide()
             self.state.slider_unit = ''
             self.state.slider_label = str(value)
+
+    def _format_world(self, value):
+        if self._world_is_time:
+            return np.datetime_as_string(value, unit=self._time_unit)
+        return self.label_fmt.format(value)
 
     def set_slider_from_label(self):
 
@@ -135,8 +147,9 @@ class SliceWidget(QtWidgets.QWidget):
         text = self.text_slider_label.text()
         if self.state.use_world:
             # Don't want to assume world is sorted, pick closest value
-            value = np.argmin(np.abs(self._world - float(text)))
-            self.state.slider_label = self.label_fmt.format(self._world[value])
+            target = np.datetime64(text) if self._world_is_time else float(text)
+            value = np.argmin(np.abs(self._world - target))
+            self.state.slider_label = self._format_world(self._world[value])
         else:
             value = int(text)
         self.value_slice_center.setValue(value)
