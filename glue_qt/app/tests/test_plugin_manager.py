@@ -55,18 +55,17 @@ def test_basic(tmpdir):
 
 def test_permission_fail(tmpdir):
 
+    # Test that an error dialog is shown when the plugin configuration cannot
+    # be saved. We make saving fail explicitly rather than relying on an
+    # unwritable configuration directory since glue-core does not attempt to
+    # write the file if the configuration is unchanged.
+
     from glue import config
     config.CFG_DIR = tmpdir.join('.glue').strpath
 
-    # Make a *file* at that location so that reading the plugin file will fail
-
-    with open(config.CFG_DIR, 'w') as f:
-        f.write("test")
-
-    config2 = ph.PluginConfig.load()
-
     with patch('qtpy.QtWidgets.QMessageBox') as qmb:
-        w = QtPluginManager()
-        w.finalize()
+        with patch.object(ph.PluginConfig, 'save', side_effect=PermissionError):
+            w = QtPluginManager()
+            w.finalize()
 
     assert qmb.call_count == 1
