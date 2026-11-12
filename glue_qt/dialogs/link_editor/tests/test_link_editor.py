@@ -9,18 +9,20 @@ from glue.plugins.coordinate_helpers.link_helpers import Galactic_to_FK5, ICRS_t
 from glue.core.link_helpers import identity, functional_link_collection, LinkSame
 
 
-def non_empty_rows_count(layout):
+def non_empty_rows_count(link_widget, index):
     """
-    Determine how many rows of the QGridLayout are not empty
+    Determine how many rows of attribute labels and combo boxes are visible
+    for the first or second dataset (``index`` should be 1 or 2).
+
+    We deliberately look at the widgets directly rather than going through
+    ``QGridLayout.itemAtPosition``, since with PySide6 versions older than 6.7
+    accessing layout items in this way causes a segmentation fault when the
+    dialog is later garbage collected.
     """
-    count = 0
-    for row in range(layout.rowCount()):
-        for col in range(layout.columnCount()):
-            item = layout.itemAtPosition(row, col)
-            if item is not None and item.widget() is not None and item.widget().isVisible():
-                count += 1
-                break
-    return count
+    names = getattr(link_widget, 'att_names{0}'.format(index))
+    combos = getattr(link_widget, 'att_combos{0}'.format(index))
+    return sum(1 for name, combo in zip(names, combos)
+               if name.isVisible() or combo.isVisible())
 
 
 def get_action(link_widget, text):
@@ -100,8 +102,8 @@ class TestLinkEditor:
         # and nothing on the right.
         assert link_widget.listsel_current_link.count() == 0
         assert link_widget.link_details.text() == ''
-        assert non_empty_rows_count(link_widget.combos1) == 0
-        assert non_empty_rows_count(link_widget.combos2) == 0
+        assert non_empty_rows_count(link_widget, 1) == 0
+        assert non_empty_rows_count(link_widget, 2) == 0
 
         # Let's add an identity link
         add_identity_link.trigger()
@@ -113,18 +115,18 @@ class TestLinkEditor:
         # right hand panel.
         assert link_widget.listsel_current_link.count() == 1
         assert link_widget.link_details.text() == 'Link conceptually identical components'
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'a'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos2[0].currentText() == 'a'
 
         # Let's change the current components for the link
         link_widget.state.current_link.x = self.data1.id['y']
         link_widget.state.current_link.y = self.data2.id['b']
 
         # and make sure the UI gets updated
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'y'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'b'
+        assert link_widget.att_combos1[0].currentText() == 'y'
+        assert link_widget.att_combos2[0].currentText() == 'b'
 
         # We now add another link of a different type
         add_lengths_volume_link.trigger()
@@ -135,12 +137,12 @@ class TestLinkEditor:
         # and make sure the UI has updated
         assert link_widget.listsel_current_link.count() == 2
         assert link_widget.link_details.text() == 'Convert between linear measurements and volume'
-        assert non_empty_rows_count(link_widget.combos1) == 3
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos1.itemAtPosition(1, 1).widget().currentText() == 'y'
-        assert link_widget.combos1.itemAtPosition(2, 1).widget().currentText() == 'z'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'a'
+        assert non_empty_rows_count(link_widget, 1) == 3
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos1[1].currentText() == 'y'
+        assert link_widget.att_combos1[2].currentText() == 'z'
+        assert link_widget.att_combos2[0].currentText() == 'a'
 
         # Try swapping the order of the data, the current link should stay the same
         link_widget.state.flip_data()
@@ -156,10 +158,10 @@ class TestLinkEditor:
         # and make sure the UI updates and has preserved the correct settings
         assert link_widget.listsel_current_link.count() == 2
         assert link_widget.link_details.text() == 'Link conceptually identical components'
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'y'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'b'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'y'
+        assert link_widget.att_combos2[0].currentText() == 'b'
 
         # Next up, we try changing the data
 
@@ -169,8 +171,8 @@ class TestLinkEditor:
 
         assert link_widget.listsel_current_link.count() == 0
         assert link_widget.link_details.text() == ''
-        assert non_empty_rows_count(link_widget.combos1) == 0
-        assert non_empty_rows_count(link_widget.combos2) == 0
+        assert non_empty_rows_count(link_widget, 1) == 0
+        assert non_empty_rows_count(link_widget, 2) == 0
 
         # Add another identity link
         add_identity_link.trigger()
@@ -181,10 +183,10 @@ class TestLinkEditor:
         # Now there should be one link in the main list
         assert link_widget.listsel_current_link.count() == 1
         assert link_widget.link_details.text() == 'Link conceptually identical components'
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'i'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'a'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'i'
+        assert link_widget.att_combos2[0].currentText() == 'a'
 
         # Switch back to the original data
         link_widget.state.data1 = self.data1
@@ -192,10 +194,10 @@ class TestLinkEditor:
         # And check the output is as before
         assert link_widget.listsel_current_link.count() == 2
         assert link_widget.link_details.text() == 'Link conceptually identical components'
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'y'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'b'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'y'
+        assert link_widget.att_combos2[0].currentText() == 'b'
 
         # Let's now remove this link
         link_widget.button_remove_link.click()
@@ -206,12 +208,12 @@ class TestLinkEditor:
         # We should now see the lengths/volume link
         assert link_widget.listsel_current_link.count() == 1
         assert link_widget.link_details.text() == 'Convert between linear measurements and volume'
-        assert non_empty_rows_count(link_widget.combos1) == 3
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos1.itemAtPosition(1, 1).widget().currentText() == 'y'
-        assert link_widget.combos1.itemAtPosition(2, 1).widget().currentText() == 'z'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'a'
+        assert non_empty_rows_count(link_widget, 1) == 3
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos1[1].currentText() == 'y'
+        assert link_widget.att_combos1[2].currentText() == 'z'
+        assert link_widget.att_combos2[0].currentText() == 'a'
 
         dialog.accept()
 
@@ -382,36 +384,36 @@ class TestLinkEditor:
 
         assert link_widget.listsel_current_link.count() == 2
         assert link_widget.link_details.text() == ''
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'c'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos2[0].currentText() == 'c'
 
         link_widget.state.current_link = type(link_widget.state).current_link.get_choices(link_widget.state)[1]
         assert link_widget.link_details.text() == ''
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'z'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'c'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'z'
+        assert link_widget.att_combos2[0].currentText() == 'c'
 
         link_widget.state.data1 = self.data3
 
         assert link_widget.listsel_current_link.count() == 2
         assert link_widget.link_details.text() == ''
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 2
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'j'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'a'
-        assert link_widget.combos2.itemAtPosition(1, 1).widget().currentText() == 'b'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 2
+        assert link_widget.att_combos1[0].currentText() == 'j'
+        assert link_widget.att_combos2[0].currentText() == 'a'
+        assert link_widget.att_combos2[1].currentText() == 'b'
 
         link_widget.state.current_link = type(link_widget.state).current_link.get_choices(link_widget.state)[1]
 
         assert link_widget.listsel_current_link.count() == 2
         assert link_widget.link_details.text() == ''
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'i'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'c'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'i'
+        assert link_widget.att_combos2[0].currentText() == 'c'
 
         dialog.accept()
 
@@ -462,12 +464,12 @@ class TestLinkEditor:
 
         assert link_widget.listsel_current_link.count() == 1
         assert link_widget.link_details.text() == 'Link ICRS and Galactic coordinates'
-        assert non_empty_rows_count(link_widget.combos1) == 2
-        assert non_empty_rows_count(link_widget.combos2) == 2
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos1.itemAtPosition(1, 1).widget().currentText() == 'y'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'a'
-        assert link_widget.combos2.itemAtPosition(1, 1).widget().currentText() == 'b'
+        assert non_empty_rows_count(link_widget, 1) == 2
+        assert non_empty_rows_count(link_widget, 2) == 2
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos1[1].currentText() == 'y'
+        assert link_widget.att_combos2[0].currentText() == 'a'
+        assert link_widget.att_combos2[1].currentText() == 'b'
 
         dialog.accept()
 
@@ -499,12 +501,12 @@ class TestLinkEditor:
 
         assert link_widget.listsel_current_link.count() == 1
         assert link_widget.link_details.text() == 'Link Galactic and FK5 (J2000) Equatorial coordinates'
-        assert non_empty_rows_count(link_widget.combos1) == 2
-        assert non_empty_rows_count(link_widget.combos2) == 2
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos1.itemAtPosition(1, 1).widget().currentText() == 'y'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'c'
-        assert link_widget.combos2.itemAtPosition(1, 1).widget().currentText() == 'b'
+        assert non_empty_rows_count(link_widget, 1) == 2
+        assert non_empty_rows_count(link_widget, 2) == 2
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos1[1].currentText() == 'y'
+        assert link_widget.att_combos2[0].currentText() == 'c'
+        assert link_widget.att_combos2[1].currentText() == 'b'
 
         dialog.accept()
 
@@ -537,7 +539,7 @@ class TestLinkEditor:
 
         link_widget.state.current_link.x = self.data1.id['y']
 
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'y'
+        assert link_widget.att_combos1[0].currentText() == 'y'
 
         add_identity_link = get_action(link_widget, 'identity')
         add_identity_link.trigger()
@@ -596,20 +598,20 @@ class TestLinkEditor:
         assert not link_widget.combos1_header.isVisible()
         assert not link_widget.combos2_header.isVisible()
         assert link_widget.link_details.text() == 'Legacy link'
-        assert non_empty_rows_count(link_widget.combos1) == 2
-        assert non_empty_rows_count(link_widget.combos2) == 0
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos1.itemAtPosition(1, 1).widget().currentText() == 'c'
+        assert non_empty_rows_count(link_widget, 1) == 2
+        assert non_empty_rows_count(link_widget, 2) == 0
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos1[1].currentText() == 'c'
 
         link_widget.state.current_link = type(link_widget.state).current_link.get_choices(link_widget.state)[1]
 
         assert link_widget.combos1_header.isVisible()
         assert link_widget.combos2_header.isVisible()
         assert link_widget.link_details.text() == 'New-style link'
-        assert non_empty_rows_count(link_widget.combos1) == 1
-        assert non_empty_rows_count(link_widget.combos2) == 1
-        assert link_widget.combos1.itemAtPosition(0, 1).widget().currentText() == 'x'
-        assert link_widget.combos2.itemAtPosition(0, 1).widget().currentText() == 'c'
+        assert non_empty_rows_count(link_widget, 1) == 1
+        assert non_empty_rows_count(link_widget, 2) == 1
+        assert link_widget.att_combos1[0].currentText() == 'x'
+        assert link_widget.att_combos2[0].currentText() == 'c'
 
         dialog.accept()
 
