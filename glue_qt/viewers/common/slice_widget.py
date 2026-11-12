@@ -101,9 +101,11 @@ class MultiSliceWidgetHelper(object):
                 # check the type of data.coords here since we want to treat
                 # subclasses differently.
                 if getattr(self.data, 'coords') is not None and type(self.data.coords) is not LegacyCoordinates:
-                    world_axis_index = self.data.ndim - 1 - i
+                    # As for glue's world components, which allow more world
+                    # axes than pixel axes (glue-viz/glue#2574)
+                    world_axis_index = getattr(self.data.coords, 'world_n_dim', self.data.ndim) - 1 - i
                     world = world_axis(self.data.coords, self.data,
-                                       pixel_axis=world_axis_index,
+                                       pixel_axis=self.data.ndim - 1 - i,
                                        world_axis=world_axis_index)
                     world_unit = self.data.coords.world_axis_units[world_axis_index]
                     world_warning = len(dependent_axes(self.data.coords, i)) > 1
