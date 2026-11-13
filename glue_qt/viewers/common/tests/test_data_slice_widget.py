@@ -1,3 +1,5 @@
+import numpy as np
+
 from ..data_slice_widget import SliceWidget
 
 
@@ -62,3 +64,26 @@ class TestSliceWidget(object):
         s.state.slider_label = '4'
         assert s.state.slice_center == 4
         assert s.state.slider_label == '4'
+
+    def test_slice_world_datetime(self):
+
+        world = np.array(['2021-09-05T00:18:47.390', '2021-09-05T00:19:00', '2021-09-05T00:19:12.610'],
+                         dtype='datetime64[ns]')
+        s = SliceWidget(lo=0, hi=2, world=world, world_unit='UTC')
+
+        s.state.slice_center = 0
+        assert s.state.slider_label == '2021-09-05T00:18:47.390'
+        assert s.state.slider_unit == 'UTC'
+
+        # Typed times round to the nearest slice
+        s.state.slider_label = '2021-09-05T00:19:10'
+        assert s.state.slice_center == 2
+        assert s.state.slider_label == '2021-09-05T00:19:12.610'
+
+        s.state.use_world = False
+        assert s.state.slider_label == '2'
+        assert s.state.slider_unit == ''
+
+        # Whole seconds are shown without milliseconds
+        s = SliceWidget(lo=0, hi=1, world=world[1:2].repeat(2) + np.array([0, 60]).astype('timedelta64[s]'))
+        assert s.state.slider_label == '2021-09-05T00:19:00'
