@@ -77,22 +77,19 @@ jobs:
         - windows: py310-docs-pyqt515
           coverage: false
 
-        # Test with PySide. With PySide, the Python process can crash when
-        # exiting even though all tests have passed, so in the skipexitcode
-        # environments we ignore the exit code of pytest and instead check
-        # the test results for failures and errors. In the environments with
-        # gccollect, the garbage collector is run after each test, so that
-        # crashes caused by Python wrappers outliving Qt objects happen
-        # straight after the test that is responsible.
-        - linux: py310-test-pyside63-skipexitcode
-        - linux: py311-test-pyside64-skipexitcode
-        - linux: py312-test-pyside66-skipexitcode-gccollect
-        - linux: py313-test-pyside68-skipexitcode-gccollect
-        - macos: py310-test-pyside63-skipexitcode
-        - macos: py311-test-pyside64-skipexitcode-gccollect
-        - macos: py312-test-pyside68-skipexitcode-gccollect
-        - windows: py310-test-pyside64-skipexitcode
-        - windows: py312-test-pyside67-skipexitcode-gccollect
+        # Test with PySide. In the environments with gccollect, the garbage
+        # collector is run after each test, so that crashes caused by Python
+        # wrappers outliving Qt objects happen straight after the test that is
+        # responsible.
+        - linux: py310-test-pyside63
+        - linux: py311-test-pyside64
+        - linux: py312-test-pyside66-gccollect
+        - linux: py313-test-pyside68-gccollect
+        - macos: py310-test-pyside63
+        - macos: py311-test-pyside64-gccollect
+        - macos: py312-test-pyside68-gccollect
+        - windows: py310-test-pyside64
+        - windows: py312-test-pyside67-gccollect
 
         # Test against latest developer versions of some packages
         - linux: py311-test-pyqt64-dev
