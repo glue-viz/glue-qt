@@ -5,6 +5,7 @@ import sys
 import pytest
 import numpy as np
 from numpy.testing import assert_allclose
+from matplotlib.backend_bases import LocationEvent, MouseEvent
 
 try:
     import objgraph
@@ -127,6 +128,33 @@ class BaseTestMatplotlibDataViewer(object):
 
         assert len(self.viewer.state.layers) == 1
         assert self.viewer.state.layers[0].layer is self.data
+
+    def test_cursor_position_in_status_bar(self):
+
+        self.viewer.add_data(self.data)
+        canvas = self.viewer.axes.figure.canvas
+        canvas.draw()  # WCSAxes formats positions only once drawn
+        bbox = self.viewer.axes.bbox
+
+        def move_to(x, y):
+            event = MouseEvent('motion_notify_event', canvas, x, y)
+            canvas.callbacks.process('motion_notify_event', event)
+            return event
+
+        # The position is shown beside the status tip of the active tool
+        self.viewer.set_status('tip')
+        event = move_to(bbox.x0 + bbox.width / 2, bbox.y0 + bbox.height / 2)
+        assert event.inaxes is self.viewer.axes
+        position = self.viewer.axes.format_coord(event.xdata, event.ydata)
+        assert self.viewer._cursor_label.text() == position != ''
+        assert self.viewer.statusBar().currentMessage() == 'tip'
+
+        # It is cleared when the mouse leaves the axes or the figure
+        move_to(bbox.x0 / 2, bbox.y0 / 2)
+        assert self.viewer._cursor_label.text() == ''
+        move_to(bbox.x0 + bbox.width / 2, bbox.y0 + bbox.height / 2)
+        canvas.callbacks.process('figure_leave_event', LocationEvent('figure_leave_event', canvas, -1, -1))
+        assert self.viewer._cursor_label.text() == ''
 
     def test_add_data_with_subset(self):
 
