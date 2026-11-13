@@ -1,4 +1,8 @@
+import sys
 from unittest.mock import MagicMock, patch
+
+from packaging.version import Version
+from qtpy import QT_VERSION, QtWidgets
 
 from glue.core import Data
 from glue.config import data_factory
@@ -16,16 +20,30 @@ dummy_factory_member = [f for f in data_factory.members
                         if f[0] is dummy_factory][0]
 
 
+# On macOS, the native file panel outlives the QFileDialog once the latter has
+# been garbage collected, and with Qt 6.3 and 6.4 this causes a segmentation
+# fault the next time that events are processed. For these versions we
+# therefore do not use the native file dialog in the tests.
+NATIVE_DIALOG_CRASHES = sys.platform == 'darwin' and Version('6.0') <= Version(QT_VERSION) < Version('6.5')
+
+
+def show_dialog(fd):
+    if NATIVE_DIALOG_CRASHES:
+        fd._fd.setOption(QtWidgets.QFileDialog.DontUseNativeDialog, True)
+    fd._fd.show()
+
+
 class TestGlueDataDialog(object):
 
     def test_factory(self):
         """Factory method should always match with filter"""
         fd = GlueDataDialog()
-        fd._fd.show()
+        show_dialog(fd)
         assert len(fd.filters) > 0
         for k, v in fd.filters:
             fd._fd.selectNameFilter(v)
             assert fd.factory() is k
+        fd._fd.close()
 
     def test_load_data_cancel(self):
         """Return None if user cancels operation"""
@@ -61,7 +79,8 @@ class TestGlueDataDialog(object):
 
     def test_directories(self):
         fd = GlueDataDialog(mode='directories')
-        fd._fd.show()
+        show_dialog(fd)
+        fd._fd.close()
 
 
 def mock_file_exec(fd, cancel=False, path='junk',

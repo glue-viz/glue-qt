@@ -103,6 +103,7 @@ class BaseTestDataViewer(object):
         w = app.new_data_viewer(self.widget_cls, data=d)
         w.state.title = "My Viewer"
         assert w.parent().windowTitle() == "My Viewer"
+        app.close()
 
     def test_viewer_title_tool(self):
 
@@ -119,6 +120,7 @@ class BaseTestDataViewer(object):
             tool.activate()
         assert w.state.title == "My Viewer"
         assert w.parent().windowTitle() == "My Viewer"
+        app.close()
 
 
 class TestDataViewerScatter(BaseTestDataViewer):

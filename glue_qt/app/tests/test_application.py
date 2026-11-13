@@ -124,6 +124,28 @@ class TestGlueApplication(object):
         assert self.app.tab_bar.tabText(0) == 'Tab 2'
         assert self.app.tab_bar.tabText(1) == 'Tab 3'
 
+    def test_close_tab_with_terminal(self):
+
+        # Regression test for a bug that caused the application to keep a
+        # reference to a deleted terminal, and the deleted terminal to keep
+        # receiving messages from the IPython kernel, when closing the tab that
+        # the terminal was in.
+
+        assert self.app._terminal is not None
+        terminal_widget = self.app._terminal.widget()
+        assert terminal_widget.kernel_client is not None
+
+        self.app.new_tab()
+        self.app.close_tab(0)
+
+        assert self.app._terminal is None
+        assert terminal_widget.kernel_client is None
+
+        # A new terminal is created if needed
+        assert self.app.has_terminal()
+        assert self.app._terminal is not None
+        assert self.app._terminal.widget() is not terminal_widget
+
     def test_new_data_viewer_cancel(self):
         with patch('glue_qt.app.application.pick_class') as pc:
             pc.return_value = None

@@ -210,7 +210,6 @@ lint.unfixable = []
 
 [lint.extend-per-file-ignores]
 "__init__.py" = ["E402", "F401", "F403", "PT013"]
-".github/workflows/check_failures.py" = ["ICN001", "S314"]
 "test_*.py" = ["B015", "RUF015"]  # Pointless comparison; prefer next({iterable}) over slice
 
 # module-import-not-at-top-of-file; superfluous-else-break; unnecessary-list-index-lookup

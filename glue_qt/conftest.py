@@ -1,3 +1,4 @@
+import gc
 import os
 import sys
 import warnings
@@ -23,11 +24,27 @@ STDERR_ORIGINAL = sys.stderr
 
 ON_APPVEYOR = os.environ.get('APPVEYOR', 'False') == 'True'
 
+# If the GLUE_QT_GC_AFTER_EACH_TEST environment variable is set to 1, we run
+# the garbage collector after every test. Bugs where a Python wrapper outlives
+# the Qt object it wraps (which mostly affect PySide) cause crashes when the
+# wrapper is garbage collected, which normally happens at an unpredictable
+# point in a later, unrelated, test. Collecting after every test makes such
+# crashes deterministic and makes them happen straight after the test that is
+# responsible. This is opt-in since it makes the tests slower.
+GC_AFTER_EACH_TEST = os.environ.get('GLUE_QT_GC_AFTER_EACH_TEST', '0') == '1'
+
 
 def pytest_runtest_teardown(item, nextitem):
     sys.stderr = STDERR_ORIGINAL
     global start_dir
     os.chdir(start_dir)
+    if GC_AFTER_EACH_TEST:
+        gc.collect()
+
+
+def pytest_report_header(config):
+    if GC_AFTER_EACH_TEST:
+        return 'glue-qt: running the garbage collector after each test'
 
 
 def pytest_addoption(parser):

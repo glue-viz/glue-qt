@@ -467,6 +467,12 @@ def test_unit_conversion():
     assert_allclose(viewer.state.y_min, 0.5)
     assert_allclose(viewer.state.y_max, 3.5)
 
+    # Close the viewer and application so that the computation threads for
+    # the layers are stopped - otherwise Qt aborts when exiting Python since
+    # the threads get destroyed while still running.
+    viewer.close()
+    app.close()
+
 
 def test_unit_conversion_limits():
 
@@ -554,3 +560,6 @@ def test_unit_conversion_limits():
     assert_allclose(viewer.state.x_max, 3)
     assert_allclose(viewer.state.y_min, 10)
     assert_allclose(viewer.state.y_max, 30)
+
+    viewer.close()
+    app.close()

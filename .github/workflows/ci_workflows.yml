@@ -33,6 +33,9 @@ jobs:
           - libegl1
           - libopenblas-dev
           - libhdf5-dev
+        brew:
+          - enchant
+          - hdf5
 
       envs: |
         # Standard tests
@@ -59,6 +62,7 @@ jobs:
         - macos: py310-test-pyqt515-all
         - macos: py311-test-pyqt65
         - macos: py312-test-pyqt66
+        - macos: py310-test-pyqt515
         - macos: py313-test-pyqt68
 
         # Test some configurations on Windows
@@ -66,60 +70,33 @@ jobs:
         - windows: py311-test-pyqt65
         - windows: py312-test-pyqt67
         - windows: py313-test-pyqt67
-
-        # Test against latest developer versions of some packages
-        - linux: py311-test-pyqt64-dev
-        - linux: py312-test-pyqt515-dev-all
-        - linux: py312-test-pyqt67-dev
-        # Test against latest developer versions of some packages
-        - linux: py311-test-pyqt64-dev
-        - linux: py312-test-pyqt515-dev-all
-        - linux: py313-test-pyqt67-dev
-        - linux: py314-test-pyqt68-dev-all
-
-  allowed_failures:
-    needs: initial_checks
-    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
-    with:
-      coverage: codecov
-      display: true
-      libraries: |
-        apt:
-          - '^libxcb.*-dev'
-          - libxkbcommon-x11-dev
-          - libegl1
-          - libopenblas-dev
-          - libhdf5-dev
-        brew:
-          - enchant
-          - hdf5
-      envs: |
-
-        # Non-deterministic QThread exceptions
-        - linux: py310-test-pyside63-skipexitcode
-
-        # PySide6 6.4 failures due to https://github.com/spyder-ide/qtpy/issues/373
-        # and https://github.com/matplotlib/matplotlib/issues/24155
-        # PyQt5 / < 6.6 segfaulting under macOS 14 (on arm64) in TestGlueDataDialog or TestLinkEditor
-        # Python 3.11.0 failing on Windows in test_image.py on
-        # > assert df.find_factory(fname) is df.img_data
-        - linux: py311-test-pyside64-skipexitcode
-        - linux: py312-test-pyside66-skipexitcode
-        - linux: py313-test-pyside68-skipexitcode
-        - macos: py310-test-pyside63-skipexitcode
-        - macos: py311-test-pyside64-skipexitcode
-        - macos: py312-test-pyside68-skipexitcode
-        - macos: py310-test-pyqt515
-        - windows: py310-test-pyside64
-        - windows: py312-test-pyside67
         - windows: py311-test-pyqt515
+        - windows: py310-test-pyqt515-all
 
         # Windows docs build
         - windows: py310-docs-pyqt515
           coverage: false
 
-        # Failure in test_close_tab
-        - windows: py310-test-pyqt515-all
+        # Test with PySide. In the environments with gccollect, the garbage
+        # collector is run after each test, so that crashes caused by Python
+        # wrappers outliving Qt objects happen straight after the test that is
+        # responsible.
+        - linux: py310-test-pyside63
+        - linux: py311-test-pyside64
+        - linux: py312-test-pyside66-gccollect
+        - linux: py313-test-pyside68-gccollect
+        - macos: py310-test-pyside63
+        - macos: py311-test-pyside64-gccollect
+        - macos: py312-test-pyside68-gccollect
+        - windows: py310-test-pyside64
+        - windows: py312-test-pyside67-gccollect
+
+        # Test against latest developer versions of some packages
+        - linux: py311-test-pyqt64-dev
+        - linux: py312-test-pyqt515-dev-all
+        - linux: py312-test-pyqt67-dev
+        - linux: py313-test-pyqt67-dev
+        - linux: py314-test-pyqt68-dev-all
 
   publish:
     needs: tests
