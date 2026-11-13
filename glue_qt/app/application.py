@@ -1284,6 +1284,10 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
         # Clear the namespace in the terminal to avoid cicular references
         if self._terminal is not None:
             self._terminal.widget().clear_ns(['data_collection', 'dc', 'hub', 'session', 'application'])
+            # Disconnect the terminal from the kernel client, since the latter
+            # can be shared with other terminals and otherwise continues to
+            # deliver messages to this terminal after it has been deleted.
+            self._terminal.widget().kernel_client = None
 
         for tab in self.viewers:
             for viewer in tab:
