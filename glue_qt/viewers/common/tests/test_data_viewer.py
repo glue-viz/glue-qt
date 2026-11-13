@@ -1,7 +1,7 @@
 # pylint: disable=I0011,W0613,W0201,W0212,E1101,E1103
 
 import numpy as np
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from glue.core import Data, DataCollection
 from glue_qt.app import GlueApplication
@@ -39,13 +39,22 @@ class BaseTestDataViewer(object):
         try:
             from glue_qt.viewers.matplotlib.widget import MplCanvas
             draw = MplCanvas.draw
-            MplCanvas.draw = MagicMock()
+
+            # We record the calls with a plain function rather than a
+            # MagicMock, since PySide6 6.10.1 to 6.11.0 segfault when
+            # connecting a signal to a method of a QObject subclass that
+            # has a MagicMock as a class attribute.
+            canvases = []
+
+            def record_draw(self, *args, **kwargs):
+                canvases.append(id(self))
+
+            MplCanvas.draw = record_draw
 
             app.new_data_viewer(self.widget_cls, data=d)
 
             # each Canvas instance gives at most 1 draw call
-            selfs = [c[0][0] for c in MplCanvas.draw.call_arg_list]
-            assert len(set(selfs)) == len(selfs)
+            assert len(set(canvases)) == len(canvases)
         finally:
             MplCanvas.draw = draw
         app.close()
