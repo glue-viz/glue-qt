@@ -103,15 +103,18 @@ jobs:
         # PyQt5 / < 6.6 segfaulting under macOS 14 (on arm64) in TestGlueDataDialog or TestLinkEditor
         # Python 3.11.0 failing on Windows in test_image.py on
         # > assert df.find_factory(fname) is df.img_data
+        # In the environments with gccollect, the garbage collector is run
+        # after each test, so that crashes caused by Python wrappers outliving
+        # Qt objects happen straight after the test that is responsible
         - linux: py311-test-pyside64-skipexitcode
-        - linux: py312-test-pyside66-skipexitcode
-        - linux: py313-test-pyside68-skipexitcode
+        - linux: py312-test-pyside66-skipexitcode-gccollect
+        - linux: py313-test-pyside68-skipexitcode-gccollect
         - macos: py310-test-pyside63-skipexitcode
-        - macos: py311-test-pyside64-skipexitcode
-        - macos: py312-test-pyside68-skipexitcode
+        - macos: py311-test-pyside64-skipexitcode-gccollect
+        - macos: py312-test-pyside68-skipexitcode-gccollect
         - macos: py310-test-pyqt515
         - windows: py310-test-pyside64-skipexitcode
-        - windows: py312-test-pyside67-skipexitcode
+        - windows: py312-test-pyside67-skipexitcode-gccollect
         - windows: py311-test-pyqt515
 
         # Windows docs build
