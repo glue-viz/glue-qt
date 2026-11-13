@@ -601,6 +601,14 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
                 if isinstance(widget, DataViewer):
                     widget.close(warn=False)
 
+        # If the terminal is in the tab being closed, it is going to be deleted
+        # along with the tab, so we disconnect it and forget about it - a new
+        # one is then created if the terminal is needed again.
+        if self._terminal is not None and self._terminal in w.subWindowList():
+            self._disconnect_terminal()
+            self._terminal = None
+            self._on_terminal_close()
+
         w.close()
 
         self.tab_widget.removeTab(index)
@@ -1165,6 +1173,18 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
             self._terminal.closed.connect(self._on_terminal_close)
             self._hide_terminal()
 
+    def _disconnect_terminal(self):
+        """
+        Detach the terminal from the IPython kernel prior to it being deleted.
+        """
+        terminal_widget = self._terminal.widget()
+        # Clear the namespace in the terminal to avoid cicular references
+        terminal_widget.clear_ns(['data_collection', 'dc', 'hub', 'session', 'application'])
+        # Disconnect the terminal from the kernel client, since the latter
+        # can be shared with other terminals and otherwise continues to
+        # deliver messages to this terminal after it has been deleted.
+        terminal_widget.kernel_client = None
+
     def _toggle_terminal(self):
         if self._terminal is None:
             self._create_terminal()
@@ -1281,13 +1301,8 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
     def closeEvent(self, event):
         """Emit a message to hub before closing."""
 
-        # Clear the namespace in the terminal to avoid cicular references
         if self._terminal is not None:
-            self._terminal.widget().clear_ns(['data_collection', 'dc', 'hub', 'session', 'application'])
-            # Disconnect the terminal from the kernel client, since the latter
-            # can be shared with other terminals and otherwise continues to
-            # deliver messages to this terminal after it has been deleted.
-            self._terminal.widget().kernel_client = None
+            self._disconnect_terminal()
 
         for tab in self.viewers:
             for viewer in tab:
