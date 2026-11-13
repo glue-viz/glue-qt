@@ -164,8 +164,15 @@ def start_glue(gluefile=None, config=None, datafiles=None, maximized=True,
     splash.close()
 
     if gluefile is not None:
+        from glue_qt.app.unsafe_expressions import review_unsafe_expressions
         with die_on_error("Error restoring Glue session"):
-            app = GlueApplication.restore_session(gluefile, show=False)
+            # If the session contains expressions that glue does not evaluate
+            # by default, ask the user which ones to allow.
+            allowed_expressions = review_unsafe_expressions(gluefile)
+            if allowed_expressions is None:
+                sys.exit(1)
+            app = GlueApplication.restore_session(gluefile, show=False,
+                                                  allowed_expressions=allowed_expressions)
         return app.start(maximized=maximized)
 
     if config is not None:

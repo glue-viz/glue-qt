@@ -40,6 +40,7 @@ from glue_qt.app.terminal import glue_terminal, IPythonTerminalError
 
 from glue_qt.config import qt_fixed_layout_tab, qt_client, startup_action, keyboard_shortcut
 from glue_qt.app.save_data import SaveDataDialog
+from glue_qt.app.unsafe_expressions import review_unsafe_expressions
 
 __all__ = ['GlueApplication']
 DOCS_URL = 'http://www.glueviz.org'
@@ -1124,7 +1125,7 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
         return ga
 
     @staticmethod
-    def restore_session(path, show=True):
+    def restore_session(path, show=True, allowed_expressions=None):
         """
         Reload a previously-saved session
 
@@ -1134,13 +1135,16 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
             Path to the file to load
         show : bool, optional
             If True (the default), immediately show the widget
+        allowed_expressions : iterable of str, optional
+            Expressions in the session file that can use any function - see
+            :meth:`glue.core.application_base.Application.restore_session`.
 
         Returns
         -------
         app : :class:`glue_qt.app.application.GlueApplication`
             The loaded application
         """
-        ga = Application.restore_session(path)
+        ga = Application.restore_session(path, allowed_expressions=allowed_expressions)
         if show:
             ga.start(block=False)
         ga._on_session_changed(path)
@@ -1285,8 +1289,14 @@ class GlueApplication(Application, QtWidgets.QMainWindow):
             if not dialog == QtWidgets.QMessageBox.Ok:
                 return
 
+        # If the session contains expressions that glue does not evaluate by
+        # default, ask the user which ones to allow.
+        allowed_expressions = review_unsafe_expressions(path, parent=self)
+        if allowed_expressions is None:
+            return
+
         with set_cursor_cm(Qt.WaitCursor):
-            app = self.restore_session(path)
+            app = self.restore_session(path, allowed_expressions=allowed_expressions)
             app.setGeometry(self.geometry())
 
             # NOTE: we need to keep a reference to this new application object
