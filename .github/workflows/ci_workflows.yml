@@ -41,62 +41,58 @@ jobs:
         # Standard tests
         # Linux builds - test on all supported PyQt5/6 and PySide2/6 versions,
         # and include all dependencies in some builds
-        - linux: py310-test-pyqt63-all
-        - linux: py311-test-pyqt64
-        - linux: py312-test-pyqt65
-        - linux: py312-test-pyqt68
-        - linux: py313-test-pyqt67
         - linux: py311-test-pyqt66-all
+        - linux: py313-test-pyqt67
+        - linux: py312-test-pyqt68
+        - linux: py313-test-pyqt69
+        - linux: py314-test-pyqt610
+        - linux: py312-test-pyqt611-all
         - linux: py311-test-pyqt514
 
         # Documentation build
-        - linux: py311-docs-pyqt514
+        - linux: py311-docs-pyqt66
           coverage: false
-        - macos: py314-docs-pyqt67
+        - macos: py314-docs-pyqt611
           coverage: false
           libraries:
             brew:
               - enchant
 
-        # Test a few configurations on macOS 13 (Intel, default for py<310) and 14 (Arm)
+        # Test a few configurations on macOS 15 (Arm)
         - macos: py310-test-pyqt515-all
-        - macos: py311-test-pyqt65
-        - macos: py312-test-pyqt66
-        - macos: py310-test-pyqt515
-        - macos: py313-test-pyqt68
+        - macos: py311-test-pyqt66
+        - macos: py313-test-pyqt69
+        - macos: py314-test-pyqt611
+        - macos: py313-test-pyqt515
 
         # Test some configurations on Windows
-        - windows: py310-test-pyqt63
-        - windows: py311-test-pyqt65
         - windows: py312-test-pyqt67
-        - windows: py313-test-pyqt67
+        - windows: py313-test-pyqt68
+        - windows: py314-test-pyqt610
         - windows: py311-test-pyqt515
-        - windows: py310-test-pyqt515-all
+        - windows: py311-test-pyqt515-all
 
         # Windows docs build
-        - windows: py310-docs-pyqt515
+        - windows: py311-docs-pyqt515
           coverage: false
 
         # Test with PySide. In the environments with gccollect, the garbage
         # collector is run after each test, so that crashes caused by Python
         # wrappers outliving Qt objects happen straight after the test that is
         # responsible.
-        - linux: py310-test-pyside63
-        - linux: py311-test-pyside64
         - linux: py312-test-pyside66-gccollect
-        - linux: py313-test-pyside68-gccollect
-        - macos: py310-test-pyside63
-        - macos: py311-test-pyside64-gccollect
+        - linux: py313-test-pyside69
+        - linux: py314-test-pyside611
         - macos: py312-test-pyside68-gccollect
-        - windows: py310-test-pyside64
+        - macos: py314-test-pyside610
         - windows: py312-test-pyside67-gccollect
+        - windows: py313-test-pyside611
 
         # Test against latest developer versions of some packages
-        - linux: py311-test-pyqt64-dev
         - linux: py312-test-pyqt515-dev-all
-        - linux: py312-test-pyqt67-dev
-        - linux: py313-test-pyqt67-dev
+        - linux: py311-test-pyqt67-dev
         - linux: py314-test-pyqt68-dev-all
+        - linux: py314-test-pyqt611-dev
 
   publish:
     needs: tests
