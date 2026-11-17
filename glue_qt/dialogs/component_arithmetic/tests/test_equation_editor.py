@@ -111,7 +111,7 @@ class TestEquationEditor:
 
         checkbox.setChecked(True)
         self.dialog.ui.button_ok.click()
-        label, parsed = self.dialog.get_final_label_and_parsed_command()
+        parsed = self.dialog.get_final_label_and_parsed_command()[1]
         assert not parsed.restricted
 
         # The checkbox is not shown for expressions that do not need it
@@ -159,3 +159,14 @@ class TestEquationEditor:
         assert not dialog.ui.checkbox_unrestricted.isHidden()
         assert dialog.ui.button_ok.isEnabled()
         assert not dialog._get_parsed_command().restricted
+
+    @pytest.mark.parametrize(('expression', 'status'),
+                             [('(lambda v: v)({x})', 'Lambda is not allowed in expressions'),
+                              ('missing_function({x})', "name 'missing_function' is not defined")])
+    def test_cannot_be_allowed(self, expression, status):
+        # The checkbox is not shown for expressions that would not work even
+        # if they were allowed.
+        self.dialog.expression.insertPlainText(expression)
+        assert not self.dialog.ui.button_ok.isEnabled()
+        assert self.dialog.ui.label_status.text() == status
+        assert self.dialog.ui.checkbox_unrestricted.isHidden()

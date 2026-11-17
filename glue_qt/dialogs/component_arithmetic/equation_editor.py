@@ -1,5 +1,4 @@
 import os
-import re
 from collections import deque, OrderedDict
 
 from qtpy import QtWidgets, QtCore
@@ -7,8 +6,7 @@ from qtpy.QtCore import Qt
 
 from echo import SelectionCallbackProperty
 from echo.qt import connect_combo_selection
-from glue.core.parse import InvalidTagError, ParsedCommand, TAG_RE
-from glue.core.safe_expression import UnsafeExpressionError, build_namespace
+from glue.core.parse import InvalidTagError, ParsedCommand, TAG_RE, error_can_be_allowed
 from glue_qt.utils import load_ui, CompletionTextEdit
 
 __all__ = ['EquationEditorDialog']
@@ -183,19 +181,6 @@ class EquationEditorDialog(QtWidgets.QDialog):
         return (self.ui.checkbox_unrestricted.isChecked() and
                 self._unrestricted_command == self._get_raw_command())
 
-    def _can_be_allowed(self, exc):
-        # Whether an error from evaluating the expression is due to the
-        # expression using something that is not allowed by default but
-        # that would be available if the user chooses to allow it.
-        if isinstance(exc, UnsafeExpressionError):
-            return True
-        if isinstance(exc, NameError):
-            from glue import env
-            match = re.match(r"name '(\w+)' is not defined", str(exc))
-            name = exc.name or (match.group(1) if match else None)
-            return name in build_namespace(env, restricted=False)
-        return False
-
     def _set_status(self, text, color=None, ok=False, can_be_allowed=False):
         self.ui.label_status.setStyleSheet('' if color is None else f'color: {color}')
         self.ui.label_status.setText(text)
@@ -236,7 +221,10 @@ class EquationEditorDialog(QtWidgets.QDialog):
             self._set_status("Invalid component: {0}".format(exc.tag), color='red')
             return
         except Exception as exc:
-            if not self._can_be_allowed(exc):
+            # The checkbox is only shown if the expression uses something
+            # that is not allowed by default but that would be available if
+            # the user chooses to allow it.
+            if not error_can_be_allowed(exc):
                 self._set_status(str(exc), color='red')
                 return
             if not self._unrestricted:
