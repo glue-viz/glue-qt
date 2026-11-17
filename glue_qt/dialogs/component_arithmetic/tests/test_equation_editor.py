@@ -80,3 +80,82 @@ class TestEquationEditor:
         assert self.dialog.ui.label_status.text() == 'Valid expression'
         self.dialog.ui.button_cancel.click()
         assert self.dialog.final_expression is None
+
+    def test_not_allowed_by_default(self):
+
+        # Expressions that use something that is not allowed by default can
+        # only be accepted once the user has explicitly allowed this.
+
+        checkbox = self.dialog.ui.checkbox_unrestricted
+        assert checkbox.isHidden()
+
+        self.dialog.expression.insertPlainText('np.vectorize(abs)({x})')
+        assert not self.dialog.ui.button_ok.isEnabled()
+        assert self.dialog.ui.label_status.text() == 'numpy.vectorize is not allowed in expressions'
+        assert not checkbox.isHidden()
+        assert not checkbox.isChecked()
+        assert self.dialog._get_parsed_command().restricted
+
+        checkbox.setChecked(True)
+        assert self.dialog.ui.button_ok.isEnabled()
+        assert self.dialog.ui.label_status.text() == 'Valid expression'
+        assert not self.dialog._get_parsed_command().restricted
+
+        # The choice only applies to the expression for which it was made
+
+        self.dialog.expression.insertPlainText(' + np.vectorize(abs)({y})')
+        assert not self.dialog.ui.button_ok.isEnabled()
+        assert not checkbox.isHidden()
+        assert not checkbox.isChecked()
+        assert self.dialog._get_parsed_command().restricted
+
+        checkbox.setChecked(True)
+        self.dialog.ui.button_ok.click()
+        label, parsed = self.dialog.get_final_label_and_parsed_command()
+        assert not parsed.restricted
+
+        # The checkbox is not shown for expressions that do not need it
+
+        self.dialog.expression.clear()
+        self.dialog.expression.insertPlainText('{x} + 1')
+        assert self.dialog.ui.button_ok.isEnabled()
+        assert checkbox.isHidden()
+        assert self.dialog._get_parsed_command().restricted
+
+    def test_not_allowed_by_default_builtin(self):
+        # Builtin functions that are not available by default can be allowed
+        # but names that do not exist at all cannot.
+        self.dialog.expression.insertPlainText("{x} + eval('1 + 1')")
+        assert not self.dialog.ui.button_ok.isEnabled()
+        assert self.dialog.ui.label_status.text() == "name 'eval' is not defined"
+        assert not self.dialog.ui.checkbox_unrestricted.isHidden()
+        self.dialog.ui.checkbox_unrestricted.setChecked(True)
+        assert self.dialog.ui.button_ok.isEnabled()
+
+    def test_not_allowed_not_called_before_allowed(self, tmp_path):
+        # Nothing that is not allowed by default should be called until the
+        # user has ticked the checkbox.
+        filename = tmp_path / 'called'
+        self.dialog.expression.insertPlainText(f"{{x}} + open({str(filename)!r}, 'w').write('a')")
+        assert not self.dialog.ui.button_ok.isEnabled()
+        assert not filename.exists()
+        self.dialog.ui.checkbox_unrestricted.setChecked(True)
+        assert self.dialog.ui.button_ok.isEnabled()
+        assert filename.exists()
+
+    def test_allowed_but_invalid(self):
+        # Allowing an expression does not help if it is otherwise invalid
+        self.dialog.expression.insertPlainText('np.vectorize(abs)({x}) + abc')
+        self.dialog.ui.checkbox_unrestricted.setChecked(True)
+        assert not self.dialog.ui.button_ok.isEnabled()
+        assert self.dialog.ui.label_status.text() == "name 'abc' is not defined"
+
+    def test_initially_allowed(self):
+        # When editing an expression that was already allowed, the checkbox
+        # should already be ticked.
+        dialog = EquationEditorDialog(label='z', data=self.data, restricted=False,
+                                      equation='np.vectorize(abs)({x})')
+        assert dialog.ui.checkbox_unrestricted.isChecked()
+        assert not dialog.ui.checkbox_unrestricted.isHidden()
+        assert dialog.ui.button_ok.isEnabled()
+        assert not dialog._get_parsed_command().restricted

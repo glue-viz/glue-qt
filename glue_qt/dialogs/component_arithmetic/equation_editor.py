@@ -1,4 +1,5 @@
 import os
+import re
 from collections import deque, OrderedDict
 
 from qtpy import QtWidgets, QtCore
@@ -7,6 +8,7 @@ from qtpy.QtCore import Qt
 from echo import SelectionCallbackProperty
 from echo.qt import connect_combo_selection
 from glue.core.parse import InvalidTagError, ParsedCommand, TAG_RE
+from glue.core.safe_expression import UnsafeExpressionError, build_namespace
 from glue_qt.utils import load_ui, CompletionTextEdit
 
 __all__ = ['EquationEditorDialog']
@@ -111,7 +113,8 @@ class EquationEditorDialog(QtWidgets.QDialog):
 
     attribute = SelectionCallbackProperty()
 
-    def __init__(self, label=None, data=None, equation=None, references=None, parent=None):
+    def __init__(self, label=None, data=None, equation=None, references=None,
+                 restricted=True, parent=None):
 
         super(EquationEditorDialog, self).__init__(parent=parent)
 
@@ -149,6 +152,16 @@ class EquationEditorDialog(QtWidgets.QDialog):
         if equation is not None:
             self.ui.expression.insertPlainText(equation)
 
+        # The checkbox to allow the expression to use things that are not
+        # allowed by default is only shown when the expression needs it, and
+        # only applies to the expression for which it was ticked.
+        self._unrestricted_command = None
+        self.ui.checkbox_unrestricted.hide()
+        if not restricted:
+            self._unrestricted_command = self._get_raw_command()
+            self.ui.checkbox_unrestricted.setChecked(True)
+        self.ui.checkbox_unrestricted.toggled.connect(self._unrestricted_toggled)
+
         self.ui.button_ok.clicked.connect(self.accept)
         self.ui.button_cancel.clicked.connect(self.reject)
 
@@ -161,48 +174,96 @@ class EquationEditorDialog(QtWidgets.QDialog):
         label = self.attribute
         self.expression.insertPlainText('{' + label + '}')
 
+    def _unrestricted_toggled(self, checked):
+        self._unrestricted_command = self._get_raw_command() if checked else None
+        self._update_status()
+
+    @property
+    def _unrestricted(self):
+        return (self.ui.checkbox_unrestricted.isChecked() and
+                self._unrestricted_command == self._get_raw_command())
+
+    def _can_be_allowed(self, exc):
+        # Whether an error from evaluating the expression is due to the
+        # expression using something that is not allowed by default but
+        # that would be available if the user chooses to allow it.
+        if isinstance(exc, UnsafeExpressionError):
+            return True
+        if isinstance(exc, NameError):
+            from glue import env
+            match = re.match(r"name '(\w+)' is not defined", str(exc))
+            name = exc.name or (match.group(1) if match else None)
+            return name in build_namespace(env, restricted=False)
+        return False
+
+    def _set_status(self, text, color=None, ok=False, can_be_allowed=False):
+        self.ui.label_status.setStyleSheet('' if color is None else f'color: {color}')
+        self.ui.label_status.setText(text)
+        self.ui.button_ok.setEnabled(ok)
+        self.ui.checkbox_unrestricted.setVisible(can_be_allowed)
+
     def _update_status(self):
 
-        # If the text hasn't changed, no need to check again
-        if hasattr(self, '_cache') and self._cache == (self.ui.text_label.text(), self._get_raw_command()):
+        # The choice to allow an expression only applies to the expression
+        # for which it was made, so we reset it if the expression changes.
+        if self.ui.checkbox_unrestricted.isChecked() and not self._unrestricted:
+            self.ui.checkbox_unrestricted.blockSignals(True)
+            self.ui.checkbox_unrestricted.setChecked(False)
+            self.ui.checkbox_unrestricted.blockSignals(False)
+            self._unrestricted_command = None
+
+        state = self.ui.text_label.text(), self._get_raw_command(), self._unrestricted
+
+        # If nothing has changed, no need to check again
+        if getattr(self, '_cache', None) == state:
             return
 
-        if self.ui.text_label.text() == "":
-            self.ui.label_status.setStyleSheet('color: red')
-            self.ui.label_status.setText("Attribute name not set")
-            self.ui.button_ok.setEnabled(False)
-        elif self._get_raw_command() == "":
-            self.ui.label_status.setText("")
-            self.ui.button_ok.setEnabled(False)
-        else:
-            try:
-                pc = self._get_parsed_command()
-                pc.evaluate_test()
-            except SyntaxError:
-                self.ui.label_status.setStyleSheet('color: red')
-                self.ui.label_status.setText("Incomplete or invalid syntax")
-                self.ui.button_ok.setEnabled(False)
-            except InvalidTagError as exc:
-                self.ui.label_status.setStyleSheet('color: red')
-                self.ui.label_status.setText("Invalid component: {0}".format(exc.tag))
-                self.ui.button_ok.setEnabled(False)
-            except Exception as exc:
-                self.ui.label_status.setStyleSheet('color: red')
-                self.ui.label_status.setText(str(exc))
-                self.ui.button_ok.setEnabled(False)
-            else:
-                self.ui.label_status.setStyleSheet('color: green')
-                self.ui.label_status.setText("Valid expression")
-                self.ui.button_ok.setEnabled(True)
+        self._cache = state
 
-        self._cache = self.ui.text_label.text(), self._get_raw_command()
+        if self._get_raw_command() == "":
+            self._set_status("")
+            return
+
+        try:
+            # We always first check the expression with only what is allowed
+            # by default, so that nothing else is called unless the user has
+            # explicitly chosen to allow this.
+            ParsedCommand(self._get_raw_command(), self.references).evaluate_test()
+        except SyntaxError:
+            self._set_status("Incomplete or invalid syntax", color='red')
+            return
+        except InvalidTagError as exc:
+            self._set_status("Invalid component: {0}".format(exc.tag), color='red')
+            return
+        except Exception as exc:
+            if not self._can_be_allowed(exc):
+                self._set_status(str(exc), color='red')
+                return
+            if not self._unrestricted:
+                self._set_status(str(exc), color='darkorange', can_be_allowed=True)
+                return
+            try:
+                self._get_parsed_command().evaluate_test()
+            except Exception as exc:
+                self._set_status(str(exc), color='red', can_be_allowed=True)
+                return
+            can_be_allowed = True
+        else:
+            can_be_allowed = False
+
+        if self.ui.text_label.text() == "":
+            self._set_status("Attribute name not set", color='red', can_be_allowed=can_be_allowed)
+        else:
+            self._set_status("Valid expression", color='green', ok=True, can_be_allowed=can_be_allowed)
 
     def _get_raw_command(self):
         return str(self.ui.expression.toPlainText())
 
     def _get_parsed_command(self):
         expression = self._get_raw_command()
-        return ParsedCommand(expression, self.references)
+        parsed = ParsedCommand(expression, self.references)
+        parsed.restricted = not self._unrestricted
+        return parsed
 
     def get_final_label_and_parsed_command(self):
         return self.ui.text_label.text(), self._get_parsed_command()

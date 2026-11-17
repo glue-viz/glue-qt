@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+import numpy as np
 from numpy.testing import assert_equal
 
 from glue.core import Data, DataCollection, HubListener, ComponentID
@@ -10,10 +11,13 @@ from glue.core.parse import ParsedCommand, ParsedComponentLink
 from ..component_arithmetic import ArithmeticEditorWidget, EquationEditorDialog
 
 
-def auto_accept(equation):
+def auto_accept(equation=None, allow=False):
     def exec_replacement(self):
-        self.ui.expression.clear()
-        self.ui.expression.insertPlainText(equation)
+        if equation is not None:
+            self.ui.expression.clear()
+            self.ui.expression.insertPlainText(equation)
+        if allow:
+            self.ui.checkbox_unrestricted.setChecked(True)
         self.accept()
     return exec_replacement
 
@@ -152,6 +156,57 @@ class TestArithmeticEditorWidget:
         self.listener1.assert_exact_changes()
         self.listener2.assert_exact_changes(numerical=True)
         assert_equal(self.data2['d'], [4.5, 2.0, 4.5])
+        editor.close()
+
+    def test_add_derived_not_allowed_by_default(self):
+        # Expressions that use something that is not allowed by default are
+        # evaluated if the user allowed this in the equation editor.
+        editor = ArithmeticEditorWidget(self.data_collection)
+        editor.show()
+        with patch.object(EquationEditorDialog, 'exec_',
+                          auto_accept('np.vectorize(abs)({x}) + {y}', allow=True)):
+            editor.button_add_derived.click()
+        editor.button_ok.click()
+        cid = self.data1.derived_components[-1]
+        assert not self.data1.get_component(cid).link._parsed.restricted
+        assert_equal(self.data1[cid], [4.5, 6.5, 2.0])
+        editor.close()
+
+    def test_allow_existing_equation(self):
+
+        # Simulate an attribute from a session file for which the expression
+        # was not allowed when loading the session, and check that the
+        # expression can be allowed after the fact in the equation editor.
+
+        parsed = self.data2.get_component(self.data2.id['d']).link._parsed
+        parsed._cmd = 'np.vectorize(abs)(' + parsed._cmd + ')'
+        parsed.disabled_reason = 'numpy.vectorize is not allowed in expressions'
+        assert_equal(self.data2['d'], [np.nan, np.nan, np.nan])
+
+        editor = ArithmeticEditorWidget(self.data_collection)
+        editor.show()
+        editor.combosel_data.setCurrentIndex(1)
+        editor.list.select_cid(self.data2.id['d'])
+        with patch.object(EquationEditorDialog, 'exec_', auto_accept(allow=True)):
+            editor.button_edit_derived.click()
+        editor.button_ok.click()
+        self.listener2.assert_exact_changes(numerical=True)
+        assert_equal(self.data2['d'], [3, 4, 1])
+        editor.close()
+
+        # The checkbox should be ticked if we edit the equation again
+
+        editor = ArithmeticEditorWidget(self.data_collection)
+        editor.show()
+        editor.combosel_data.setCurrentIndex(1)
+        editor.list.select_cid(self.data2.id['d'])
+
+        def check_and_reject(dialog):
+            assert dialog.ui.checkbox_unrestricted.isChecked()
+            dialog.reject()
+
+        with patch.object(EquationEditorDialog, 'exec_', check_and_reject):
+            editor.button_edit_derived.click()
         editor.close()
 
     # TODO: add an updated version of the following test back once we add

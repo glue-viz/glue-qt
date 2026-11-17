@@ -223,10 +223,13 @@ class ArithmeticEditorWidget(QtWidgets.QDialog):
 
         if self._state[self.data][derived_cid]['equation'] is None:
             equation = None
+            restricted = True
         else:
             equation = self._state[self.data][derived_cid]['equation'].render(mapping)
+            restricted = self._state[self.data][derived_cid]['equation'].restricted
 
-        dialog = EquationEditorDialog(label=label, equation=equation, references=references, parent=self)
+        dialog = EquationEditorDialog(label=label, equation=equation, references=references,
+                                      restricted=restricted, parent=self)
         dialog.setWindowFlags(self.windowFlags() | Qt.Window)
         dialog.setFocus()
         dialog.raise_()
@@ -271,14 +274,23 @@ class ArithmeticEditorWidget(QtWidgets.QDialog):
             for cid_new in cids_derived:
                 if any(cid_new is cid_old for cid_old in cids_existing):
                     comp = data.get_component(cid_new)
-                    if comp.link._parsed._cmd != self._state[data][cid_new]['equation']._cmd:
-                        comp.link._parsed._cmd = self._state[data][cid_new]['equation']._cmd
-                        comp.link._parsed._references = components
+                    parsed = comp.link._parsed
+                    equation = self._state[data][cid_new]['equation']
+                    if (parsed._cmd != equation._cmd or
+                            parsed.restricted != equation.restricted or
+                            parsed.disabled_reason != equation.disabled_reason):
+                        parsed._cmd = equation._cmd
+                        parsed._references = components
+                        # Whether the user chose to allow the expression to
+                        # use things that are not allowed by default
+                        parsed.restricted = equation.restricted
+                        parsed.disabled_reason = equation.disabled_reason
                         if data.hub:
                             msg = NumericalDataChangedMessage(data)
                             data.hub.broadcast(msg)
                 else:
                     pc = ParsedCommand(self._state[data][cid_new]['equation']._cmd, components)
+                    pc.restricted = self._state[data][cid_new]['equation'].restricted
                     link = ParsedComponentLink(cid_new, pc)
                     data.add_component_link(link)
 
