@@ -51,14 +51,33 @@ class UnsafeExpressionsDialog(QtWidgets.QDialog):
         label.setWordWrap(True)
         layout.addWidget(label)
 
+        # Expressions that would not work even if they were allowed, for
+        # example because they use a function from a config.py file that is
+        # not present, are listed but cannot be selected.
+        self._can_be_allowed = [expression.get('can_be_allowed', True)
+                                for expression in expressions]
+
+        if not all(self._can_be_allowed):
+            label_unavailable = QtWidgets.QLabel(
+                "Expressions shown in grey cannot be allowed since they use "
+                "functions that are not available or syntax that is not "
+                "supported. If a function is not available, it may be defined "
+                "in a config.py file that was present when the session was "
+                "saved and that is missing on this computer.")
+            label_unavailable.setWordWrap(True)
+            layout.addWidget(label_unavailable)
+
         self.tree = QtWidgets.QTreeWidget()
         self.tree.setHeaderLabels(["Allow", "Attribute", "Expression", "Reason"])
         self.tree.setRootIsDecorated(False)
-        for expression in expressions:
+        for expression, can_be_allowed in zip(expressions, self._can_be_allowed):
             item = QtWidgets.QTreeWidgetItem(["", expression['label'] or "",
                                               expression['rendered'], expression['reason']])
-            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
-            item.setCheckState(0, Qt.Unchecked)
+            if can_be_allowed:
+                item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                item.setCheckState(0, Qt.Unchecked)
+            else:
+                item.setFlags(item.flags() & ~Qt.ItemIsUserCheckable & ~Qt.ItemIsEnabled)
             for column in (2, 3):
                 item.setToolTip(column, item.text(column))
             self.tree.addTopLevelItem(item)
@@ -88,6 +107,8 @@ class UnsafeExpressionsDialog(QtWidgets.QDialog):
         self.button_allow_all.clicked.connect(self.allow_all)
         self.button_cancel.clicked.connect(self.reject)
 
+        self.button_allow_all.setEnabled(any(self._can_be_allowed))
+
         self.tree.itemChanged.connect(self._update_buttons)
         self._update_buttons()
 
@@ -96,7 +117,8 @@ class UnsafeExpressionsDialog(QtWidgets.QDialog):
     def _selected(self):
         return [expression['expression']
                 for index, expression in enumerate(self.expressions)
-                if self.tree.topLevelItem(index).checkState(0) == Qt.Checked]
+                if self._can_be_allowed[index] and
+                self.tree.topLevelItem(index).checkState(0) == Qt.Checked]
 
     def _update_buttons(self, *args):
         self.button_allow_selected.setEnabled(len(self._selected()) > 0)
@@ -110,7 +132,9 @@ class UnsafeExpressionsDialog(QtWidgets.QDialog):
         self.accept()
 
     def allow_all(self):
-        self.allowed = [expression['expression'] for expression in self.expressions]
+        self.allowed = [expression['expression']
+                        for expression, can_be_allowed in zip(self.expressions, self._can_be_allowed)
+                        if can_be_allowed]
         self.accept()
 
     def reject(self):

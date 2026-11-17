@@ -119,13 +119,13 @@ Using expressions that are not allowed by default
 
 If you type an expression that uses something that is not allowed by default
 in the equation editor, the reason is shown at the bottom of the window and
-the **OK** button is disabled. A checkbox labelled **Allow this expression to
-use functions that are not allowed by default** also appears. Ticking it
-allows that specific expression to use any Python function as well as
-everything that is imported in your ``config.py`` file, and the choice is
-reset if you change the expression. ``lambda`` functions, comprehensions and
-other syntax that is not supported cannot be enabled in this way, and the
-expression remains invalid if the checkbox is ticked - define a function in
+the **OK** button is disabled. If the expression would be valid without the
+restrictions above, a checkbox labelled **Allow this expression to use
+functions that are not allowed by default** appears. Ticking it allows that
+specific expression to use any Python function as well as everything that
+is imported in your ``config.py`` file, and the choice is reset if you
+change the expression. ``lambda`` functions, comprehensions and other syntax
+that is not supported cannot be enabled in this way - define a function in
 ``config.py`` instead.
 
 The choice to allow an expression is not stored in session files. When you
@@ -147,6 +147,15 @@ asks you which ones to allow:
 The attributes for expressions that are not allowed will be filled with NaN
 values. You can allow such an expression later on by opening it from the
 **Arithmetic Attributes** window and ticking the checkbox described above.
+
+Expressions that would not work even if they were allowed are shown in grey
+in this list and cannot be selected. The most common reason for this is that
+the expression uses a function from a ``config.py`` file that was present
+when the session was saved and that is not present on the computer on which
+the session is opened, in which case the reason shown is that the name of the
+function is not defined. The attributes for these expressions are also filled
+with NaN values. To fix this, close glue, make the ``config.py`` file
+available (see :ref:`configuration`), and open the session again.
 
 .. warning:: An expression that you allow can run arbitrary code on your
              computer, so only allow expressions from a session file if you

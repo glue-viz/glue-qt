@@ -16,11 +16,18 @@ from ..unsafe_expressions import UnsafeExpressionsDialog, review_unsafe_expressi
 EXPRESSIONS = [dict(expression="{id1} + __import__('math').sqrt(4)",
                     rendered="{x} + __import__('math').sqrt(4)",
                     label='y',
-                    reason='Name __import__ is not allowed in expressions'),
+                    reason='Name __import__ is not allowed in expressions',
+                    can_be_allowed=True),
+               dict(expression="np.load({id1})",
+                    rendered="np.load({x})",
+                    label='w',
+                    reason='numpy.load is not allowed in expressions',
+                    can_be_allowed=True),
                dict(expression="some_function({id1})",
                     rendered="some_function({x})",
                     label='z',
-                    reason="name 'some_function' is not defined")]
+                    reason="name 'some_function' is not defined",
+                    can_be_allowed=False)]
 
 
 def make_session(tmp_path, unsafe=True):
@@ -91,7 +98,7 @@ class TestUnsafeExpressionsDialog:
 
     def test_contents(self):
         tree = self.dialog.tree
-        assert tree.topLevelItemCount() == 2
+        assert tree.topLevelItemCount() == 3
         item = tree.topLevelItem(0)
         assert item.checkState(0) == Qt.Unchecked
         assert [item.text(column) for column in range(1, 4)] == [
@@ -115,11 +122,31 @@ class TestUnsafeExpressionsDialog:
         assert self.dialog.button_allow_selected.isEnabled()
         self.dialog.button_allow_selected.click()
         # The expressions as stored in the session file are returned
-        assert self.dialog.allowed == ["some_function({id1})"]
+        assert self.dialog.allowed == ["np.load({id1})"]
 
     def test_allow_all(self):
+        # Expressions that would not work even if allowed are not included
         self.dialog.button_allow_all.click()
-        assert self.dialog.allowed == [expression['expression'] for expression in EXPRESSIONS]
+        assert self.dialog.allowed == ["{id1} + __import__('math').sqrt(4)", "np.load({id1})"]
+
+    def test_cannot_be_allowed(self):
+        # Expressions that would not work even if allowed, for example
+        # because they use a function from a config.py file that is not
+        # present, are listed but cannot be selected.
+        item = self.dialog.tree.topLevelItem(2)
+        assert not item.flags() & Qt.ItemIsUserCheckable
+        assert not item.flags() & Qt.ItemIsEnabled
+        item.setCheckState(0, Qt.Checked)
+        assert not self.dialog.button_allow_selected.isEnabled()
+        self.dialog.allow_selected()
+        assert self.dialog.allowed == []
+
+    def test_none_can_be_allowed(self):
+        dialog = UnsafeExpressionsDialog(EXPRESSIONS[2:])
+        assert not dialog.button_allow_all.isEnabled()
+        assert not dialog.button_allow_selected.isEnabled()
+        assert dialog.button_disallow_all.isEnabled()
+        dialog.close()
 
     def test_cancel(self):
         self.dialog.tree.topLevelItem(0).setCheckState(0, Qt.Checked)
