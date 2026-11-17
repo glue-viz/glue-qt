@@ -47,7 +47,7 @@ class UnsafeExpressionsDialog(QtWidgets.QDialog):
             "them, so only do so if you trust the source of this file and "
             "have checked the expressions.<br><br>"
             "The attributes for expressions that are not allowed will be "
-            "empty (filled with NaN values).")
+            "filled with NaN values.")
         label.setWordWrap(True)
         layout.addWidget(label)
 
