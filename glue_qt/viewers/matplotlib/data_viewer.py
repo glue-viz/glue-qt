@@ -1,4 +1,5 @@
 from qtpy.QtCore import QTimer
+from qtpy.QtWidgets import QLabel
 
 from glue.core.message import ComputationStartedMessage
 from glue_qt.viewers.common.data_viewer import DataViewer
@@ -37,12 +38,29 @@ class MatplotlibDataViewer(MatplotlibViewerMixin, DataViewer):
 
         MatplotlibViewerMixin.setup_callbacks(self)
 
+        # The position under the mouse, in a permanent widget so that it does
+        # not replace the status tip of the active tool
+        self._cursor_label = QLabel()
+        self._cursor_label.setMinimumWidth(1)  # a long position must not widen the viewer
+        self.statusBar().addPermanentWidget(self._cursor_label)
+        self.figure.canvas.mpl_connect('motion_notify_event', self._update_cursor_status)
+        self.figure.canvas.mpl_connect('figure_leave_event', self._update_cursor_status)
+
         self.central_widget.resize(600, 400)
         self.resize(self.central_widget.size())
 
         self._monitor_computation = QTimer()
         self._monitor_computation.setInterval(500)
         self._monitor_computation.timeout.connect(self._update_computation)
+
+    def _update_cursor_status(self, event):
+        text = ''
+        if event.inaxes is self.axes:
+            try:
+                text = self.axes.format_coord(event.xdata, event.ydata)
+            except (ValueError, OverflowError):  # as in matplotlib's own toolbar
+                pass
+        self._cursor_label.setText(text)
 
     def _update_computation(self, message=None):
 
