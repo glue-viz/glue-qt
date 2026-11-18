@@ -61,7 +61,7 @@ def pick_class(classes, sort=False, **kwargs):
             return c.__name__
 
     if sort:
-        classes = sorted(classes, key=lambda x: _label(x))
+        classes = sorted(classes, key=_label)
     choices = [_label(c) for c in classes]
     return pick_item(classes, choices, **kwargs)
 
