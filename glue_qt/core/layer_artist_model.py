@@ -366,7 +366,10 @@ class LayerArtistWidget(QtWidgets.QWidget):
                     if layer_artist_cls in self.layer_style_widget_cls:
                         layer_style_widget_cls = self.layer_style_widget_cls[layer_artist_cls]
                     else:
-                        return
+                        # Layer artist classes without a matching style
+                        # widget get an empty panel, but this should not
+                        # prevent widgets being set up for other artists.
+                        continue
                 else:
                     layer_style_widget_cls = self.layer_style_widget_cls
                 self.layout_style_widgets[layer_artist] = layer_style_widget_cls(layer_artist)

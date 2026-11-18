@@ -2,6 +2,9 @@ from glue.utils import defer_draw, decorate_all_methods
 
 from glue_qt.viewers.matplotlib.data_viewer import MatplotlibDataViewer
 from glue_qt.viewers.profile.layer_style_editor import ProfileLayerStyleEditor
+from glue.viewers.profile.layer_artist import ProfileLayerArtist
+from glue.viewers.matplotlib.line_layers import VerticalLineLayerArtist
+from glue_qt.viewers.common.line_layer_style_editor import LineLayerStyleEditor
 from glue_qt.viewers.profile.layer_artist import QThreadedProfileLayerArtist
 from glue_qt.viewers.profile.options_widget import ProfileOptionsWidget
 from glue.viewers.profile.state import ProfileViewerState
@@ -16,7 +19,8 @@ __all__ = ['ProfileViewer']
 class ProfileViewer(MatplotlibProfileMixin, MatplotlibDataViewer):
 
     LABEL = '1D Profile'
-    _layer_style_widget_cls = ProfileLayerStyleEditor
+    _layer_style_widget_cls = {ProfileLayerArtist: ProfileLayerStyleEditor,
+                               VerticalLineLayerArtist: LineLayerStyleEditor}
     _state_cls = ProfileViewerState
     _options_cls = ProfileOptionsWidget
     _data_artist_cls = QThreadedProfileLayerArtist

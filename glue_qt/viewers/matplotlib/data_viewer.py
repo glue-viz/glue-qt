@@ -55,8 +55,11 @@ class MatplotlibDataViewer(MatplotlibViewerMixin, DataViewer):
                 self._monitor_computation.start()
             return
 
+        # Not all layer artist classes have an is_computing property, e.g.
+        # layers added via custom layer artists from the layer_artist_maker
+        # registry.
         for layer_artist in self.layers:
-            if layer_artist.is_computing:
+            if getattr(layer_artist, 'is_computing', False):
                 self.loading_rectangle.set_visible(True)
                 text = self.loading_text.get_text()
                 if text.count('.') > 2:
